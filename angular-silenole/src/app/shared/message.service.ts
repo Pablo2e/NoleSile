@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http'
 // MODELOS
 import { Message } from '../models/message';
 import { Nole } from '../models/nole';
+import { Notificacion } from '../models/notificaciones';
 // SERVICIOS IMPORTADOS
 import { LoginService } from './login.service';
 
@@ -17,6 +18,7 @@ export class MessageService {
   public message:Message
   public noleSeleccionado = new Nole(0, 0);
   public sileSeleccionado = new Nole(0, 0);
+  public notificacion = new Notificacion(null, false)
 
  
   constructor(
@@ -46,6 +48,34 @@ export class MessageService {
     console.log(nuevoMensaje);
     return this.http.post(this.url + "messages/", nuevoMensaje, options)
   } 
+
+  public createUserNotification(nuevaNotificacion: Notificacion) {
+    console.log(nuevaNotificacion);
+    return this.http.post(this.url + "notifications/", nuevaNotificacion)
+  }
+
+  public modifyNotificationsByUser(nuevaNotificacion: Notificacion) {
+    const accessToken = this.loginService.getToken();
+    console.log(accessToken)
+    const options = {
+      headers: new HttpHeaders({
+        'Authorization': accessToken, 
+      })
+    };
+    console.log(nuevaNotificacion);
+    return this.http.put(this.url + "notifications/", nuevaNotificacion, options)
+  }
+
+  public getNotificationsByUser(id: number) {
+    const accessToken = this.loginService.getToken();
+    console.log(id, accessToken)
+      const options = {
+        headers: new HttpHeaders({
+          'Authorization': accessToken,
+        })
+      };
+    return this.http.get(this.url + "notifications/"+ id, options)
+  }
 
   public postNole(newNoleRelation: Nole) {
     const accessToken = this.loginService.getToken();

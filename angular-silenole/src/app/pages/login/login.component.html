@@ -6,16 +6,16 @@
     <div class="col-12 display-1 text-success text-center">Silenole <h3>Tu lugar de intercambio de bienes</h3>
       <div class="col-12 d-flex justify-content-center mt-3 mb-4">
         <button class="btn btn-outline-success btn-lg " role="button" aria-pressed="true" type="submit"
-          data-toggle="modal" data-target="#modalIntroducer" (click)="checkOpenSession(template3)">Ingresar</button>
+          data-toggle="modal" data-target="#modalIntroducer" (click)="checkOpenSession(modalIngresar)">Ingresar</button>
         <button class="btn btn-outline-success btn-lg ml-3 " role="button" aria-pressed="true" type="submit"
-          data-toggle="modal" data-target="#modalRegistrar" (click)="checkOpenSession(template2)">Registrarse</button>
+          data-toggle="modal" data-target="#modalRegistrar" (click)="checkOpenSession(modalRegistrarse)">Registrarse</button>
       </div>
     </div>
   </div>
 </div>
 
 <!-- MODAL DE REGISTRARSE-->
-<ng-template #template2>
+<ng-template #modalRegistrarse>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title2">Registrarse</h4>
      <button type="button" class="close pull-right" aria-label="close" (click)="modalRef.hide()">
@@ -95,7 +95,7 @@
 </ng-template>
 
 <!--MODAL INICIO-->
-<ng-template #template3>
+<ng-template #modalIngresar>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title2">Ingresar</h4>
      <button type="button" class="close pull-right" aria-label="close" (click)="modalRef.hide()">

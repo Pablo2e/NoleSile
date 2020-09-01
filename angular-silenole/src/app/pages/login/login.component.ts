@@ -5,13 +5,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 // MODAL
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 // MODELOS
 import { Usuario } from 'src/app/models/usuario';
 // SERVICIOS
 import { UsuarioService } from 'src/app/shared/usuario.service';
 import { LoginService } from 'src/app/shared/login.service';
 import { ProductService } from 'src/app/shared/product.service';
+import { MessageService } from 'src/app/shared/message.service';
+import { Notificacion } from 'src/app/models/notificaciones';
 
 
 @Component({
@@ -36,9 +37,9 @@ export class LoginComponent implements OnInit {
     public loginService: LoginService, 
     public usuarioService: UsuarioService,
     public productService: ProductService, 
+    public messageService: MessageService,
     public modalService: BsModalService,
     private fb: FormBuilder, 
-    private modalService2: NgbModal, 
     private toastr: ToastrService,
     private router: Router) 
     {console.log("Funcionando servicio usuario")
@@ -85,7 +86,7 @@ export class LoginComponent implements OnInit {
       if (password !== pass2) {
         this.toastr.error("Las contraseñas no coinciden", "Algo fue mal")
       } else {
-        this.loginService.register(new Usuario(null, name, password, email, comunidad, provincia, localidad, cp, this.loginService.defaultUserPicture)).subscribe((data) => {
+        this.loginService.register(new Usuario(null, name, password, email, comunidad, provincia, localidad, cp, this.loginService.defaultUserPicture)).subscribe((data:any) => {
           console.log(data)
           if (data === null) {
             this.toastr.error("No se registró correctamente, el email ya existe", "Algo fue mal")
@@ -94,6 +95,11 @@ export class LoginComponent implements OnInit {
             this.usuario.email = ""
             this.toastr.success("Registrado con éxito", "Bienvenido a SileNole")
             this.modalRef.hide();
+            const newUserId = data.insertId;
+            console.log(newUserId);
+            this.messageService.createUserNotification(new Notificacion(newUserId, false)).subscribe((data) => {
+              console.log(data)
+            })
           }
         })
       }
@@ -118,6 +124,18 @@ export class LoginComponent implements OnInit {
         console.log(this.loginService.usuarioActual);
         this.modalRef.hide();
         this.router.navigate(["/home"])
+        /* this.messageService.getNotificationsByUser(this.loginService.usuarioActual.user_id).subscribe((data) => {
+          console.log(data)
+          if (data !== null) {
+            this.loginService.avisoMensaje = data[0].mensajes_nuevos;
+            this.router.navigate(["/home"])
+          }
+        }, (error) => {
+          console.log(error);
+          if (error.status === 401) {
+            this.loginService.forcedLogout();
+          }
+        }) */
       } else {
         console.log("Usuario Inexistente")
         this.toastr.error("El ususario o la contraseña no son válidos", "Algo fue mal");
@@ -141,23 +159,6 @@ export class LoginComponent implements OnInit {
   //MODAL
   public openModal(template: TemplateRef < any > ) {
     this.modalRef = this.modalService.show(template)
-  }
-
-  public openUr(usuarioSubido) {
-    this.modalService2.open(usuarioSubido, {
-      ariaLabelledBy: 'modalEliminarCuenta'
-    }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `${this.getDismissReason(reason)}`;
-    });
-  }
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else {
-      return '';
-    }
   }
   
   ngOnInit() {

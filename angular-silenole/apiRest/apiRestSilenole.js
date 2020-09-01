@@ -597,6 +597,98 @@ app.post("/messages", async function (request, response) {
 
 /* ---------------------------------FIN MENSAJES----------------------------------- */
 
+/* ---------------------------------NOTIFICACIONES----------------------------------- */
+
+// POST /NOTIFICATIONS/ = Añade una nueva notificación.
+app.post("/notifications", function (request, response) {
+    let user_id = request.body.user_id
+    let mensajes_nuevos = request.body.mensajes_nuevos 
+    let params = [user_id, mensajes_nuevos]
+    let sql = "INSERT INTO notificaciones (user_id, mensajes_nuevos) VALUES (?, ?)";
+    connection.query(sql, params, function(err, result){
+        if (err){
+            console.log(err)
+        }else{
+            console.log('Notificación Creada')
+            console.log(result)
+        } 
+        response.send(result);
+    })
+});
+
+// GET /NOTIFICATIONS/: Obtiene si el usuario tiene mensaje nuevo o no 
+app.get("/notifications/:id", async function (request, response) {
+    let accessTokenLocal = request.headers.authorization;
+    console.log('Token local ', accessTokenLocal);
+    let user_id = request.params.id;
+    let params;
+    let sql;
+    const tokenResult = await verifyToken(accessTokenLocal, user_id)
+    console.log ("verifyToken result: " , tokenResult);
+    switch (tokenResult) {
+        case 500:
+            response.status(500).send({ message: 'Error en el servidor' });
+            break;
+        case 401:
+            console.log('Los token no coinciden. Operación no permitida')
+            response.status(401).send({ message: 'No autorizado. Ingresa en tu cuenta.' });
+            break;
+        case 200:
+            console.log('Los token coinciden. Usuario autorizado');
+            params = [user_id]
+            sql = "SELECT mensajes_nuevos FROM notificaciones WHERE user_id = ?";
+            connection.query(sql, params, function(err, result){
+                if (err){
+                    console.log(err)
+                }else{
+                    console.log('Mensaje del Usuario ' + sql)
+                    console.log(result)
+                } 
+            response.send(result);
+            })
+            break;
+        default:
+    }
+});
+
+// PUT /NOTIFICATIONS/: vuelve el mensaje del usuario a false
+app.put("/notifications", async function (request, response) {
+    let accessTokenLocal = request.headers.authorization;
+    console.log('Token local ', accessTokenLocal);
+    let user_id = request.body.user_id;
+    let mensajes_nuevos = request.body.mensajes_nuevos
+    let params;
+    let sql;
+    const tokenResult = await verifyToken(accessTokenLocal, user_id)
+    console.log ("put notification ");
+    console.log ("verifyToken result: " , tokenResult);
+    switch (tokenResult) {
+        case 500:
+            response.status(500).send({ message: 'Error en el servidor' });
+            break;
+        case 401:
+            console.log('Los token no coinciden. Operación no permitida')
+            response.status(401).send({ message: 'No autorizado. Ingresa en tu cuenta.' });
+            break;
+        case 200:
+            console.log('Los token coinciden. Usuario autorizado');
+            params = [mensajes_nuevos, user_id]
+            sql = "UPDATE notificaciones SET mensajes_nuevos = ? WHERE user_id = ?";
+            connection.query(sql, params, function(err, result){
+                if (err){
+                    console.log(err)
+                }else{
+                    console.log('Mensaje del Usuario ' + sql)
+                    console.log(result)
+                } 
+            response.send(result);
+            })
+            break;
+        default:
+    }
+});
+/* ---------------------------------FIN MENSAJES----------------------------------- */
+
 /* ---------------------------------NOLES / SILES----------------------------------- */
 // POST /NOLES/ inserta la relacion entre usuario y producto //PARA MENSAJES
 app.post("/noles/", async function (request, response) {

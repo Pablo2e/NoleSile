@@ -7,7 +7,7 @@
     </div>
   </div>
 
-  <div class="row">
+  <div class="row" *ngIf="this.loginService.avisoMensaje">
     <div class="col-12 d-flex justify-content-center mt-2 mb-2">
       <button class="btn btn-outline-success btn-sm mr-3 my-2 my-sm-0" type="button" (click)="verificarUsuario()" routerLinkActive="active"><i
           class="fa fa-user-circle-o" aria-hidden="true"></i> {{this.loginService.usuarioActual.name}}</button>
@@ -15,12 +15,30 @@
           class="fa fa-check-square" aria-hidden="true"></i> Mis Siles</button>
       <button class="btn btn-outline-success btn-sm mr-3 my-2 my-sm-0" type="button" routerLinkActive="active"  [routerLink]="['/subir']"><i
           class="fa fa-upload" aria-hidden="true"></i> Subir Siles</button>
-      <button class="btn btn-outline-success btn-sm mr-3 my-2 my-sm-0" type="button" routerLinkActive="active"  [routerLink]="['/message']"><i
-          class="fa fa-envelope-open" aria-hidden="true"></i> Mis Mensajes</button>
-      <button class="btn btn-outline-success btn-sm my-2 my-sm-0" type="button" routerLinkActive="active"  (click)="openModal(templateHeader)"><i
-          class="fa fa-times-circle-o" aria-hidden="true"></i> Cerrar Sesión</button>
+      <button class="btn btn-danger btn-sm mr-3 my-2 my-sm-0" type="button" routerLinkActive="active" (click)="desactivarAvisoMensaje()" [routerLink]="['/message']"><i
+        class="fa fa-envelope-open" aria-hidden="true"></i> Tienes Mensajes</button>
+      <button class="btn btn-outline-success btn-sm my-2 my-sm-0" type="button" routerLinkActive="active"  (click)="openModal(ModalCerrarSesion)"><i
+        class="fa fa-times-circle-o" aria-hidden="true"></i> Cerrar Sesión</button>
     </div>
   </div>
+ <!-- para probar el boton de cambio de tener mensaje o no
+  <button class="btn btn-danger btn-sm mr-3 my-2 my-sm-0" type="button" routerLinkActive="active" (click)="desactivarAvisoMensaje()"><i
+    class="fa fa-envelope-open" aria-hidden="true"></i> Tienes Mensajes</button>-->
+
+    <div class="row" *ngIf="!this.loginService.avisoMensaje">
+      <div class="col-12 d-flex justify-content-center mt-2 mb-2">
+        <button class="btn btn-outline-success btn-sm mr-3 my-2 my-sm-0" type="button" (click)="verificarUsuario()" routerLinkActive="active"><i
+            class="fa fa-user-circle-o" aria-hidden="true"></i> {{this.loginService.usuarioActual.name}}</button>
+        <button class="btn btn-outline-success btn-sm mr-3 my-2 my-sm-0" type="button" routerLinkActive="active"  [routerLink]="['/siles']"><i
+            class="fa fa-check-square" aria-hidden="true"></i> Mis Siles</button>
+        <button class="btn btn-outline-success btn-sm mr-3 my-2 my-sm-0" type="button" routerLinkActive="active"  [routerLink]="['/subir']"><i
+            class="fa fa-upload" aria-hidden="true"></i> Subir Siles</button>
+        <button class="btn btn-outline-success btn-sm mr-3 my-2 my-sm-0" type="button" routerLinkActive="active"  [routerLink]="['/message']"><i
+          class="fa fa-envelope-open" aria-hidden="true"></i> Mis Mensajes</button>
+        <button class="btn btn-outline-success btn-sm my-2 my-sm-0" type="button" routerLinkActive="active"  (click)="openModal(ModalCerrarSesion)"><i
+            class="fa fa-times-circle-o" aria-hidden="true"></i> Cerrar Sesión</button>
+      </div>
+    </div>
 
   <div class="container">
     <div class="input-group input-group-sm mt-2 mb-3">
@@ -29,7 +47,7 @@
         #nombre="ngModel" required>
       <div class="input-group-append">
         <button class="btn btn-outline-success" type="button" [routerLink]="['/buscar']"
-          (click)="buscarProducto(nombre.value)"  (click)="this.nombre.reset()" id="button-addon2"><i class="fa fa-search" aria-hidden="true"></i>
+          (click)="buscarProducto(nombre.value)" (click)="this.nombre.reset()" id="button-addon2"><i class="fa fa-search" aria-hidden="true"></i>
           Buscar</button>
       </div>
     </div>
@@ -38,7 +56,7 @@
 </div>
    
 <!-- MODAL CERRAR SESION -->
-<ng-template #templateHeader>
+<ng-template #ModalCerrarSesion>
   <div class="modal-body text-success text-center">
     <form>
       <div class="form-group">

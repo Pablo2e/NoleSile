@@ -3,7 +3,6 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Router } from "@angular/router";
 // MODAL
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 // MODELO
 import { Product } from 'src/app/models/product';
 // SERVICIOS
@@ -31,10 +30,7 @@ export class MyProductsComponent implements OnInit {
   constructor(
     public productService:ProductService, 
     public loginService:LoginService, 
-    private modalService: NgbModal, 
-    private modalServices: BsModalService,
-    private router: Router, 
-    private toastr: ToastrService) { 
+    private modalServices: BsModalService) { 
     this.products = [];
     this.selectedFile = null;
     this.mostrarProductos(this.idUsuario=this.loginService.usuarioActual.user_id)
@@ -136,34 +132,8 @@ export class MyProductsComponent implements OnInit {
   }
 
   // MODALES
-  /* PARA ABRIR LOS MODALES NG*/
-  public openModalDeleteProduct(contentMDP) {
-    this.modalService.open(contentMDP, {ariaLabelledBy: 'modalEliminarCuenta'}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `${this.getDismissReason(reason)}`;
-    });
-  }
-
-  public openModalModifyProduct(contentMMP) {
-    this.modalService.open(contentMMP, {ariaLabelledBy: 'modalEliminarCuenta'}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `${this.getDismissReason(reason)}`;
-    });
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    }  else {
-      return '';
-    }
-  }
-
-  /* PARA ABRIR LOS MODALES NGX*/
-  openModal(modificadoModal: TemplateRef<any>){
-    this.modalRef = this.modalServices.show(modificadoModal)
+  openModal(template: TemplateRef<any>){
+    this.modalRef = this.modalServices.show(template)
   }
 
   ngOnInit(): void {

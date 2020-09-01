@@ -21,8 +21,10 @@ export class LoginService {
   public defaultUserPicture = "http://localhost:3100/perfil.jpg";
   private token: string;
   public usuarioActual = new Usuario(null, null, null, null, null, null, null, null, this.defaultUserPicture);
+  public avisoMensaje: boolean;
 
-  constructor(private http: HttpClient,
+  constructor(
+    private http: HttpClient,
     private router: Router, 
     private toastr: ToastrService) {}
 

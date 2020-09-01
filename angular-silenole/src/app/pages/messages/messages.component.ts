@@ -2,10 +2,10 @@
 import { Component, OnInit, TemplateRef  } from '@angular/core';
 // MODAL
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 // MODELO
 import { Message } from 'src/app/models/message';
 import { Usuario } from 'src/app/models/usuario';
+import { Notificacion } from 'src/app/models/notificaciones';
 // SERVICIOS
 import { MessageService } from 'src/app/shared/message.service';
 import { ProductService } from 'src/app/shared/product.service';
@@ -39,8 +39,7 @@ export class MessagesComponent implements OnInit {
     public messageService:MessageService, 
     public productService:ProductService, 
     public loginService:LoginService, 
-    public modalServices:BsModalService,
-    private modalService: NgbModal) { 
+    public modalServices:BsModalService) { 
     console.log("Funcionando servicio messageService")
     this.noles=[];
     this.siles=[];
@@ -189,6 +188,20 @@ export class MessagesComponent implements OnInit {
       }
     })
   }
+
+/*   public activarAvisoMensaje(){
+    let notificacionActivar:Notificacion = new Notificacion(this.productService.ownerActual, true)
+    console.log(notificacionActivar)
+    this.messageService.modifyNotificationsByUser(notificacionActivar).subscribe((data) => {
+      console.log(data)
+    }, (error) => {
+      console.log(error);
+      if (error.status === 401) {
+        this.loginService.forcedLogout();
+      }
+    }) 
+    console.log(this.loginService.avisoMensaje)
+  } */
   
   //FORMULARIOS
   public onSubmit(form){
@@ -196,32 +209,6 @@ export class MessagesComponent implements OnInit {
   }
 
   //MODALES
-  /* PARA ABRIR LOS MODALES NG*/
-  public openModalDeleteNole(modalBorrarNole) {
-    this.modalService.open(modalBorrarNole, {ariaLabelledBy: 'modalEliminarCuenta'}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `${this.getDismissReason(reason)}`;
-    });
-  }
-
-  public openModalDeleteSile(modalBorrarSile) {
-    this.modalService.open(modalBorrarSile, {ariaLabelledBy: 'modalEliminarCuenta'}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `${this.getDismissReason(reason)}`;
-    });
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    }  else {
-      return '';
-    }
-  }
-
-  //PARA ABRIR EL MODAL NGX
   public openModal(Upload: TemplateRef<any>){
     this.modalRef = this.modalServices.show(Upload)
   }

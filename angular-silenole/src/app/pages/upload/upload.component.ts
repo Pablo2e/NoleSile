@@ -1,6 +1,5 @@
 // COMPONENTE
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { Router } from "@angular/router";
 // MODAL
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 // MODELO
@@ -9,7 +8,6 @@ import { Usuario } from 'src/app/models/usuario';
 // SERVICIOS
 import { ProductService } from 'src/app/shared/product.service';
 import { LoginService } from 'src/app/shared/login.service';
-import { ToastrService } from 'ngx-toastr';
 
 
 @Component({

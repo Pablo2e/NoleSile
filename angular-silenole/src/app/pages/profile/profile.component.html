@@ -97,7 +97,7 @@
           <div>
             <hr>
             <button type="button" class="btn btn-danger btn-sm" 
-            (click)="validarBorrarUsuario(usuarioActual.user_id, name.value, password.value, email.value, comunidad.value, provincia.value, localidad.value, cp.value, content3)"
+            (click)="validarBorrarUsuario(usuarioActual.user_id, name.value, password.value, email.value, comunidad.value, provincia.value, localidad.value, cp.value, modalBorrarUsuario)"
             ><i class="fa fa-trash" aria-hidden="true"></i>
               Eliminar Cuenta</button>
           </div> &nbsp;
@@ -110,7 +110,7 @@
 <br>
 
 <!-- MODAL BORRAR USUARIO  -->
-<ng-template #content3 id="content3" let-modal>
+<ng-template #modalBorrarUsuario id="modalBorrarUsuario">
   <div class="modal-body text-success text-center">
     <form>
       <div class="form-group">
@@ -119,13 +119,12 @@
     </form>
   </div>
   <div class="d-flex justify-content-center mb-3">
-    <button type="button" class="btn btn-outline-danger" (click)="borrarUsuario(usuarioActual.user_id)" (click)="modal.dismiss('Cross click')">Eliminar Cuenta</button>
+    <button type="button" class="btn btn-outline-danger" (click)="borrarUsuario(usuarioActual.user_id)" (click)="modalRef.hide()">Eliminar Cuenta</button>
   </div>
 </ng-template>
-<pre>{{ closeResult }}</pre>
 
 <!-- MODAL USUARIO SUBIDO -->
-<ng-template #usuarioSubido let-modal>
+<ng-template #usuarioSubido>
   <div class="modal-body text-success text-center">
     <form>
       <div class="form-group">
@@ -134,16 +133,15 @@
     </form>
   </div>
   <div class="d-flex justify-content-center mb-3">
-    <button type="button" class="btn btn-outline-danger" [routerLink]="['/usuario']" (click)="modal.dismiss('Cross click')">Cerrar</button>
+    <button type="button" class="btn btn-outline-danger" [routerLink]="['/usuario']" (click)="modalRef.hide()">Cerrar</button>
   </div>
 </ng-template>
-<pre>{{ closeResult }}</pre>
 
 <!-- MODAL CAMBIO CONTRASEÑA -->
-<ng-template #cambioPassword let-modal>
+<ng-template #cambioPassword>
   <div class="modal-header">
     <h4 class="modal-title text-success" id="modal-basic-title2">Modifica tu contraseña</h4>
-     <button type="button" class="close pull-right" aria-label="close" (click)="modal.dismiss('Cross click')">
+     <button type="button" class="close pull-right" aria-label="close" (click)="modalRef.hide()">
        <span aria-hidden="true">&times;</span>
      </button>
   </div>
@@ -183,7 +181,6 @@
     </form>
   </div>
 </ng-template>
-<pre>{{ closeResult }}</pre>
 
 
 <!-- FOOTER -->
