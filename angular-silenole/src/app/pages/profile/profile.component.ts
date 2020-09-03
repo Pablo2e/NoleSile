@@ -1,5 +1,5 @@
 // COMPONENTE
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import * as bcrypt from 'bcryptjs';
 // MODAL
@@ -23,10 +23,10 @@ export class ProfileComponent implements OnInit {
   
   public closeResult = '';
   public modalRef: BsModalRef;
-  public usuarioActual=new Usuario(null,null,null,null,null,null,null,null,null)
-  public usuario=new Usuario(null,null,null,null,null,null,null,null,null)
+  public usuarioActual= new Usuario(null,null,null,null,null,null,null,null,null)
+  public usuario= new Usuario(null,null,null,null,null,null,null,null,null)
   public nuevoPassword = new Password(null, null);
-  public equals=false
+  public equals= false
   public selectedFile: File; //para cargar la foto  
 
   constructor(
@@ -35,8 +35,8 @@ export class ProfileComponent implements OnInit {
     public modalService: BsModalService,
     private router: Router, 
     private toastr: ToastrService) { 
-      this.usuarioActual=this.loginService.usuarioActual
-      this.selectedFile = null;
+    this.usuarioActual=this.loginService.usuarioActual
+    this.selectedFile = null;
   }
 
   // METODOS

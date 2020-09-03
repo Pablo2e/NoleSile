@@ -73,7 +73,8 @@ export class MyProductsComponent implements OnInit {
     if(this.selectedFile === null) {
       productImageUrl = this.productoActual.product_image;
     } else {
-      productImageUrl = this.productService.urlImg + this.selectedFile.name;
+     productImageUrl = this.productService.urlImg + this.selectedFile.name;
+      //  productImageUrl = this.productService.urlImg + this.selectedFile.name + this.token() + "-" + user_id + ".jpg";
     }
     if(this.selectedFile === null) {
       this.productService.putProduct(new Product(product_id, nombre, descripcion, categoria, user_id, productImageUrl, date)).subscribe((data)=>{
@@ -135,6 +136,15 @@ export class MyProductsComponent implements OnInit {
   openModal(template: TemplateRef<any>){
     this.modalRef = this.modalServices.show(template)
   }
+
+  //Para generar nombres de ficheros aleatorios
+  public random() {
+    return Math.random().toString(36).substr(2); // Eliminar `0.`
+  };
+
+  public token() {
+    return this.random() + this.random(); // Para hacer el token más largo
+  };
 
   ngOnInit(): void {
   }

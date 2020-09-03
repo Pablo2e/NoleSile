@@ -39,7 +39,7 @@ export class UploadComponent implements OnInit {
     console.log(this.idProducto)
   }
   
-  public anyadirSile(nombre: string, descripcion: string, categoria: string, user_id: number, product_image: string){
+  public anyadirSile(nombre: string, descripcion: string, categoria: string, user_id: number, product_image: string, template: TemplateRef < any > ){
     console.log('Hola desde anyadir')
     console.log(this.productService.product)
     let productImageUrl;
@@ -53,6 +53,7 @@ export class UploadComponent implements OnInit {
     })
     this.productService.postProduct(new Product(null, nombre, descripcion, categoria, user_id, productImageUrl, date)).subscribe((data)=>{
       console.log(data)
+      this.openModal(template);
     }, (error) => {
       console.log(error);
       if (error.status === 401) {

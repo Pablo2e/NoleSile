@@ -33,9 +33,13 @@ export class ProductService {
   }
 
 
-  //para la carga de fotos
+  //para la carga y borrar fotos
   public uploadImageProduct(fd: FormData){
     return this.http.post(this.urlImg + "upload-imgProduct", fd)
+  }
+
+  public deleteImage(imageName: string){
+    return this.http.delete(this.urlImg + "delete-img/" + imageName)
   }
 
   public actualizarCategoriaSeleccionada(newCat: any){
