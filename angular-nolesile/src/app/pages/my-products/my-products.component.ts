@@ -22,8 +22,9 @@ export class MyProductsComponent implements OnInit {
   closeResult = ''; //MODAL NG
   public productoActual= new Product(null,null,null,null,null,null,null)
   public products: any;
-  public idProducto: number
-  public idUsuario: number
+  public idProducto: number;
+  public fotoProducto: string;
+  public idUsuario: number;
   public modalRef:BsModalRef; //MODAL NGX
   public selectedFile: File; //para cargar la foto
 
@@ -50,13 +51,15 @@ export class MyProductsComponent implements OnInit {
     })
   }
 
-  public pasarIdProducto(pid){
-    this.idProducto=pid
+  public pasarFotoYIdProducto(idProducto,fotoProducto){
+    this.idProducto=idProducto
+    this.fotoProducto=fotoProducto
     console.log(this.idProducto)
+    console.log(this.fotoProducto)
   };
 
-  public pasarProducto(p){
-    this.productoActual=p
+  public pasarProducto(producto){
+    this.productoActual=producto
     console.log(this.productoActual)
   }
 
@@ -121,9 +124,20 @@ export class MyProductsComponent implements OnInit {
   }
 
   /* PARA BORRAR PRODUCTOS */
-  public borrarSile(id: number){
+  public borrarSile(idProducto: number,fotoProducto: string){
     console.log('Hola desde borrarSile')
-    this.productService.deleteProduct(id).subscribe((data)=>{
+    console.log(fotoProducto)
+    fotoProducto = fotoProducto.replace(this.productService.urlImg, "");
+    this.productService.deleteImage(fotoProducto).subscribe((data)=>{
+      console.log(data)
+    }, (error) => {
+      console.log(error);
+      if (error.status === 401) {
+        this.loginService.forcedLogout();
+        this.productService.usuarioActual = null;
+      }
+    })
+    this.productService.deleteProduct(idProducto).subscribe((data)=>{
       console.log(data)
       this.mostrarProductos(this.idUsuario)
     }, (error) => {
@@ -158,59 +172,3 @@ export class MyProductsComponent implements OnInit {
   }
 
 }
-
-
-/* PARA MODIFICAR PRODUCTOS */
-/* public modificarSile(product_id: number, nombre: string, descripcion: string, categoria: string, user_id: number){
-  console.log('Hola desde modificarSile')
-  let date = new Date();
-  let productImageUrl;
-  let oldImage;
-  if(this.selectedFile === null) {
-    productImageUrl = this.productoActual.product_image;
-    console.log(productImageUrl);
-  } else {
-    oldImage = this.productoActual.product_image;
-    console.log(oldImage);
-    oldImage = oldImage.replace(this.productService.urlImg, "");
-    console.log(oldImage);
-    productImageUrl = this.productService.urlImg + this.token() + "-" + product_id + ".jpg";
-    //  productImageUrl = this.productService.urlImg + this.selectedFile.name;
-    console.log(productImageUrl);
-  }
-  let productUpdated = new Product(product_id, nombre, descripcion ,categoria , user_id , productImageUrl, date)
-  if(this.selectedFile === null) {
-    this.productService.putProduct(productUpdated).subscribe((data)=>{
-      console.log(data)
-      this.mostrarProductos(this.idUsuario)      
-    }, (error) => {
-      console.log(error);
-      if (error.status === 401) {
-        this.loginService.forcedLogout();
-        this.productService.usuarioActual = null;
-      }
-    })
-  } else {
-    const fd = new FormData()
-    const nombreFoto = productImageUrl
-    // fd.append('product_image',this.selectedFile, this.selectedFile.name);
-    fd.append('product_image',this.selectedFile, nombreFoto);
-    this.productService.deleteImage(oldImage).subscribe((data)=>{
-      console.log(data)
-    })
-    this.productService.uploadImageProduct(fd).subscribe((data)=>{
-      console.log(data)
-      this.productService.putProduct(new Product(product_id, nombre, descripcion, categoria, user_id, productImageUrl, date)).subscribe((data)=>{
-        console.log(data)
-        this.selectedFile = null;
-        this.mostrarProductos(this.idUsuario)      
-      }, (error) => {
-        console.log(error);
-        if (error.status === 401) {
-          this.loginService.forcedLogout();
-          this.productService.usuarioActual = null;
-        }
-      })
-    })
-  }
-} */

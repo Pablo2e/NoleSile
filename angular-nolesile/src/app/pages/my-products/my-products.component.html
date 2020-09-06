@@ -31,7 +31,7 @@
               [routerLink]="['/siles']"><i class="fa fa-refresh" aria-hidden="true"></i>
               Modificar</button>
             <button type="button" class="btn btn-outline-danger btn-sm ml-1"
-              (click)="pasarIdProducto(producto.product_id)" (click)="openModal(modalEliminarProducto)"
+              (click)="pasarFotoYIdProducto(producto.product_id, producto.product_image)" (click)="openModal(modalEliminarProducto)"
               [routerLink]="['/siles']"><i class="fa fa-trash" aria-hidden="true"></i>
               Borrar</button>
           </div>
@@ -54,7 +54,7 @@
     <div class="row d-flex justify-content-center">
       <div class="col-10 bg-light border border-success text-success mb-5 mt-5">
         <form #uploadForm="ngForm" (ngSubmit)="onSubmit(uploadForm); uploadForm.reset()">
-          <div class="d-flex justify-content-center">
+          <div class="d-flex justify-content-center mt-4">
             <img src="{{productoActual.product_image}}" class="card-img mb-3" style="max-width: 160px;" alt="Agrega tu">
           </div>
           <div class="form-group mt-3">
@@ -132,7 +132,7 @@
     </form>
   </div>
   <div class="d-flex justify-content-center mb-3">
-    <button type="button" class="btn btn-outline-danger" (click)="borrarSile(idProducto)" [routerLink]="['/siles']" 
+    <button type="button" class="btn btn-outline-danger" (click)="borrarSile(idProducto, fotoProducto)" [routerLink]="['/siles']" 
     (click)="modalRef.hide()">Borrar Producto</button>
   </div>
 </ng-template>

@@ -159,6 +159,18 @@ export class ProfileComponent implements OnInit {
 
   public borrarUsuario(id:number){
     console.log('Usuario Borrado')
+    let fotoUsuario = this.usuarioActual.user_image
+    fotoUsuario = fotoUsuario.replace(this.usuarioService.urlImg, "");
+    this.usuarioService.deleteImage(fotoUsuario).subscribe((data)=>{
+      console.log(data)
+      console.log(data)
+    }, (error) => {
+      console.log(error);
+      if (error.status === 401) {
+        this.loginService.forcedLogout();
+        this.loginService.usuarioActual = null;
+      }
+    })
     this.usuarioService.deleteUsuario(id).subscribe((data)=>{
       console.log(data)
       this.loginService.logout();
