@@ -28,9 +28,9 @@
     <div class="input-group input-group-sm mt-2 mb-3">
       <input type="text" class="form-control border border-success" id="nole" placeholder="Busca un nole" name="clave"
         aria-label="Recipient's username" aria-describedby="button-addon2" [(ngModel)]="product.nombre"
-        #nombre="ngModel" required>
+        #nombre="ngModel" (keyup.enter)="buscarProducto(nombre.value)" (keyup.enter)="this.nombre.reset()" required>
       <div class="input-group-append">
-        <button class="btn btn-outline-success" type="button" [routerLink]="['/buscar']"
+        <button class="btn btn-outline-success" type="button"
           (click)="buscarProducto(nombre.value)" (click)="this.nombre.reset()" id="button-addon2"><i class="fa fa-search" aria-hidden="true"></i>
           Buscar</button>
       </div>

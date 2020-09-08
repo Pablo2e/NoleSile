@@ -63,6 +63,7 @@ export class HeaderComponent implements OnInit {
     this.productService.getProductsByName(clave).subscribe((data) => {
       this.productService.products = data
       console.log(data)
+      this.router.navigate(["/buscar"]);
     }, (error) => {
       console.log(error);
       if (error.status === 401) {

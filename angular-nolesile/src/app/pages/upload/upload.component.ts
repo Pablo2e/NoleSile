@@ -1,5 +1,6 @@
 // COMPONENTE
 import { Component, OnInit, TemplateRef } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 // MODAL
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 // MODELO
@@ -25,11 +26,13 @@ export class UploadComponent implements OnInit {
   public idProducto: number
   public modalRef: BsModalRef;
   public selectedFile: File; //para cargar la foto
+  public defaultUserPicture = "src/assets/img/productoSinFoto.jpg";
 
   constructor(
     public productService:ProductService, 
     public loginService:LoginService, 
-    public modalService:BsModalService) {
+    public modalService:BsModalService, 
+    private toastr: ToastrService) {
     this.usuarioActual=this.loginService.usuarioActual
   }
 
@@ -42,25 +45,30 @@ export class UploadComponent implements OnInit {
   public anyadirSile(nombre: string, descripcion: string, categoria: string, user_id: number, product_image: string, template: TemplateRef < any > ){
     console.log('Hola desde anyadir')
     console.log(this.productService.product)
-    let productImageUrl;
-    let date = new Date();
-    productImageUrl = this.productService.urlImg + this.token() + "-" + user_id + ".jpg";
-    const nombreFotoProducto = productImageUrl
-    const fd = new FormData()
-    fd.append('product_image',this.selectedFile, nombreFotoProducto);
-    this.productService.uploadImageProduct(fd).subscribe((data)=>{
-      console.log(data)
-    })
-    this.productService.postProduct(new Product(null, nombre, descripcion, categoria, user_id, productImageUrl, date)).subscribe((data)=>{
-      console.log(data)
-      this.openModal(template);
-    }, (error) => {
-      console.log(error);
-      if (error.status === 401) {
-        this.loginService.forcedLogout();
-        this.productService.usuarioActual = null;
-      }
-    })
+    if (nombre === null || descripcion === null || categoria === null || product_image === null ||
+      nombre === "" || descripcion === "" || categoria === "" || product_image === "") {
+      this.toastr.error("Por favor, revisa todos los campos", "Algo fue mal")
+    } else {
+      let productImageUrl;
+      let date = new Date();
+      productImageUrl = this.productService.urlImg + this.token() + "-" + user_id + ".jpg";
+      const nombreFotoProducto = productImageUrl
+      const fd = new FormData()
+      fd.append('product_image',this.selectedFile, nombreFotoProducto);
+      this.productService.uploadImageProduct(fd).subscribe((data)=>{
+        console.log(data)
+      })
+      this.productService.postProduct(new Product(null, nombre, descripcion, categoria, user_id, productImageUrl, date)).subscribe((data)=>{
+        console.log(data)
+        this.openModal(template);
+      }, (error) => {
+        console.log(error);
+        if (error.status === 401) {
+          this.loginService.forcedLogout();
+          this.productService.usuarioActual = null;
+        }
+      })
+    }
   }
   
   //para cargar la foto

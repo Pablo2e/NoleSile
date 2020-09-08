@@ -89,7 +89,7 @@ export class LoginComponent implements OnInit {
         this.loginService.register(new Usuario(null, name, password, email, comunidad, provincia, localidad, cp, this.loginService.defaultUserPicture)).subscribe((data:any) => {
           console.log(data)
           if (data === null) {
-            this.toastr.error("No se registró correctamente, el email ya existe", "Algo fue mal")
+            this.toastr.error("No se registró correctamente, el Usuario o el email ya existe", "Algo fue mal")
           } else {
             this.usuario.password = ""
             this.usuario.email = ""
