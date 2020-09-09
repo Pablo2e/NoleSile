@@ -26,7 +26,6 @@ export class UploadComponent implements OnInit {
   public idProducto: number
   public modalRef: BsModalRef;
   public selectedFile: File; //para cargar la foto
-  public defaultUserPicture = "src/assets/img/productoSinFoto.jpg";
 
   constructor(
     public productService:ProductService, 
@@ -47,7 +46,7 @@ export class UploadComponent implements OnInit {
     console.log(this.productService.product)
     if (nombre === null || descripcion === null || categoria === null || product_image === null ||
       nombre === "" || descripcion === "" || categoria === "" || product_image === "") {
-      this.toastr.error("Por favor, revisa todos los campos", "Algo fue mal")
+      this.toastr.error("Por favor, completa todos los campos", "Algo fue mal")
     } else {
       let productImageUrl;
       let date = new Date();

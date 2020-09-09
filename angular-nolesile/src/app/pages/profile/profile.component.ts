@@ -59,6 +59,11 @@ export class ProfileComponent implements OnInit {
   }  
   
   public modificarUsuario(idUsuario:number, name:string, password:string, email:string, comunidad:string, provincia:string, localidad:string, cp:number){
+    if (idUsuario === null || name === null || password === null || email === null || comunidad === null || provincia === null || localidad === null || cp === null ||
+      name === "" || password === "" || email === "" || comunidad === "" || provincia === "" || localidad === "" || cp === 0) {
+      this.toastr.error("Por favor, completa todos los campos", "Algo fue mal")
+      return
+    }
     console.log('Usuario Modificado')
     let userImageUrl;
     let oldImage;

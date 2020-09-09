@@ -2,7 +2,6 @@
 import { Component, OnInit, TemplateRef, } from '@angular/core';
 import { Router } from "@angular/router";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
 // MODAL
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 // MODELOS
@@ -13,6 +12,7 @@ import { LoginService } from 'src/app/shared/login.service';
 import { ProductService } from 'src/app/shared/product.service';
 import { MessageService } from 'src/app/shared/message.service';
 import { Notificacion } from 'src/app/models/notificaciones';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -89,7 +89,7 @@ export class LoginComponent implements OnInit {
         this.loginService.register(new Usuario(null, name, password, email, comunidad, provincia, localidad, cp, this.loginService.defaultUserPicture)).subscribe((data:any) => {
           console.log(data)
           if (data === null) {
-            this.toastr.error("No se registró correctamente, el Usuario o el email ya existe", "Algo fue mal")
+            this.toastr.error("No se registró correctamente", "Algo fue mal")
           } else {
             this.usuario.password = ""
             this.usuario.email = ""
@@ -100,6 +100,11 @@ export class LoginComponent implements OnInit {
             this.messageService.createUserNotification(new Notificacion(newUserId, false)).subscribe((data) => {
               console.log(data)
             })
+          }
+        }, (error) => {
+          console.log(error);
+          if (error.status === 409) {
+            this.toastr.error("No se registró correctamente", error.error.message)
           }
         })
       }

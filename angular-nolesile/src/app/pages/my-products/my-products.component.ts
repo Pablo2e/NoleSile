@@ -31,7 +31,8 @@ export class MyProductsComponent implements OnInit {
   constructor(
     public productService:ProductService, 
     public loginService:LoginService, 
-    private modalServices: BsModalService) { 
+    private modalServices: BsModalService, 
+    private toastr: ToastrService) { 
     this.products = [];
     this.selectedFile = null;
     this.mostrarProductos(this.idUsuario=this.loginService.usuarioActual.user_id)
@@ -69,7 +70,12 @@ export class MyProductsComponent implements OnInit {
   }
 
   /* PARA MODIFICAR PRODUCTOS */
-  public modificarSile(product_id: number, nombre: string, descripcion: string, categoria: string, user_id: number){
+  public modificarSile(product_id: number, nombre: string, descripcion: string, categoria: string, user_id: number, template: TemplateRef < any >){
+    if (nombre === null || descripcion === null || categoria === null || nombre === "" || descripcion === "" || categoria === "" ) {
+      this.toastr.error("Por favor, completa todos los campos", "Algo fue mal")
+      this.mostrarProductos(this.idUsuario)
+      return
+    }
     console.log('Hola desde modificarSile')
     let date = new Date();
     let productImageUrl;
@@ -86,7 +92,8 @@ export class MyProductsComponent implements OnInit {
     if(this.selectedFile === null) {
       this.productService.putProduct(new Product(product_id, nombre, descripcion, categoria, user_id, productImageUrl, date)).subscribe((data)=>{
         console.log(data)
-        this.mostrarProductos(this.idUsuario)      
+        this.mostrarProductos(this.idUsuario)
+        this.openModal(template);      
       }, (error) => {
         console.log(error);
         if (error.status === 401) {
@@ -106,7 +113,8 @@ export class MyProductsComponent implements OnInit {
         this.productService.putProduct(new Product(product_id, nombre, descripcion, categoria, user_id, productImageUrl, date)).subscribe((data)=>{
           console.log(data)
           this.selectedFile = null;
-          this.mostrarProductos(this.idUsuario)      
+          this.mostrarProductos(this.idUsuario)
+          this.openModal(template);      
         }, (error) => {
           console.log(error);
           if (error.status === 401) {

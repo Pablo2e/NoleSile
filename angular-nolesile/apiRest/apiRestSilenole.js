@@ -391,12 +391,18 @@ app.post("/user/register", function (request, response) {
     let sql = "INSERT INTO user (name, email, password, comunidad, provincia, localidad, cp, user_image) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)";
     connection.query(sql, params, function(err, result){
         if (err){
-            console.log(err)
+            if (err.sqlMessage.includes('email')){
+                response.status(409).send({ message: 'Email duplicado' });
+            } else if (err.sqlMessage.includes('name')){
+                response.status(409).send({ message: 'Nombre duplicado' });
+            } else {
+                response.status(409).send({ message: 'No se ha podido registrar el usuario' });
+            }
         }else{
             console.log('Nuevo usuario Ingresado')
             console.log(result)
+            response.send(result);
         } 
-    response.send(result);
     })
 });
 
