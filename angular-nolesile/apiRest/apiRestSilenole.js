@@ -655,11 +655,12 @@ app.get("/notifications/:id", async function (request, response) {
 app.put("/notifications", async function (request, response) {
     let accessTokenLocal = request.headers.authorization;
     console.log('Token local ', accessTokenLocal);
+    let tokenUserSession = request.headers.user;
     let user_id = request.body.user_id;
-    let mensajes_nuevos = request.body.mensajes_nuevos
+    let mensajes_nuevos = request.body.mensajes_nuevos;
     let params;
     let sql;
-    const tokenResult = await verifyToken(accessTokenLocal, user_id)
+    const tokenResult = await verifyToken(accessTokenLocal, tokenUserSession)
     console.log ("put notification ");
     console.log ("verifyToken result: " , tokenResult);
     switch (tokenResult) {

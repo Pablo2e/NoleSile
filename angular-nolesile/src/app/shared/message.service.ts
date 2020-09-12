@@ -19,7 +19,7 @@ export class MessageService {
   public noleSeleccionado = new Nole(0, 0);
   public sileSeleccionado = new Nole(0, 0);
   public notificacion = new Notificacion(null, false)
-
+  
  
   constructor(
     private http:HttpClient,
@@ -56,10 +56,12 @@ export class MessageService {
 
   public modifyNotificationsByUser(nuevaNotificacion: Notificacion) {
     const accessToken = this.loginService.getToken();
-    console.log(accessToken)
+    let user_id = this.loginService.usuarioActual.user_id.toString();
+    console.log(accessToken,nuevaNotificacion.user_id)
     const options = {
       headers: new HttpHeaders({
         'Authorization': accessToken, 
+        'User': user_id
       })
     };
     console.log(nuevaNotificacion);

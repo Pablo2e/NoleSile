@@ -146,10 +146,10 @@
           [(ngModel)]="message.text" #text="ngModel" required (keyup.enter)="enviarMsgNoleSeleccionado(text.value)"
           (keyup.enter)="this.text.reset()">
         <div class="input-group-append">
-          <button class="btn btn-success" type="button"
-           (click)="enviarMsgNoleSeleccionado(text.value)" (click)="this.text.reset()"
-            id="button-addon2"><i class="fa fa-comments" aria-hidden="true"></i>
-            Enviar Mensaje</button><!--  (click)="activarAvisoMensaje()" -->
+          <button class="btn btn-success" type="button" id="button-addon2"
+           (click)="enviarMsgNoleSeleccionado(text.value)" (click)="this.text.reset()" (click)="activarAvisoMensaje()"
+            ><i class="fa fa-comments" aria-hidden="true"></i>
+            Enviar Mensaje</button><!--   -->
         </div>
       </div>
       </form>
@@ -181,9 +181,9 @@
             [(ngModel)]="message2.text" #text2="ngModel" required (keyup.enter)="enviarMsgSileSeleccionado(text2.value)"
             (keyup.enter)="this.text2.reset()">
           <div class="input-group-append">
-            <button class="btn btn-success" type="button" 
-              (click)="enviarMsgSileSeleccionado(text2.value)"
-              (click)="this.text2.reset()" id="button-addon2"><i class="fa fa-comments" aria-hidden="true"></i>
+            <button class="btn btn-success" type="button" id="button-addon2"
+              (click)="enviarMsgSileSeleccionado(text2.value)" (click)="this.text2.reset()" (click)="activarAvisoMensaje()" 
+              ><i class="fa fa-comments" aria-hidden="true"></i>
               Enviar Mensaje</button>
           </div>
         </div>

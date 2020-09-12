@@ -61,6 +61,7 @@ export class MessagesComponent implements OnInit {
     console.log("El chat seleccionado es: " + nole.chat_id);
     this.messageService.noleSeleccionado.chat_id = nole.chat_id;
     this.messageService.noleSeleccionado.product_id = nole.product_id;
+    this.messageService.noleSeleccionado.user_id = nole.user_id;
     this.cargarMensajesNoles();
   }
 
@@ -189,9 +190,9 @@ export class MessagesComponent implements OnInit {
     })
   }
 
-/*   public activarAvisoMensaje(){
-    let notificacionActivar:Notificacion = new Notificacion(this.productService.ownerActual, true)
-    console.log(notificacionActivar)
+  public activarAvisoMensaje(){
+    let notificacionActivar:Notificacion = new Notificacion(this.messageService.noleSeleccionado.user_id, true)
+    console.log('El dueño del producto es el 6 ' + this.messageService.noleSeleccionado.user_id)
     this.messageService.modifyNotificationsByUser(notificacionActivar).subscribe((data) => {
       console.log(data)
     }, (error) => {
@@ -199,9 +200,8 @@ export class MessagesComponent implements OnInit {
       if (error.status === 401) {
         this.loginService.forcedLogout();
       }
-    }) 
-    console.log(this.loginService.avisoMensaje)
-  } */
+    })
+  }
   
   //FORMULARIOS
   public onSubmit(form){

@@ -124,7 +124,7 @@ export class LoginComponent implements OnInit {
         console.log(this.loginService.usuarioActual);
         this.modalRef.hide();
         this.router.navigate(["/home"])
-        /* this.messageService.getNotificationsByUser(this.loginService.usuarioActual.user_id).subscribe((data) => {
+        this.messageService.getNotificationsByUser(this.loginService.usuarioActual.user_id).subscribe((data) => {
           console.log(data)
           if (data !== null) {
             this.loginService.avisoMensaje = data[0].mensajes_nuevos;
@@ -135,7 +135,7 @@ export class LoginComponent implements OnInit {
           if (error.status === 401) {
             this.loginService.forcedLogout();
           }
-        }) */
+        })
       } else {
         console.log("Usuario Inexistente")
         this.toastr.error("El ususario o la contraseña no son válidos", "Algo fue mal");

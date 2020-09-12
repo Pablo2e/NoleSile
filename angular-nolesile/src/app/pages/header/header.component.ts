@@ -98,7 +98,8 @@ export class HeaderComponent implements OnInit {
   }
 
 /*   public cambiarMensajesAFalse(){
-    this.messageService.modifyNotificationsByUserToFalse(this.loginService.usuarioActual.user_id).subscribe((data) => {
+    let notificationToFalse = new Notificacion (this.loginService.usuarioActual.user_id,false)
+    this.messageService.modifyNotificationsByUser(notificationToFalse).subscribe((data) => {
       console.log(data)
     }) 
   } */
