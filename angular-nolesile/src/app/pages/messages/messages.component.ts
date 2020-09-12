@@ -22,8 +22,8 @@ import { LoginService } from 'src/app/shared/login.service';
 export class MessagesComponent implements OnInit {
 
   closeResult = ''; //MODAL NG
-  public message=new Message(null, null, null, null, null ,null)
-  public message2=new Message(null, null, null, null, null ,null)
+  public message=new Message(null, null, null, null, null, null ,null)
+  public message2=new Message(null, null, null, null, null, null ,null)
   public messagesNoles: any;
   public messagesSiles: any;
   public noles: any;
@@ -33,6 +33,7 @@ export class MessagesComponent implements OnInit {
   public products: any;
   public modalRef: BsModalRef;
   public chat_idParaBorrar: string;
+  public cambio: any;
 
   constructor(
     public usuarioService:UsuarioService, 
@@ -75,6 +76,7 @@ export class MessagesComponent implements OnInit {
     console.log("El chat seleccionado es: " + sile.chat_id);
     this.messageService.sileSeleccionado.chat_id = sile.chat_id;
     this.messageService.sileSeleccionado.product_id = sile.product_id;
+    this.pasarIdOwner(sile.user_id)
     this.cargarMensajesSiles();
   }
 
@@ -84,9 +86,12 @@ export class MessagesComponent implements OnInit {
     let sender_id = this.loginService.usuarioActual.user_id;
     let chat_id = this.messageService.noleSeleccionado.chat_id
     let product_id = this.messageService.noleSeleccionado.product_id
+    let receiver_id = this.messageService.noleSeleccionado.user_id
+    console.log(receiver_id + 'dueño del nole')
     let date = new Date();
-    this.messageService.postMessage(new Message(null, chat_id, sender_id,  product_id, text, date)).subscribe((data)=>{
+    this.messageService.postMessage(new Message(null, chat_id, sender_id, receiver_id, product_id, text, date)).subscribe((data)=>{
       console.log(data)
+      this.activarAvisoMensaje(receiver_id)
       this.cargarMensajesNoles();
     }, (error) => {
       console.log(error);
@@ -173,14 +178,17 @@ export class MessagesComponent implements OnInit {
   }
 
   public enviarMsgSileSeleccionado(text:string){
-    console.log('Hola desde enviarMsgSileeSeleccionado')
+    console.log('Hola desde enviarMsgSileSeleccionado')
     console.log(text)
     let sender_id = this.loginService.usuarioActual.user_id;
     let chat_id = this.messageService.sileSeleccionado.chat_id
     let product_id = this.messageService.sileSeleccionado.product_id
+    let receiver_id = this.productService.ownerActual
+    console.log(receiver_id + 'interesado en mi sile')
     let date = new Date();
-    this.messageService.postMessage(new Message(null, chat_id, sender_id,  product_id, text, date)).subscribe((data)=>{
+    this.messageService.postMessage(new Message(null, chat_id, sender_id, receiver_id, product_id, text, date)).subscribe((data)=>{
       console.log(data)
+      this.activarAvisoMensaje(receiver_id)
       this.cargarMensajesSiles();
     }, (error) => {
       console.log(error);
@@ -190,10 +198,25 @@ export class MessagesComponent implements OnInit {
     })
   }
 
-  public activarAvisoMensaje(){
-    let notificacionActivar:Notificacion = new Notificacion(this.messageService.noleSeleccionado.user_id, true)
-    console.log('El dueño del producto es el 6 ' + this.messageService.noleSeleccionado.user_id)
+  public activarAvisoMensaje(receiver_id){
+    let notificacionActivar:Notificacion = new Notificacion(receiver_id, true)
     this.messageService.modifyNotificationsByUser(notificacionActivar).subscribe((data) => {
+      console.log(data)
+    }, (error) => {
+      console.log(error);
+      if (error.status === 401) {
+        this.loginService.forcedLogout();
+      }
+    })
+  }
+
+  public cambiarMensajeALeido(chatId){
+    this.cambio = {
+      chat_id: chatId,
+      receiver_id: this.loginService.usuarioActual.user_id,
+    }
+    console.log(this.cambio)
+    this.messageService.changeMessageToRead(this.cambio).subscribe((data)=>{
       console.log(data)
     }, (error) => {
       console.log(error);
@@ -215,5 +238,5 @@ export class MessagesComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
-}
+  
+} 

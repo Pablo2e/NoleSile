@@ -98,13 +98,6 @@ export class HeaderComponent implements OnInit {
     console.log(this.loginService.avisoMensaje)
   }
 
-/*   public cambiarMensajesAFalse(){
-    let notificationToFalse = new Notificacion (this.loginService.usuarioActual.user_id,false)
-    this.messageService.modifyNotificationsByUser(notificationToFalse).subscribe((data) => {
-      console.log(data)
-    }) 
-  } */
-
   public verificarMensajesNuevos(){
     this.messageService.getNotificationsByUser(this.loginService.usuarioActual.user_id).subscribe((data) => {
       console.log(data)

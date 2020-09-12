@@ -19,7 +19,7 @@ export class MessageService {
   public noleSeleccionado = new Nole(0, 0);
   public sileSeleccionado = new Nole(0, 0);
   public notificacion = new Notificacion(null, false)
-  
+    
  
   constructor(
     private http:HttpClient,
@@ -48,6 +48,18 @@ export class MessageService {
     console.log(nuevoMensaje);
     return this.http.post(this.url + "messages/", nuevoMensaje, options)
   } 
+  
+  public changeMessageToRead(cambio){
+    const accessToken = this.loginService.getToken();
+    let user_id = this.loginService.usuarioActual.user_id.toString();
+    const options = {
+      headers: new HttpHeaders({
+        'Authorization': accessToken, 
+        'User': user_id
+      })
+    };
+    return this.http.put(this.url + "messages/", cambio, options)
+  }
 
   public createUserNotification(nuevaNotificacion: Notificacion) {
     console.log(nuevaNotificacion);
@@ -67,7 +79,7 @@ export class MessageService {
     console.log(nuevaNotificacion);
     return this.http.put(this.url + "notifications/", nuevaNotificacion, options)
   }
-
+ 
   public getNotificationsByUser(id: number) {
     const accessToken = this.loginService.getToken();
     console.log(id, accessToken)

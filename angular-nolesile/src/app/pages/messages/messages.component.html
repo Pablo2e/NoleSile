@@ -24,9 +24,12 @@
               <button type="button" class="btn btn-outline-success btn-sm mr-1" (click)="pasarIdOwner(nole.user_id)" [routerLink]="['/owner']"><i
                 class="fa fa-user-circle-o" aria-hidden="true"></i>
                  {{nole.name}}</button>
-              <button type="button" class="btn btn-outline-success btn-sm ml-1" (click)="openModal(modalMensajeNoles)" (click)="pasarNole(nole)"><i
-                class="fa fa-envelope-open" aria-hidden="true"></i>
-                Mensajes</button>
+              <button *ngIf="nole.num_mensajes_nuevos>0" type="button" class="btn btn-danger btn-sm ml-1" (click)="cambiarMensajeALeido(nole.chat_id)" 
+                (click)="openModal(modalMensajeNoles)" (click)="pasarNole(nole)"><i class="fa fa-envelope-open" aria-hidden="true"></i>
+                 {{nole.num_mensajes_nuevos}} mensajes nuevos</button>
+              <button *ngIf="nole.num_mensajes_nuevos<=0" type="button" class="btn btn-outline-success btn-sm ml-1"
+              (click)="openModal(modalMensajeNoles)" (click)="pasarNole(nole)"><i class="fa fa-envelope-open" aria-hidden="true"></i>
+              Mensajes</button>
               <p class="card-text"></p>
             </div>
             <div class="mt-3 mb-3 d-flex justify-content-center">
@@ -68,8 +71,12 @@
               <button type="button" class="btn btn-outline-success btn-sm mr-1" (click)="pasarIdOwner(sile.user_id)" [routerLink]="['/owner']"><i
                 class="fa fa-user-circle-o" aria-hidden="true"></i>
                  {{sile.name}}</button>
-              <button type="button" class="btn btn-outline-success btn-sm ml-1" (click)= "openModal(modalMensajeNoles)" (click)="pasarNole(sile)"><i
-                class="fa fa-envelope-open" aria-hidden="true"></i>
+                 <!-- Continuar con la funcion changeMessageToRead -->
+              <button *ngIf="sile.num_mensajes_nuevos>0" type="button" class="btn btn-danger btn-sm ml-1" (click)="cambiarMensajeALeido(sile.chat_id)" 
+                (click)="openModal(modalMensajeSiles)" (click)="pasarSile(sile)"><i class="fa fa-envelope-open" aria-hidden="true"></i>
+                {{sile.num_mensajes_nuevos}} mensajes nuevos</button>
+              <button *ngIf="sile.num_mensajes_nuevos<=0" type="button" class="btn btn-outline-success btn-sm ml-1" 
+                (click)="openModal(modalMensajeSiles)" (click)="pasarSile(sile)"><i class="fa fa-envelope-open" aria-hidden="true"></i>
                 Mensajes</button>
               <p class="card-text"></p>
             </div>
@@ -147,7 +154,7 @@
           (keyup.enter)="this.text.reset()">
         <div class="input-group-append">
           <button class="btn btn-success" type="button" id="button-addon2"
-           (click)="enviarMsgNoleSeleccionado(text.value)" (click)="this.text.reset()" (click)="activarAvisoMensaje()"
+           (click)="enviarMsgNoleSeleccionado(text.value)" (click)="this.text.reset()"
             ><i class="fa fa-comments" aria-hidden="true"></i>
             Enviar Mensaje</button><!--   -->
         </div>
@@ -156,7 +163,7 @@
     </div>
   </div>  
   <div class="d-flex justify-content-center mb-3">
-    <button type="button" class="btn btn-outline-success" (click)="modalRef.hide()">Cerrar</button>
+    <button type="button" class="btn btn-outline-success" (click)="modalRef.hide()" (click)=cargarNoles()>Cerrar</button>
   </div>
 </ng-template>
 
@@ -182,7 +189,7 @@
             (keyup.enter)="this.text2.reset()">
           <div class="input-group-append">
             <button class="btn btn-success" type="button" id="button-addon2"
-              (click)="enviarMsgSileSeleccionado(text2.value)" (click)="this.text2.reset()" (click)="activarAvisoMensaje()" 
+              (click)="enviarMsgSileSeleccionado(text2.value)" (click)="this.text2.reset()" 
               ><i class="fa fa-comments" aria-hidden="true"></i>
               Enviar Mensaje</button>
           </div>
@@ -191,7 +198,7 @@
     </div>
   </div>
   <div class="d-flex justify-content-center mb-3">
-    <button type="button" class="btn btn-outline-success" (click)="modalRef.hide()">Cerrar</button>
+    <button type="button" class="btn btn-outline-success" (click)="modalRef.hide()" (click)=cargarSiles()>Cerrar</button>
   </div>
 </ng-template>
 

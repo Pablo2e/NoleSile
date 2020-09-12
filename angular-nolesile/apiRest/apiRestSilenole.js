@@ -136,43 +136,6 @@ app.get("/products/:user_id", async function (request, response) {
     }
 });
 
-// GET /SILES= Obtiene todos los productos
-/* app.get("/products", function (request, response) {
-    let sql;
-    let accessTokenLocal = request.headers.authorization;
-    console.log('Token local ', accessTokenLocal);
-    sql = "SELECT accessToken FROM user WHERE user_id = ?";
-    connection.query(sql, params, function(err, result){
-        if (err){
-            console.log(err)
-        } else {
-            console.log('Token recibido ', result)
-            if (result[0] === undefined || result[0] === null) {
-                //
-                response.status(500).send({ message: 'Error en el servidor' });
-                return;
-            }
-            let tokenRecibido = result[0].accessToken;
-            if (tokenRecibido === accessTokenLocal){
-                console.log('Los token coinciden. Usuario autorizado')
-                sql = "SELECT * FROM products"
-                connection.query(sql, params, function(err, result){
-                    if (err){
-                        console.log(err)
-                    } else {
-                        console.log('Objetos del usuario')
-                        console.log(result)
-                    } 
-                response.send(result);
-                })
-            } else {
-                console.log('Los token no coinciden. Operación no permitida')
-                response.status(401).send({ message: 'No autorizado. Ingresa en tu cuenta.' });
-            }
-        } 
-    })
-}); */
-
 // POST /SILES/ = Añade un nuevo sile del usuario 
 app.post("/products", async function (request, response) {
     let accessTokenLocal = request.headers.authorization;
@@ -530,6 +493,7 @@ app.post("/messages", async function (request, response) {
     let chat_id = request.body.chat_id
     let sender_id  = request.body.sender_id 
     let user_id = sender_id
+    let receiver_id = request.body.receiver_id
     let product_id = request.body.product_id 
     let text = request.body.text
     let date = request.body.date
@@ -548,8 +512,46 @@ app.post("/messages", async function (request, response) {
             break;
         case 200:
             console.log('Los token coinciden. Usuario autorizado')
-            params = [chat_id, sender_id , product_id ,text ,date]
-            sql = "INSERT INTO messages (chat_id, sender_id, product_id ,text ,date) VALUES (?, ?, ?, ?, ?)";
+            params = [chat_id, sender_id, receiver_id, false, product_id ,text ,date]
+            sql = "INSERT INTO messages (chat_id, sender_id, receiver_id, leido, product_id ,text ,date) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            connection.query(sql, params, function(err, result){
+                if (err){
+                    console.log(err)
+                }else{
+                    console.log('Mensaje Ingresado')
+                    console.log(result)
+                } 
+            response.send(result);
+            })
+            break;
+        default:
+    }
+});
+
+// PUT /CHANGEMESSAGES/ = Cambia un mensaje de no leido a leido.
+app.put("/messages", async function (request, response) {
+    let accessTokenLocal = request.headers.authorization;
+    let user_id = request.headers.user;
+    console.log('Token local ', accessTokenLocal);
+    let chat_id = request.body.chat_id
+    let receiver_id = request.body.receiver_id
+    console.log("muestra el chat_id y el receiver_id "+chat_id, receiver_id);
+    let params;
+    let sql;
+    const tokenResult = await verifyToken(accessTokenLocal, user_id)
+    console.log ("verifyToken result: " , tokenResult);
+    switch (tokenResult) {
+        case 500:
+            response.status(500).send({ message: 'Error en el servidor' });
+            break;
+        case 401:
+            console.log('Los token no coinciden. Operación no permitida')
+            response.status(401).send({ message: 'No autorizado. Ingresa en tu cuenta.' });
+            break;
+        case 200:
+            console.log('Los token coinciden. Usuario autorizado')
+            params = [chat_id, receiver_id]
+            sql = "UPDATE messages SET leido = 1 WHERE chat_id = ? AND receiver_id = ?";
             connection.query(sql, params, function(err, result){
                 if (err){
                     console.log(err)
@@ -623,10 +625,10 @@ app.post("/notifications", function (request, response) {
 });
 
 // GET /NOTIFICATIONS/: Obtiene si el usuario tiene mensaje nuevo o no 
-app.get("/notifications/:id", async function (request, response) {
+app.get("/notifications/:user_id", async function (request, response) {
     let accessTokenLocal = request.headers.authorization;
     console.log('Token local ', accessTokenLocal);
-    let user_id = request.params.id;
+    let user_id = request.params.user_id;
     let params;
     let sql;
     const tokenResult = await verifyToken(accessTokenLocal, user_id)
@@ -694,7 +696,7 @@ app.put("/notifications", async function (request, response) {
         default:
     }
 });
-/* ---------------------------------FIN MENSAJES----------------------------------- */
+/* ---------------------------------FIN NOTIFICACIONES----------------------------------- */
 
 /* ---------------------------------NOLES / SILES----------------------------------- */
 // POST /NOLES/ inserta la relacion entre usuario y producto //PARA MENSAJES
@@ -753,8 +755,12 @@ app.get("/noles/:user_id", async function (request, response) {
             break;
         case 200:
             console.log('Los token coinciden. Usuario autorizado');
-            params = [user_id];
-            sql = "SELECT products.nombre, products.descripcion, products.product_image, noles.product_id, noles.chat_id, user.name, user.user_id FROM noles INNER JOIN products ON (noles.product_id = products.product_id) INNER JOIN user ON (products.user_id = user.user_id) WHERE noles.user_id = ?"
+            params = [user_id, user_id];
+            sql = `SELECT products.nombre, products.descripcion, products.product_image, noles.product_id, noles.chat_id, user.name, user.user_id, 
+                    (SELECT COUNT(leido) FROM messages WHERE receiver_id = ? AND leido = 0 AND chat_id = noles.chat_id GROUP BY chat_id) AS num_mensajes_nuevos 
+                    FROM noles 
+                    INNER JOIN products ON (noles.product_id = products.product_id) 
+                    INNER JOIN user ON (products.user_id = user.user_id) WHERE noles.user_id = ?`
             connection.query(sql, params, function(err, result){
                 if (err){
                     console.log(err)
@@ -825,8 +831,12 @@ app.get("/siles/:user_id", async function (request, response) {
             break;
         case 200:
             console.log('Los token coinciden. Usuario autorizado');
-            params = [user_id];
-            sql = "SELECT products.nombre, products.descripcion, products.product_image, noles.product_id, noles.chat_id, user.name, user.user_id FROM noles INNER JOIN products ON (noles.product_id = products.product_id) INNER JOIN user ON (noles.user_id = user.user_id) WHERE products.user_id = ?"
+            params = [user_id, user_id];
+            sql = `SELECT products.nombre, products.descripcion, products.product_image, noles.product_id, noles.chat_id, user.name, user.user_id,
+                    (SELECT COUNT(leido) FROM messages WHERE receiver_id = ? AND leido = 0 AND chat_id = noles.chat_id GROUP BY chat_id) AS num_mensajes_nuevos 
+                    FROM noles 
+                    INNER JOIN products ON (noles.product_id = products.product_id) 
+                    INNER JOIN user ON (noles.user_id = user.user_id) WHERE products.user_id = ?`
             connection.query(sql, params, function(err, result){
                 if (err){
                     console.log(err)
