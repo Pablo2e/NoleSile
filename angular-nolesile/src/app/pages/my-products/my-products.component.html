@@ -59,8 +59,8 @@
           </div>
           <div class="form-group mt-3">
             <label for="exampleFormControlFile1">Carga una Foto</label>
-            <input type="file" class="form-control-file" name="product_image" [(ngModel)]="productoActual.product_image"
-              #product_image="ngModel" required (change)="onFileSelected($event)">
+            <input type="file" class="form-control-file" name="product_image" required 
+              (change)="onFileSelected($event)">
               <small id="emailHelp" class="form-text text-muted">*Obligatorio.</small>
           </div>
           <div class="form-group">

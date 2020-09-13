@@ -57,6 +57,7 @@ export class ProfileComponent implements OnInit {
       }
     }
   }  
+  
   public modificarUsuario(idUsuario:number, name:string, password:string, email:string, comunidad:string, provincia:string, localidad:string, cp:number){
     console.log('Usuario Modificado')
     let userImageUrl;

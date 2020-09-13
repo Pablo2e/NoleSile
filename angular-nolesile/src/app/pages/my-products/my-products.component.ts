@@ -70,9 +70,14 @@ export class MyProductsComponent implements OnInit {
     console.log('Hola desde modificarSile')
     let date = new Date();
     let productImageUrl;
+    let oldImage = this.productoActual.product_image;
+    console.log(oldImage);
     if(this.selectedFile === null) {
       productImageUrl = this.productoActual.product_image;
     } else {
+      console.log(oldImage);
+      oldImage = oldImage.replace(this.productService.urlImg, "");
+      console.log(oldImage);
       productImageUrl = this.productService.urlImg + this.token() + "-" + this.idUsuario + ".jpg";
     }
     if(this.selectedFile === null) {
@@ -90,6 +95,9 @@ export class MyProductsComponent implements OnInit {
       const nombreFotoProducto = productImageUrl
       const fd = new FormData()
       fd.append('product_image',this.selectedFile, nombreFotoProducto);
+      this.productService.deleteImage(oldImage).subscribe((data)=>{
+        console.log(data)
+      })
       this.productService.uploadImageProduct(fd).subscribe((data)=>{
         console.log(data)
         this.productService.putProduct(new Product(product_id, nombre, descripcion, categoria, user_id, productImageUrl, date)).subscribe((data)=>{
