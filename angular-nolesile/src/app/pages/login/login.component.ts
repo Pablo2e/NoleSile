@@ -146,6 +146,15 @@ export class LoginComponent implements OnInit {
         this.toastr.error("El ususario o la contraseña no son válidos", "Algo fue mal");
         this.router.navigate(["/"])
       }
+    }, (error) => {
+      console.log(error);
+      if (error.status === 401) {
+        this.loginService.forcedLogout();
+      } else if (error.status === 403){
+        console.log("Usuario Inexistente")
+        this.toastr.error("El ususario o la contraseña no son válidos", "Algo fue mal");
+        this.router.navigate(["/"])
+      }
     });
   }
 
