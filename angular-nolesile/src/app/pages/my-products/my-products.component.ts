@@ -73,8 +73,7 @@ export class MyProductsComponent implements OnInit {
     if(this.selectedFile === null) {
       productImageUrl = this.productoActual.product_image;
     } else {
-     productImageUrl = this.productService.urlImg + this.selectedFile.name;
-      //  productImageUrl = this.productService.urlImg + this.selectedFile.name + this.token() + "-" + user_id + ".jpg";
+      productImageUrl = this.productService.urlImg + this.token() + "-" + this.idUsuario + ".jpg";
     }
     if(this.selectedFile === null) {
       this.productService.putProduct(new Product(product_id, nombre, descripcion, categoria, user_id, productImageUrl, date)).subscribe((data)=>{
@@ -88,8 +87,9 @@ export class MyProductsComponent implements OnInit {
         }
       })
     } else {
+      const nombreFotoProducto = productImageUrl
       const fd = new FormData()
-      fd.append('product_image',this.selectedFile, this.selectedFile.name);
+      fd.append('product_image',this.selectedFile, nombreFotoProducto);
       this.productService.uploadImageProduct(fd).subscribe((data)=>{
         console.log(data)
         this.productService.putProduct(new Product(product_id, nombre, descripcion, categoria, user_id, productImageUrl, date)).subscribe((data)=>{
@@ -150,3 +150,59 @@ export class MyProductsComponent implements OnInit {
   }
 
 }
+
+
+/* PARA MODIFICAR PRODUCTOS */
+/* public modificarSile(product_id: number, nombre: string, descripcion: string, categoria: string, user_id: number){
+  console.log('Hola desde modificarSile')
+  let date = new Date();
+  let productImageUrl;
+  let oldImage;
+  if(this.selectedFile === null) {
+    productImageUrl = this.productoActual.product_image;
+    console.log(productImageUrl);
+  } else {
+    oldImage = this.productoActual.product_image;
+    console.log(oldImage);
+    oldImage = oldImage.replace(this.productService.urlImg, "");
+    console.log(oldImage);
+    productImageUrl = this.productService.urlImg + this.token() + "-" + product_id + ".jpg";
+    //  productImageUrl = this.productService.urlImg + this.selectedFile.name;
+    console.log(productImageUrl);
+  }
+  let productUpdated = new Product(product_id, nombre, descripcion ,categoria , user_id , productImageUrl, date)
+  if(this.selectedFile === null) {
+    this.productService.putProduct(productUpdated).subscribe((data)=>{
+      console.log(data)
+      this.mostrarProductos(this.idUsuario)      
+    }, (error) => {
+      console.log(error);
+      if (error.status === 401) {
+        this.loginService.forcedLogout();
+        this.productService.usuarioActual = null;
+      }
+    })
+  } else {
+    const fd = new FormData()
+    const nombreFoto = productImageUrl
+    // fd.append('product_image',this.selectedFile, this.selectedFile.name);
+    fd.append('product_image',this.selectedFile, nombreFoto);
+    this.productService.deleteImage(oldImage).subscribe((data)=>{
+      console.log(data)
+    })
+    this.productService.uploadImageProduct(fd).subscribe((data)=>{
+      console.log(data)
+      this.productService.putProduct(new Product(product_id, nombre, descripcion, categoria, user_id, productImageUrl, date)).subscribe((data)=>{
+        console.log(data)
+        this.selectedFile = null;
+        this.mostrarProductos(this.idUsuario)      
+      }, (error) => {
+        console.log(error);
+        if (error.status === 401) {
+          this.loginService.forcedLogout();
+          this.productService.usuarioActual = null;
+        }
+      })
+    })
+  }
+} */
