@@ -18,7 +18,7 @@ import { Usuario } from '../models/usuario';
 export class LoginService {
 
   private backUrl = "http://localhost:3000";
-  public defaultUserPicture = "http://localhost:3100/perfil.jpg";
+  public defaultUserPicture = "assets/img/perfil.jpg";
   private token: string;
   public usuarioActual = new Usuario(null, null, null, null, null, null, null, null, this.defaultUserPicture);
   public avisoMensaje: boolean;

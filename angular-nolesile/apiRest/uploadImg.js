@@ -96,8 +96,8 @@ app.delete('/delete-img/:imageName', async (req, res) => {
         } else {
             const imagePath = './uploads/' + imageName;
             fs.unlink( imagePath, (err) => {
-                if (err) throw err;
-                console.log(imageName + ' was deleted');
+                // if (err) throw err;
+                console.log(imageName + ' was not found');
             });
             //send response
             res.send({
