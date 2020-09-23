@@ -26,11 +26,12 @@ export class ProductService {
   public urlImg = "http://localhost:3100/" 
 
 
-  constructor(private http: HttpClient, 
-    public loginService:LoginService) {
-    console.log("funcionando servicio product");
-    this.usuarioActual=this.loginService.usuarioActual
-  }
+  constructor(
+    public loginService:LoginService, 
+    private http: HttpClient) {
+      this.usuarioActual=this.loginService.usuarioActual
+      console.log("funcionando servicio product");
+    }
 
 
   //para la carga y borrar fotos

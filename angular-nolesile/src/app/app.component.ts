@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { ServService } from './serv.service';
 
 
 @Component({
@@ -10,7 +9,7 @@ import { ServService } from './serv.service';
 
 export class AppComponent {
 
-  constructor(public servicio:ServService) { 
+  constructor() { 
     
   }
 

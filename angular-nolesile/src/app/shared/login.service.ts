@@ -28,6 +28,11 @@ export class LoginService {
     private router: Router, 
     private toastr: ToastrService) {}
 
+  public register(nuevoUsuario: Usuario) {
+    console.log(this.backUrl)
+    return this.http.post(this.backUrl + "/user/register", nuevoUsuario)
+  }
+
   public login(user: any): Observable < any > {
     return this.http.post < any > (this.backUrl + "/user/login", user).pipe(tap(
       (res: any) => {
@@ -43,29 +48,6 @@ export class LoginService {
         }
       })
     );
-  }
-
-  public register(nuevoUsuario: Usuario) {
-    console.log(this.backUrl)
-    return this.http.post(this.backUrl + "/user/register", nuevoUsuario)
-  }
-
-  public logout() {
-    console.log ( 'Hola desde Logout')
-    const accessToken = this.getToken();
-    const options = {
-      headers: new HttpHeaders({
-        'Authorization': accessToken,
-      })
-    };
-    const body = {
-      user_id: this.usuarioActual.user_id,
-    };
-    this.token = '';
-    localStorage.removeItem("ACCESS_TOKEN");
-    localStorage.removeItem("EXPIRES_IN");
-    localStorage.removeItem("USER_ID");
-    return this.http.put(this.backUrl + "/user/token", body,  options)
   }
 
   private saveToken(token: string, expiresIn: string): void {
@@ -88,6 +70,24 @@ export class LoginService {
   
   public getUserId(): any {
     return localStorage.getItem("USER_ID");
+  }
+
+  public logout() {
+    console.log ( 'Hola desde Logout')
+    const accessToken = this.getToken();
+    const options = {
+      headers: new HttpHeaders({
+        'Authorization': accessToken,
+      })
+    };
+    const body = {
+      user_id: this.usuarioActual.user_id,
+    };
+    this.token = '';
+    localStorage.removeItem("ACCESS_TOKEN");
+    localStorage.removeItem("EXPIRES_IN");
+    localStorage.removeItem("USER_ID");
+    return this.http.put(this.backUrl + "/user/token", body,  options)
   }
 
   public forcedLogout(){

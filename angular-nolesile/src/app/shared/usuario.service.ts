@@ -22,9 +22,11 @@ export class UsuarioService {
   public urlImg = "http://localhost:3100/"
 
   
-  constructor(private http: HttpClient,
-    private router: Router, public loginService:LoginService ) { }
-
+  constructor(
+    private http: HttpClient,
+    private router: Router, 
+    public loginService:LoginService) { }
+    
 
   public getUsuario(id: number){
     if (!id){

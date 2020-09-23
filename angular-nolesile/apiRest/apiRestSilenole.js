@@ -266,20 +266,19 @@ app.post("/user/login", function (request, response) {
       if (err) {
         console.log(err)
       } else {
-          console.log(result);
+          console.log(email, password, result);
           if (result[0] === undefined) {
             response.status(403).send({ message: 'Something is wrong' });
             return;
           }
         console.log('Usuario Correcto')
-        var user = result[0];
+        let user = result[0];
         console.log(user);
         const resultPassword = bcrypt.compareSync(password, user.password);
         console.log("el password es correcto?: " + resultPassword);
         if (resultPassword) {
             const expiresIn = 24 * 60 * 60;
             const accessToken = jwt.sign({ id: user.id }, SECRET_KEY, { expiresIn: expiresIn });
-    
             const tokenData = {
               accessToken: accessToken,
               expiresIn: expiresIn
