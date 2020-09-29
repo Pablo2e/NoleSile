@@ -183,7 +183,7 @@ export class ProfileComponent implements OnInit {
       this.loginService.usuarioActual = this.usuarioActual;
       this.selectedFile = null;
       this.modalRef.hide();
-      this.toastr.success("Esperamos que vuelvas pronto a SileNole", "Usuario eliminado con éxito")
+      this.toastr.success("Esperamos que vuelvas pronto a NoleSile", "Usuario eliminado con éxito")
       this.router.navigate(["/"]);
     })
   }

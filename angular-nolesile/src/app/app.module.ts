@@ -25,6 +25,9 @@ import { ToastrModule } from 'ngx-toastr';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 //Carrousel NG
 import { NgbModule, NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
+import { PrivacyComponent } from './pages/privacy/privacy.component';
+import { CookiesComponent } from './pages/cookies/cookies.component';
+import { TermsComponent } from './pages/terms/terms.component';
 
 
 @NgModule({
@@ -41,7 +44,10 @@ import { NgbModule, NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
     MessagesComponent,
     MyProductsComponent,
     ProductComponent,
-    HomeComponent
+    HomeComponent,
+    PrivacyComponent,
+    CookiesComponent,
+    TermsComponent
   ],
   imports: [
     BrowserModule,
