@@ -98,7 +98,7 @@ export class SearchComponent implements OnInit {
     this.productService.getOwnerByName(nombreUsuario).subscribe((data) => {
       this.productService.ownerActual = data[0].user_id;
       console.log(this.productService.ownerActual);
-      this.router.navigate(["/owner"])
+      this.router.navigate(["/propietario"])
     }, (error) => {
       console.log(error);
       if (error.status === 401) {

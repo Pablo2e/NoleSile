@@ -2,7 +2,7 @@
 <div class="container-fluid ">
 
   <div class="row">
-    <div class="col-12 display-1 text-success text-center" [routerLink]="['/home']">NoleSile
+    <div class="col-12 display-1 text-success text-center" [routerLink]="['/inicio']">NoleSile
       <h3>Tu lugar de intercambio de bienes</h3>
     </div>
   </div>
@@ -15,9 +15,9 @@
           class="fa fa-check-square" aria-hidden="true"></i> Mis Siles</button>
       <button class="btn btn-outline-success btn-sm mr-3 my-2 my-sm-0" type="button" routerLinkActive="active"  [routerLink]="['/subir']"><i
           class="fa fa-upload" aria-hidden="true"></i> Subir Siles</button>
-      <button *ngIf="this.loginService.avisoMensaje" class="btn btn-danger btn-sm mr-3 my-2 my-sm-0" type="button" routerLinkActive="active" (click)="desactivarAvisoMensaje()" [routerLink]="['/message']"><i
+      <button *ngIf="this.loginService.avisoMensaje" class="btn btn-danger btn-sm mr-3 my-2 my-sm-0" type="button" routerLinkActive="active" (click)="desactivarAvisoMensaje()" [routerLink]="['/mensajes']"><i
         class="fa fa-envelope-open" aria-hidden="true"></i> Tienes Mensajes Nuevos</button>
-      <button *ngIf="!this.loginService.avisoMensaje" class="btn btn-outline-success btn-sm mr-3 my-2 my-sm-0" type="button" routerLinkActive="active" [routerLink]="['/message']"><i
+      <button *ngIf="!this.loginService.avisoMensaje" class="btn btn-outline-success btn-sm mr-3 my-2 my-sm-0" type="button" routerLinkActive="active" [routerLink]="['/mensajes']"><i
           class="fa fa-envelope-open" aria-hidden="true"></i> Mis Mensajes</button>
       <button class="btn btn-outline-success btn-sm my-2 my-sm-0" type="button" routerLinkActive="active"  (click)="openModal(ModalCerrarSesion)"><i
         class="fa fa-times-circle-o" aria-hidden="true"></i> Cerrar Sesión</button>

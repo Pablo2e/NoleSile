@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
         console.log(data);
         this.loginService.usuarioActual = data[0];
         this.productService.usuarioActual = data[0];
-        this.router.navigate(["/home"]);
+        this.router.navigate(["/inicio"]);
       })
     }
   }
@@ -68,7 +68,7 @@ export class LoginComponent implements OnInit {
         console.log(data);
         this.loginService.usuarioActual = data[0];
         this.productService.usuarioActual = data[0];
-        this.router.navigate(["/home"]);
+        this.router.navigate(["/inicio"]);
       })
     } else {
       this.openModal(template);
@@ -128,12 +128,12 @@ export class LoginComponent implements OnInit {
         this.productService.usuarioActual = data[0];
         console.log(this.loginService.usuarioActual);
         this.modalRef.hide();
-        this.router.navigate(["/home"])
+        this.router.navigate(["/inicio"])
         this.messageService.getNotificationsByUser(this.loginService.usuarioActual.user_id).subscribe((data) => {
           console.log(data)
           if (data !== null) {
             this.loginService.avisoMensaje = data[0].mensajes_nuevos;
-            this.router.navigate(["/home"])
+            this.router.navigate(["/inicio"])
           }
         }, (error) => {
           console.log(error);

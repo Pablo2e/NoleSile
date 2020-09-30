@@ -10,19 +10,25 @@ import { CategoriesComponent } from './pages/categories/categories.component';
 import { ProductComponent } from './pages/product/product.component';
 import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
+import { CookiesComponent } from './pages/cookies/cookies.component';
+import { PrivacyComponent } from './pages/privacy/privacy.component';
+import { TermsComponent } from './pages/terms/terms.component';
 
 
 const routes: Routes = [
   {path:"",component:LoginComponent},
-  {path:"home",component:HomeComponent},
+  {path:"inicio",component:HomeComponent},
   {path:"usuario",component:ProfileComponent},
   {path:"siles",component:MyProductsComponent},
   {path:"subir",component:UploadComponent},
   {path:"buscar",component:SearchComponent},
   {path:"producto",component:ProductComponent},
-  {path:"owner",component:OwnerComponent},
-  {path:"categories",component:CategoriesComponent},
-  {path:"message",component:MessagesComponent}
+  {path:"propietario",component:OwnerComponent},
+  {path:"categorias",component:CategoriesComponent},
+  {path:"mensajes",component:MessagesComponent},
+  {path:"terminos",component:TermsComponent},
+  {path:"privacidad",component:PrivacyComponent},
+  {path:"cookies",component:CookiesComponent}
 ];
 
 @NgModule({

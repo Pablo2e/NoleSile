@@ -21,7 +21,7 @@
               style="max-width: 200px; max-height: 200px">
             <div class="card-block ml-2 mr-2 text-center">
               <h4 class="card-title">{{nole.nombre}}</h4>
-              <button type="button" class="btn btn-outline-success btn-sm mr-1" (click)="pasarIdOwner(nole.user_id)" [routerLink]="['/owner']"><i
+              <button type="button" class="btn btn-outline-success btn-sm mr-1" (click)="pasarIdOwner(nole.user_id)" [routerLink]="['/propietario']"><i
                 class="fa fa-user-circle-o" aria-hidden="true"></i>
                  {{nole.name}}</button>
               <button *ngIf="nole.num_mensajes_nuevos>0" type="button" class="btn btn-danger btn-sm ml-1" (click)="cambiarMensajeALeido(nole.chat_id)" 
@@ -68,7 +68,7 @@
               style="max-width: 200px; max-height: 200px">
             <div class="card-block ml-2 mr-2 text-center">
               <h4 class="card-title">{{sile.nombre}}</h4>
-              <button type="button" class="btn btn-outline-success btn-sm mr-1" (click)="pasarIdOwner(sile.user_id)" [routerLink]="['/owner']"><i
+              <button type="button" class="btn btn-outline-success btn-sm mr-1" (click)="pasarIdOwner(sile.user_id)" [routerLink]="['/propietario']"><i
                 class="fa fa-user-circle-o" aria-hidden="true"></i>
                  {{sile.name}}</button>
                  <!-- Continuar con la funcion changeMessageToRead -->
@@ -110,7 +110,7 @@
     </form>
   </div>
   <div class="d-flex justify-content-center mb-3">
-    <button type="button" class="btn btn-outline-danger" (click)="eliminarNole()" [routerLink]="['/message']" 
+    <button type="button" class="btn btn-outline-danger" (click)="eliminarNole()" [routerLink]="['/mensajes']" 
     (click)="modalRef.hide()">Borrar Nole</button>
   </div>
 </ng-template>
@@ -127,7 +127,7 @@
     </form>
   </div>
   <div class="d-flex justify-content-center mb-3">
-    <button type="button" class="btn btn-outline-danger" (click)="eliminarNole()" [routerLink]="['/message']" 
+    <button type="button" class="btn btn-outline-danger" (click)="eliminarNole()" [routerLink]="['/mensajes']" 
     (click)="modalRef.hide()">Borrar Sile</button>
   </div>
 </ng-template>

@@ -18,6 +18,9 @@ import { MessagesComponent } from './pages/messages/messages.component';
 import { MyProductsComponent } from './pages/my-products/my-products.component';
 import { ProductComponent } from './pages/product/product.component';
 import { HomeComponent } from './pages/home/home.component';
+import { PrivacyComponent } from './pages/privacy/privacy.component';
+import { CookiesComponent } from './pages/cookies/cookies.component';
+import { TermsComponent } from './pages/terms/terms.component';
 //Modales y Carrousel ngx
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -25,9 +28,6 @@ import { ToastrModule } from 'ngx-toastr';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 //Carrousel NG
 import { NgbModule, NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
-import { PrivacyComponent } from './pages/privacy/privacy.component';
-import { CookiesComponent } from './pages/cookies/cookies.component';
-import { TermsComponent } from './pages/terms/terms.component';
 
 
 @NgModule({
