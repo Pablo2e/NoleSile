@@ -86,10 +86,21 @@
         <label for="recipient-name" for="confirmPassword" class="col-form-label">Confirma la contraseña:</label>
         <input type="password" class="form-control border-success" id="pass2" name="password2"  required>
       </div>
+      <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1" (change)=pasarTerminosATrue($event)>
+        <label class="form-check-label" for="exampleCheck1">Acepto los <a href="http://localhost:4200/terminos" target="_blank">Términos de uso</a></label>
+      </div>
+      <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck2"  (change)=pasarPoliticaATrue($event)>
+        <label class="form-check-label" for="exampleCheck2">Acepto la <a href="http://localhost:4200/privacidad" target="_blank">Politica de Privacidad</a></label>
+      </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-success" (click)="newUsuario(name.value, password.value, email.value, comunidad.value, provincia.value, localidad.value, cp.value)"
-        (keyup.enter)="newUsuario(name.value, password.value, email.value, comunidad.value, provincia.value, localidad.value, cp.value)"
-         >Registrarse</button>
+        <button *ngIf="totalCheckboxMarcados===2" type="submit" class="btn btn-success" (click)="newUsuario(name.value, password.value, email.value, comunidad.value, provincia.value, localidad.value, cp.value)"
+        (keyup.enter)="newUsuario(name.value, password.value, email.value, comunidad.value, provincia.value, localidad.value, cp.value)" 
+          >Registrarse</button>
+        <button *ngIf="totalCheckboxMarcados!=2" type="submit" class="btn btn-success" (click)="newUsuario(name.value, password.value, email.value, comunidad.value, provincia.value, localidad.value, cp.value)"
+        (keyup.enter)="newUsuario(name.value, password.value, email.value, comunidad.value, provincia.value, localidad.value, cp.value)" disabled
+          >Registrarse</button>
       </div>
     </form>
   </div>
@@ -136,7 +147,7 @@
   <div class="col-sm-12 col-md-12 lg-12">
   <slide>
     <img src="assets/img/mac.png" alt="first slide"
-      style="display: block; height: 350px; width: 1420px; opacity: 0.9; border:1px solid #4caf50;" >
+      style="display: block; height: 350px; width: 1420px; opacity: 0.9; border:1px solid #4caf50;" class="img-fluid">
     <div class="carousel-caption d-none d-md-block text-success text-right " >
       <h2 style="font-size: xxx-large;" >FÁCIL</h2>
       <p style="color: black; font-size: x-large;">Regístrate y sube los productos que no utilices o que quieras intercambiar.</p>
@@ -144,15 +155,15 @@
   </slide>
   <slide >
     <img src="assets/img/objs5.png" alt="second slide"
-    style="display: block; height: 350px; width: 1420px; opacity: 0.9; border:1px solid #4caf50;" >
-    <div class="carousel-caption d-none d-md-block  text-success" >
+    style="display: block; height: 350px; width: 1420px; opacity: 0.9; border:1px solid #4caf50;" class="img-fluid" >
+    <div class="carousel-caption d-none d-md-block text-success" >
       <h2 style="font-size: xxx-large;">RÁPIDO</h2>
       <p style="color: black; font-size: x-large">Utiliza los filtros para buscar productos y encuentra el que necesitas.</p>
     </div>
   </slide>
   <slide>
     <img src="assets/img/chica.png" alt="third slide"
-    style="display: block; height: 350px; width: 1420px; opacity: 0.9; border:1px solid #4caf50;" >
+    style="display: block; height: 350px; width: 1420px; opacity: 0.9; border:1px solid #4caf50;" class="img-fluid" >
     <div class="carousel-caption d-none d-md-block  text-success text-left">
       <h2 style="font-size: xxx-large;">SENCILLO</h2>
       <p style="color: black; font-size: x-large">Manda un mensaje al propietario del producto, llegad a un acuerdo y ¡listo! </p>

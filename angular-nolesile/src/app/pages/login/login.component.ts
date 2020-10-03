@@ -32,6 +32,10 @@ export class LoginComponent implements OnInit {
   public closeResult = '';
   public title = 'toaster-not'
   public notifyService: any;
+  public chekboxTerminoActivo: boolean = false
+  public chekboxPoliticaActivo: boolean = false
+  public totalCheckboxMarcados: number = 0
+  public chekboxsActivo: boolean
 
   constructor(
     public loginService: LoginService, 
@@ -174,12 +178,35 @@ export class LoginComponent implements OnInit {
   public openModal(template: TemplateRef < any > ) {
     this.modalRef = this.modalService.show(template)
   }
+
+  public pasarTerminosATrue(e){
+    if(e.target.checked==true){
+      this.chekboxTerminoActivo = true
+      this.totalCheckboxMarcados ++
+      console.log(this.chekboxTerminoActivo, this.totalCheckboxMarcados)
+    } else {
+      this.chekboxTerminoActivo = false
+      this.totalCheckboxMarcados --
+      console.log(this.chekboxTerminoActivo, this.totalCheckboxMarcados)
+    }
+  }
+
+  public pasarPoliticaATrue(e){
+    if(e.target.checked==true){
+      this.chekboxPoliticaActivo = true
+      this.totalCheckboxMarcados ++
+      console.log(this.chekboxPoliticaActivo, this.totalCheckboxMarcados)
+    } else {
+      this.chekboxPoliticaActivo = false
+      this.totalCheckboxMarcados --
+      console.log(this.chekboxPoliticaActivo, this.totalCheckboxMarcados)
+    }
+  }
   
   ngOnInit() {
     this.initForm();
   }
 
 }
-
 
 
