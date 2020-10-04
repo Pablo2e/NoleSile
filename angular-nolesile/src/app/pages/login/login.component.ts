@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
   public chekboxsActivo: boolean
   //Modal cookies
   @ViewChild('autoShownModal', { static: false }) autoShownModal: ModalDirective;
-  public isModalShown = true;
+  public isModalShown = false;
 
   constructor(
     public loginService: LoginService, 
@@ -61,6 +61,12 @@ export class LoginComponent implements OnInit {
         this.productService.usuarioActual = data[0];
         this.router.navigate(["/inicio"]);
       })
+    }
+    //checkea si ya hay cookies o no
+    if(this.getCookie('closedApp')!=null){
+      this.isModalShown = false;
+    } else {
+      this.isModalShown = true;
     }
   }
 
@@ -181,6 +187,7 @@ export class LoginComponent implements OnInit {
   public openModal(template: TemplateRef < any > ) {
     this.modalRef = this.modalService.show(template)
   }
+
   //Modal Cookies
   showModal(): void {
     this.isModalShown = true;
@@ -192,6 +199,7 @@ export class LoginComponent implements OnInit {
     this.isModalShown = false;
   }
 
+  //Terminos de uso y politica de privacidad
   public pasarTerminosATrue(e){
     if(e.target.checked==true){
       this.chekboxTerminoActivo = true
@@ -215,6 +223,29 @@ export class LoginComponent implements OnInit {
       console.log(this.chekboxPoliticaActivo, this.totalCheckboxMarcados)
     }
   }
+
+  //Crear y leer cookies
+  public setCookie(name: string, value: string, days: number) {
+    let expires = "";
+    if (days) {
+     let date = new Date();
+     date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+     expires = "; expires=" + date.toUTCString();
+    }
+   document.cookie = name + "=" + (value || "") + expires + "; path=/";
+   };
+
+  public getCookie(name: string) {
+    let nameEQ = name + "=";
+    let ca = document.cookie.split(";");
+    for (var i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) === " ") c = c.substring(1, c.length);
+      if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length,
+        c.length);
+    }
+   return null;
+   };
   
   ngOnInit() {
     this.initForm();
@@ -222,22 +253,3 @@ export class LoginComponent implements OnInit {
   
 }
 
-/* export class DemoAutoShownModalComponent {
-    constructor(){
-    @ViewChild('autoShownModal', { static: false }) autoShownModal: ModalDirective;
-    isModalShown = false;
-   
-    showModal(): void {
-      this.isModalShown = true;
-    }
-   
-    hideModal(): void {
-      this.autoShownModal.hide();
-    }
-   
-    onHidden(): void {
-      this.isModalShown = false;
-    }
-  }
-}
- */

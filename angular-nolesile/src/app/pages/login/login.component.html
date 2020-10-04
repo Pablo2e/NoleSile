@@ -143,13 +143,12 @@
 </ng-template>
 
 <!--MODAL COOKIES-->
-
 <div *ngIf="isModalShown" [config]="{ show: true }"  bsModal #autoShownModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">
   <div class="modal-dialog modal-xl fixed-bottom">
     <div class="modal-content">
       <div class="modal-header">
         <div class="row col-12 display-1 text-success">Cookies</div>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()" (click)="setCookie('closedApp', 'true', 30)">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -158,7 +157,9 @@
       </div>
       <div class="modal-body">
         <div class="row ml-1 mt-3">
-          <p>Utilizamos cookies propias y de terceros para mejorar nuestros servicios y mostrarle publicidad relacionada con sus preferencias mediante el análisis de sus hábitos de navegación. Si continua navegando, consideramos que acepta su uso. Puede obtener más información y limitar el uso de cookies en nuestra Política de Cookies.
+          <p class="text-justify mr-3">Utilizamos cookies propias y de terceros para mejorar nuestros servicios y mostrarle publicidad relacionada con sus preferencias mediante el análisis de sus 
+            hábitos de navegación. Si continua navegando, consideramos que acepta su uso. Puede obtener más información y limitar el uso de cookies en nuestra 
+            <a href="http://localhost:4200/cookies" target="_blank" (click)="hideModal()" (click)="setCookie('closedApp', 'true', 30)">Política de Cookies.</a>
           </p><br>
         </div>
       </div>
