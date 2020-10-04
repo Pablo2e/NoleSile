@@ -88,11 +88,11 @@
       </div>
       <div class="form-group form-check">
         <input type="checkbox" class="form-check-input" id="exampleCheck1" (change)=pasarTerminosATrue($event)>
-        <label class="form-check-label" for="exampleCheck1">Acepto los <a href="http://localhost:4200/terminos" target="_blank">Términos de uso</a></label>
+        <label class="form-check-label" for="exampleCheck1">He leído y acepto los <a href="http://localhost:4200/terminos" target="_blank">Términos de uso</a></label>
       </div>
       <div class="form-group form-check">
         <input type="checkbox" class="form-check-input" id="exampleCheck2"  (change)=pasarPoliticaATrue($event)>
-        <label class="form-check-label" for="exampleCheck2">Acepto la <a href="http://localhost:4200/privacidad" target="_blank">Politica de Privacidad</a></label>
+        <label class="form-check-label" for="exampleCheck2">He leído y acepto la <a href="http://localhost:4200/privacidad" target="_blank">Politica de Privacidad</a></label>
       </div>
       <div class="modal-footer">
         <button *ngIf="totalCheckboxMarcados===2" type="submit" class="btn btn-success" (click)="newUsuario(name.value, password.value, email.value, comunidad.value, provincia.value, localidad.value, cp.value)"
@@ -141,6 +141,31 @@
     </form>
   </div>
 </ng-template>
+
+<!--MODAL COOKIES-->
+
+<div *ngIf="isModalShown" [config]="{ show: true }"  bsModal #autoShownModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">
+  <div class="modal-dialog modal-xl fixed-bottom">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="row col-12 display-1 text-success">Cookies</div>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="row ml-1 mt-3">
+        <h4 id="dialog-auto-name" class="modal-title pull-left col-12">Nos importa tu privacidad</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row ml-1 mt-3">
+          <p>Utilizamos cookies propias y de terceros para mejorar nuestros servicios y mostrarle publicidad relacionada con sus preferencias mediante el análisis de sus hábitos de navegación. Si continua navegando, consideramos que acepta su uso. Puede obtener más información y limitar el uso de cookies en nuestra Política de Cookies.
+          </p><br>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <!-- CARROUSEl-->
 <carousel class="carrusel row d-flex justify-content-center ml-5 mr-5 mt-3 mb-5">

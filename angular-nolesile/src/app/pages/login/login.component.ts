@@ -1,9 +1,9 @@
 // COMPONENTE
-import { Component, OnInit, TemplateRef, } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from "@angular/router";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 // MODAL
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef, BsModalService, ModalDirective } from 'ngx-bootstrap/modal';
 // MODELOS
 import { Usuario } from 'src/app/models/usuario';
 // SERVICIOS
@@ -36,6 +36,9 @@ export class LoginComponent implements OnInit {
   public chekboxPoliticaActivo: boolean = false
   public totalCheckboxMarcados: number = 0
   public chekboxsActivo: boolean
+  //Modal cookies
+  @ViewChild('autoShownModal', { static: false }) autoShownModal: ModalDirective;
+  public isModalShown = true;
 
   constructor(
     public loginService: LoginService, 
@@ -178,6 +181,16 @@ export class LoginComponent implements OnInit {
   public openModal(template: TemplateRef < any > ) {
     this.modalRef = this.modalService.show(template)
   }
+  //Modal Cookies
+  showModal(): void {
+    this.isModalShown = true;
+  } 
+  hideModal(): void {
+    this.autoShownModal.hide();
+  } 
+  onHidden(): void {
+    this.isModalShown = false;
+  }
 
   public pasarTerminosATrue(e){
     if(e.target.checked==true){
@@ -206,7 +219,25 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.initForm();
   }
-
+  
 }
 
-
+/* export class DemoAutoShownModalComponent {
+    constructor(){
+    @ViewChild('autoShownModal', { static: false }) autoShownModal: ModalDirective;
+    isModalShown = false;
+   
+    showModal(): void {
+      this.isModalShown = true;
+    }
+   
+    hideModal(): void {
+      this.autoShownModal.hide();
+    }
+   
+    onHidden(): void {
+      this.isModalShown = false;
+    }
+  }
+}
+ */
