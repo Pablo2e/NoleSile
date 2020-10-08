@@ -13,7 +13,10 @@ app.use(bodyParser.json());
 
 //EXTRAS PARA LA PRUEBA CARGA DE FOTOS 
 app.use(fileUpload({
-    createParentPath: true
+    createParentPath: true,
+    limits: { 
+        fileSize: 2 * 1024 * 1024 * 1024 //2MB max file(s) size
+    },
 }));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(morgan('dev'));

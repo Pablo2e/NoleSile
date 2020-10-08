@@ -16,9 +16,9 @@
       <form #uploadForm="ngForm" (ngSubmit)="onSubmit(uploadForm); uploadForm.reset()">
         <div class="form-group mt-3">
           <label for="exampleFormControlFile1">Carga una Foto</label>
-          <input type="file" class="form-control-file" name="product_image" [(ngModel)]="product.product_image"
+          <input type="file" class="form-control-file" accept="image/.jpg,.jpeg,.png" name="product_image" [(ngModel)]="product.product_image"
             #product_image="ngModel" required (change)="onFileSelected($event)">
-            <small id="emailHelp" class="form-text text-muted">*Obligatorio.</small>
+            <small id="emailHelp" class="form-text text-muted">*Obligatorio / Solo acepta .jpg, .jpeg, .png y 2MB maximo</small>
         </div>
         <div class="form-group">
           <label for="exampleInputPassword1">Producto</label>
