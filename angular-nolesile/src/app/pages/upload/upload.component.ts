@@ -26,6 +26,7 @@ export class UploadComponent implements OnInit {
   public idProducto: number
   public modalRef: BsModalRef;
   public selectedFile: File; //para cargar la foto
+  private photoSize=2000000
 
   constructor(
     public productService:ProductService, 
@@ -65,6 +66,8 @@ export class UploadComponent implements OnInit {
         if (error.status === 401) {
           this.loginService.forcedLogout();
           this.productService.usuarioActual = null;
+        } else if (error.status === 409) {
+          this.toastr.error("Ya no puedes añadir más productos, borra alguno antes", "Algo fue mal")
         }
       })
     }
@@ -75,29 +78,24 @@ export class UploadComponent implements OnInit {
     this.selectedFile = <File>event.target.files[0]	
 	  let fileName = this.selectedFile.name; 
 	  let fileSize = this.selectedFile.size; //recupera el tamaño del archivo
-
-	if(fileSize > 2000000){
-		alert('El archivo no debe superar los 2MB');
-		/* fileSize = ''; 
-		fileName = '';*/
+	if(fileSize > this.photoSize){
+    this.toastr.error("El archivo no debe superar los 2MB", "Algo fue mal")
+		fileName = '';
 	}else{
 		// recuperamos la extensión del archivo
 		let ext = fileName.split('.').pop();
-		// Convertimos en minúscula porque 
-		// la extensión del archivo puede estar en mayúscula
+		// Convertimos en minúscula porque la extensión del archivo puede estar en mayúscula
 		ext = ext.toLowerCase();
 		switch (ext) {
 			case 'jpg':
 			case 'jpeg':
 			case 'png': break;
 			default:
-				alert('El archivo no tiene la extensión adecuada');
-				/* this.value = '' ; // reset del valor
-				fileName = '';*/
+				this.toastr.error('El archivo no tiene la extensión adecuada', "Algo fue mal");
+				fileName = '';
 		  }
     }
   }
-  
 
   // FORMULARIO
   public onSubmit(form){

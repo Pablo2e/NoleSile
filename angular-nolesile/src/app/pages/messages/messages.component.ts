@@ -11,6 +11,7 @@ import { MessageService } from 'src/app/shared/message.service';
 import { ProductService } from 'src/app/shared/product.service';
 import { UsuarioService } from 'src/app/shared/usuario.service';
 import { LoginService } from 'src/app/shared/login.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -40,7 +41,8 @@ export class MessagesComponent implements OnInit {
     public messageService:MessageService, 
     public productService:ProductService, 
     public loginService:LoginService, 
-    public modalServices:BsModalService) { 
+    public modalServices:BsModalService, 
+    private toastr: ToastrService) { 
     console.log("Funcionando servicio messageService")
     this.noles=[];
     this.siles=[];
@@ -97,6 +99,8 @@ export class MessagesComponent implements OnInit {
       console.log(error);
       if (error.status === 401) {
         this.loginService.forcedLogout();
+      } else if (error.status === 409) {
+        this.toastr.error("Ya no puedes añadir más mensajes, haz alcanzado el maximo de 200", "Algo fue mal")
       }
     })
   }

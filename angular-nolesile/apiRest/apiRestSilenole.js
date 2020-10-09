@@ -16,6 +16,9 @@ const SECRET_KEY = 'secretkey123456';
 const mysql = require('mysql');
 const util = require( 'util' );
 
+const limiteProductos = 50
+const limiteMensages = 200
+
 const connection = mysql.createConnection({
     host: 'localhost',
     user: "root",
@@ -80,6 +83,52 @@ verifyToken = async (accessToken, user_id) => {
             } else {
                 console.log('Token no válido')
                 resultCode = 401;
+            }
+        }
+    });
+    return resultCode;
+}
+
+// Función de verificación de numero de productos
+verifyNumberOfProducts = async (user_id) => {
+    console.log("verificando numero de productos");
+    let params = [user_id];
+    let sql = `SELECT COUNT(*) AS cuentaProductos FROM products WHERE user_id =?`;
+    let resultCode;
+    await db.query(sql, params).then( result => {
+        console.log ("numero de productos" , result);
+        if (result[0] === undefined || result[0] === null){
+            resultCode = 500;
+        } else {
+            if (result[0].cuentaProductos < limiteProductos) {
+                console.log('Puedes añadir mas productos')
+                resultCode = 200;
+            } else {
+                console.log('Has alcanzado la cantidad de productos que puedes subir')
+                resultCode = 409;
+            }
+        }
+    });
+    return resultCode;
+}
+
+// Función de verificación de numero de mensajes
+verifyNumberOfMessages = async (sender_id) => {
+    console.log("verificando numero de mensajes");
+    let params = [sender_id];
+    let sql = `SELECT COUNT(*) AS cuentaMensajes FROM messages WHERE sender_id =?`;
+    let resultCode;
+    await db.query(sql, params).then( result => {
+        console.log ("numero de productos" , result);
+        if (result[0] === undefined || result[0] === null){
+            resultCode = 500;
+        } else {
+            if (result[0].cuentaMensajes < limiteMensages) {
+                console.log('Puedes añadir mas mensajes')
+                resultCode = 200;
+            } else {
+                console.log('Has alcanzado la cantidad de mensajes que puedes enviar')
+                resultCode = 409;
             }
         }
     });
@@ -152,6 +201,7 @@ app.post("/products", async function (request, response) {
     let params;
     let sql;
     const tokenResult = await verifyToken(accessTokenLocal, user_id)
+    const productNumberResult = await verifyNumberOfProducts(user_id)
     console.log ("verifyToken result: " , tokenResult);
     switch (tokenResult) {
         case 500:
@@ -163,17 +213,29 @@ app.post("/products", async function (request, response) {
             break;
         case 200:
             console.log('Los token coinciden. Usuario autorizado')
-            params = [nombre, descripcion, categoria, user_id, product_image, date]
-            sql = `INSERT INTO products (nombre, descripcion, categoria, user_id , product_image, date) VALUES ( ?, ?, ?, ?, ?, ?)`;
-            connection.query(sql, params, function(err, result){
-                if (err){
-                    console.log(err)
-                } else {
-                    console.log('Nuevo producto Ingresado')
-                    console.log(result)
-                } 
-            response.send(result);
-            })
+            switch (productNumberResult) {
+                case 500:
+                    response.status(500).send({ message: 'Error en el servidor' });
+                    break;
+                case 409:
+                    console.log('Has alcanzado la cantidad de productos que puedes subir')
+                    response.status(409).send({ message: 'No puedes añadir más productos.' });
+                    break;
+                case 200:
+                    params = [nombre, descripcion, categoria, user_id, product_image, date]
+                    sql = `INSERT INTO products (nombre, descripcion, categoria, user_id , product_image, date) VALUES ( ?, ?, ?, ?, ?, ?)`;
+                    connection.query(sql, params, function(err, result){
+                        if (err){
+                            console.log(err)
+                        } else {
+                            console.log('Nuevo producto Ingresado')
+                            console.log(result)
+                        } 
+                        response.send(result);
+                    })
+                    break;
+                default:
+                }
             break;
         default:
     }
@@ -503,6 +565,7 @@ app.post("/messages", async function (request, response) {
     let params;
     let sql;
     const tokenResult = await verifyToken(accessTokenLocal, user_id)
+    const messageNumberResult = await verifyNumberOfMessages(sender_id)
     console.log ("verifyToken result: " , tokenResult);
     switch (tokenResult) {
         case 500:
@@ -514,17 +577,29 @@ app.post("/messages", async function (request, response) {
             break;
         case 200:
             console.log('Los token coinciden. Usuario autorizado')
-            params = [chat_id, sender_id, receiver_id, false, product_id ,text ,date]
-            sql = "INSERT INTO messages (chat_id, sender_id, receiver_id, leido, product_id ,text ,date) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            connection.query(sql, params, function(err, result){
-                if (err){
-                    console.log(err)
-                }else{
-                    console.log('Mensaje Ingresado')
-                    console.log(result)
-                } 
-            response.send(result);
-            })
+            switch (messageNumberResult) {
+                case 500:
+                    response.status(500).send({ message: 'Error en el servidor' });
+                    break;
+                case 409:
+                    console.log('Has alcanzado la cantidad de mensajes que puedes emviar')
+                    response.status(409).send({ message: 'No puedes añadir más mensajes.' });
+                    break;
+                case 200:
+                    params = [chat_id, sender_id, receiver_id, false, product_id ,text ,date]
+                    sql = "INSERT INTO messages (chat_id, sender_id, receiver_id, leido, product_id ,text ,date) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                    connection.query(sql, params, function(err, result){
+                        if (err){
+                            console.log(err)
+                        }else{
+                            console.log('Mensaje Ingresado')
+                            console.log(result)
+                        } 
+                    response.send(result);
+                    })
+                    break;
+                default:
+                }
             break;
         default:
     }

@@ -1,27 +1,5 @@
-.carrusel2 {margin-bottom: 20px;}
+.form-group {color: rgb(0, 128, 0);}
 
-/* .img {
-    height: 350px;
-    width: 1200px;
-    opacity: 0.8;
-} */
-
-.textocarrousel {
-    font-weight: bold;
-    font-size: x-large;
-} 
-
-/* .silenole {font-size: 4em;} */
-
-/* .form-group {color: rgb(0, 128, 0);} */
-.form-group {color: black;}
-
-h4 {color: #008000;}
-
-.sinpadding {
-    padding: 0;
-    margin: 0;
-}
 .minh-100 {
     height: 100vh;
   }

@@ -2,16 +2,13 @@
 <!-- Logo -->
 <!-- botones-->
 <div class="container-fluid mt-3">
-  <div 
-    class="row align-items-center justify-content-center minh-100"
-    style="background: url(assets/img/fondoInicio4.jpg) no-repeat left center; background-size: cover;" >
-    <div class=" display-1 text-dark text-center">NoleSile <h3>Tu lugar de intercambio de bienes</h3>
-    <!-- style="background: url(assets/img/fondoInicio6.jpg) no-repeat left center; background-size: cover;" >
-    <div class=" display-1 text-success text-center" style="background-color: white; width:360px">NoleSile <h3>Tu lugar de intercambio de bienes</h3> -->
-      <div class="col-12 d-flex justify-content-center mt-3 mb-4">
-        <button class="btn btn-outline-dark btn-lg " role="button" aria-pressed="true" type="submit"
+  <div class="row align-items-center justify-content-center minh-100"
+       style="background: url(assets/img/fondoInicio6c.jpg) no-repeat center; background-size: cover;">
+    <div class="col display-1 text-success text-center" >NoleSile <h3>Tu lugar de intercambio de bienes</h3>
+      <div class="col-12 d-flex justify-content-center mt-3 mb-3">
+        <button class="btn btn-outline-success btn-lg " role="button" aria-pressed="true" type="submit"
           data-toggle="modal" data-target="#modalIntroducer" (click)="checkOpenSession(modalIngresar)">Ingresar</button>
-        <button class="btn btn-outline-dark btn-lg ml-3 " role="button" aria-pressed="true" type="submit"
+        <button class="btn btn-outline-success btn-lg ml-3 " role="button" aria-pressed="true" type="submit"
           data-toggle="modal" data-target="#modalRegistrar" (click)="checkOpenSession(modalRegistrarse)">Registrarse</button>
       </div>
     </div>
@@ -21,7 +18,7 @@
 <!-- MODAL DE REGISTRARSE-->
 <ng-template #modalRegistrarse>
   <div class="modal-header">
-    <h4 class="modal-title text-dark" id="modal-basic-title2">Registrarse</h4>
+    <h4 class="modal-title text-success" id="modal-basic-title2">Registrarse</h4>
      <button type="button" class="close pull-right" aria-label="close" (click)="modalRef.hide()">
        <span aria-hidden="true">&times;</span>
      </button>
@@ -30,7 +27,7 @@
     <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)" >
       <div class="form-group">
         <label for="recipient-name" class="col-form-label">Nombre Usuario:</label>
-        <input type="text" class="form-control border-dark" id="nombre" name="name" [(ngModel)]="usuario.name" #name="ngModel" 
+        <input type="text" class="form-control border-success" id="nombre" name="name" [(ngModel)]="usuario.name" #name="ngModel" 
         [ngClass]="{'is-invalid': userForm.submitted && name.invalid}" required>
         <div *ngIf="userForm.submitted && name.invalid" class="invalid-feedback">
           <p *ngIf="name.errors.required">El nombre es obligatorio</p>
@@ -38,7 +35,7 @@
       </div>
       <div class="form-group">
         <label for="recipient-name" class="col-form-label" >Email:</label>
-        <input type="email" class="form-control border-dark" name="email" [(ngModel)]="usuario.email" #email="ngModel" 
+        <input type="email" class="form-control border-success" name="email" [(ngModel)]="usuario.email" #email="ngModel" 
         [ngClass]="{'is-invalid': userForm.submitted && email.invalid}" email required>
         <div *ngIf="userForm.submitted && email.invalid" class="invalid-feedback">
           <p *ngIf="email.errors.required">El email es obligatorio</p>
@@ -47,7 +44,7 @@
       </div>
       <div class="form-group">
         <label for="recipient-name" class="col-form-label">Comunidad Autónoma:</label>
-        <input type="text" class="form-control border-dark" name="comunidad" [(ngModel)]="usuario.comunidad" #comunidad="ngModel" 
+        <input type="text" class="form-control border-success" name="comunidad" [(ngModel)]="usuario.comunidad" #comunidad="ngModel" 
         [ngClass]="{'is-invalid': userForm.submitted && comunidad.invalid}" required>
         <div *ngIf="userForm.submitted && comunidad.invalid" class="invalid-feedback">
           <p *ngIf="comunidad.errors.required">La Comunidad Autónoma es obligatoria</p>
@@ -55,7 +52,7 @@
     </div>
       <div class="form-group">
         <label for="recipient-name" class="col-form-label">Provincia:</label>
-        <input type="text" class="form-control border-dark" name="provincia" [(ngModel)]="usuario.provincia" #provincia="ngModel"
+        <input type="text" class="form-control border-success" name="provincia" [(ngModel)]="usuario.provincia" #provincia="ngModel"
         [ngClass]="{'is-invalid': userForm.submitted && provincia.invalid}" required>
         <div *ngIf="userForm.submitted && provincia.invalid" class="invalid-feedback">
           <p *ngIf="provincia.errors.required">La Provincia es obligatoria</p>
@@ -63,7 +60,7 @@
       </div>
       <div class="form-group">
         <label for="recipient-name" class="col-form-label">Localidad:</label>
-        <input type="text" class="form-control border-dark" name="localidad" [(ngModel)]="usuario.localidad" #localidad="ngModel"
+        <input type="text" class="form-control border-success" name="localidad" [(ngModel)]="usuario.localidad" #localidad="ngModel"
         [ngClass]="{'is-invalid': userForm.submitted && localidad.invalid}" required>
         <div *ngIf="userForm.submitted && localidad.invalid" class="invalid-feedback">
           <p *ngIf="localidad.errors.required">La Localidad es obligatoria</p>
@@ -71,7 +68,7 @@
     </div>
       <div class="form-group">
         <label for="recipient-name" class="col-form-label">CP:</label>
-        <input type="number" class="form-control border-dark" name="cp" [(ngModel)]="usuario.cp" #cp="ngModel"
+        <input type="number" class="form-control border-success" name="cp" [(ngModel)]="usuario.cp" #cp="ngModel"
         [ngClass]="{'is-invalid': userForm.submitted && cp.invalid}" required>
         <div *ngIf="userForm.submitted && cp.invalid" class="invalid-feedback">
           <p *ngIf="cp.errors.required">El Codigo Postal es obligatorio</p>
@@ -79,7 +76,7 @@
     </div>
       <div class="form-group">
         <label for="recipient-name" for="password" class="col-form-label">Contraseña:</label>
-        <input type="password" class="form-control border-dark" id="pass1" name="password" [(ngModel)]="usuario.password" #password="ngModel" 
+        <input type="password" class="form-control border-success" id="pass1" name="password" [(ngModel)]="usuario.password" #password="ngModel" 
         [ngClass]="{'is-invalid': userForm.submitted && password.invalid}" minlength="3" required>
         <div *ngIf="userForm.submitted && password.invalid" class="invalid-feedback">
           <p *ngIf="password.errors.required">La contraseña es obligatoria</p>
@@ -88,7 +85,7 @@
     </div>
       <div class="form-group ">
         <label for="recipient-name" for="confirmPassword" class="col-form-label">Confirma la contraseña:</label>
-        <input type="password" class="form-control border-dark" id="pass2" name="password2"  required>
+        <input type="password" class="form-control border-success" id="pass2" name="password2"  required>
       </div>
       <div class="form-group form-check">
         <input type="checkbox" class="form-check-input" id="exampleCheck1" (change)=pasarTerminosATrue($event)>
@@ -99,10 +96,10 @@
         <label class="form-check-label" for="exampleCheck2">He leído y acepto la <a href="http://localhost:4200/privacidad" target="_blank">Politica de Privacidad</a></label>
       </div>
       <div class="modal-footer">
-        <button *ngIf="totalCheckboxMarcados===2" type="submit" class="btn btn-dark" (click)="newUsuario(name.value, password.value, email.value, comunidad.value, provincia.value, localidad.value, cp.value)"
+        <button *ngIf="totalCheckboxMarcados===2" type="submit" class="btn btn-success" (click)="newUsuario(name.value, password.value, email.value, comunidad.value, provincia.value, localidad.value, cp.value)"
         (keyup.enter)="newUsuario(name.value, password.value, email.value, comunidad.value, provincia.value, localidad.value, cp.value)" 
           >Registrarse</button>
-        <button *ngIf="totalCheckboxMarcados!=2" type="submit" class="btn btn-dark" (click)="newUsuario(name.value, password.value, email.value, comunidad.value, provincia.value, localidad.value, cp.value)"
+        <button *ngIf="totalCheckboxMarcados!=2" type="submit" class="btn btn-success" (click)="newUsuario(name.value, password.value, email.value, comunidad.value, provincia.value, localidad.value, cp.value)"
         (keyup.enter)="newUsuario(name.value, password.value, email.value, comunidad.value, provincia.value, localidad.value, cp.value)" disabled
           >Registrarse</button>
       </div>
@@ -113,7 +110,7 @@
 <!--MODAL INICIO-->
 <ng-template #modalIngresar>
   <div class="modal-header">
-    <h4 class="modal-title text-dark" id="modal-basic-title2">Ingresar</h4>
+    <h4 class="modal-title text-success" id="modal-basic-title2">Ingresar</h4>
      <button type="button" class="close pull-right" aria-label="close" (click)="modalRef.hide()">
        <span aria-hidden="true">&times;</span>
      </button>
@@ -122,7 +119,7 @@
     <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)" >
       <div class="form-group">
         <label for="recipient-name" class="col-form-label" >Email:</label>
-        <input type="email" class="form-control border-dark" name="email" [(ngModel)]="usuario.email" #email="ngModel" 
+        <input type="email" class="form-control border-success" name="email" [(ngModel)]="usuario.email" #email="ngModel" 
         [ngClass]="{'is-invalid': userForm.submitted && email.invalid}" email required>
         <div *ngIf="userForm.submitted && email.invalid" class="invalid-feedback">
           <p *ngIf="email.errors.required">El email es obligatorio</p>
@@ -131,7 +128,7 @@
       </div>
       <div class="form-group">
         <label for="recipient-name" for="password" class="col-form-label">Contraseña:</label>
-        <input type="password" class="form-control border-dark" id="pass1" name="password" [(ngModel)]="usuario.password" #password="ngModel" 
+        <input type="password" class="form-control border-success" id="pass1" name="password" [(ngModel)]="usuario.password" #password="ngModel" 
         [ngClass]="{'is-invalid': userForm.submitted && password.invalid}" minlength="3" required>
         <div *ngIf="userForm.submitted && password.invalid" class="invalid-feedback">
           <p *ngIf="password.errors.required">La contraseña es obligatoria</p>
@@ -139,7 +136,7 @@
       </div>
     </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-dark" (click)="login(email.value, password.value)" (keyup.enter)="login(email.value, password.value)"
+        <button type="submit" class="btn btn-success" (click)="login(email.value, password.value)" (keyup.enter)="login(email.value, password.value)"
          >Ingresar</button>
       </div>
     </form>
@@ -151,13 +148,13 @@
   <div class="modal-dialog modal-xl fixed-bottom">
     <div class="modal-content">
       <div class="modal-header">
-        <div class="row col-12 display-1 text-dark">Cookies</div>
+        <div class="row col-12 display-1 text-success">Cookies</div>
         <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()" (click)="setCookie('closedApp', 'true', 30)">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="row ml-1 mt-3">
-        <h4 id="dialog-auto-name" class="modal-title pull-left col-12 text-dark">Nos importa tu privacidad</h4>
+        <h4 id="dialog-auto-name" class="modal-title pull-left col-12 text-success">Nos importa tu privacidad</h4>
       </div>
       <div class="modal-body">
         <div class="row ml-1 mt-3">
