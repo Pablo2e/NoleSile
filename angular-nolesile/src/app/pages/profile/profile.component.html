@@ -1,3 +1,5 @@
+<!-- PERFIL DEL USUARIO -->
+
 <!-- HEADER Y CATEGORIAS -->
 <app-header></app-header>
 <app-categories></app-categories>
@@ -17,66 +19,117 @@
     <div class="col-10 col-sm-8 col-md-6 bg-light border border-success text-success mb-5">
       <div class="form-group">
         <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)">
-          <!-- imagen perfil -->
+          <!-- IMAGEN PERFIL -->
           <div class="container-fluid">
             <div class="row align-items-between d-flex justify-content-center pt-3 pb-3 mt-3 ">
               <div class="col-lg-8 col-md-10 col-sm-10">
-
+                <!-- IMAGEN -->
                 <div class="d-flex justify-content-center">
-                  <img src="{{usuarioActual.user_image}}" class="card-img mb-3" style="max-width: 160px;"
-                    alt="Agrega tu">
+                  <img 
+                    src="{{usuarioActual.user_image}}" 
+                    class="card-img mb-3" 
+                    style="max-width: 160px;"
+                    alt="Agrega tu"
+                  >
                 </div>
-
               </div>
             </div>
           </div>
-
+          <!-- FORMULARIO -->
           <div class="form-group">
             <label for="recipient-name" class="col-form-label text-center">Cambiar foto de perfil</label>
-            <input type="file" class="form-control-file text-success" accept="image/.jpg,.jpeg,.png" name="user_image" required
-              (change)="onFileSelected($event)"><!-- CAPTURA EL EVENTO DE ELEGIR FOTO -->
+            <input 
+              type="file" 
+              class="form-control-file text-success" 
+              accept="image/.jpg,.jpeg,.png" 
+              name="user_image" 
+              required
+              (change)="onFileSelected($event)"
+            >
             <small class="form-text text-muted">*Obligatorio / Solo acepta .jpg, .jpeg, .png y 2MB maximo.</small>
           </div>
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">Nombre Usuario:</label>
-            <input type="text" class="form-control border-success" name="name" [ngModel]="usuarioActual.name"
-              #name="ngModel" required>
+            <input 
+              type="text" 
+              class="form-control border-success" 
+              name="name" 
+              [ngModel]="usuarioActual.name"
+              #name="ngModel" 
+              required
+            >
             <small class="form-text text-muted">*Obligatorio.</small>
           </div>
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">Email:</label>
-            <input type="email" class="form-control border-success" name="email" [ngModel]="usuarioActual.email"
-              #email="ngModel" required>
+            <input 
+              type="email" 
+              class="form-control border-success" 
+              name="email" 
+              [ngModel]="usuarioActual.email"
+              #email="ngModel" 
+              required
+            >
             <small class="form-text text-muted">*Obligatorio.</small>
           </div>
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">Comunidad Autónoma:</label>
-            <input type="text" class="form-control border-success" name="comunidad"
-              [ngModel]="usuarioActual.comunidad" #comunidad="ngModel" required>
+            <input 
+              type="text" 
+              class="form-control border-success" 
+              name="comunidad"
+              [ngModel]="usuarioActual.comunidad" 
+              #comunidad="ngModel" 
+              required
+            >
             <small class="form-text text-muted">*Obligatorio.</small>
           </div>
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">Provincia:</label>
-            <input type="text" class="form-control border-success" name="provincia"
-              [ngModel]="usuarioActual.provincia" #provincia="ngModel" required>
+            <input 
+              type="text" 
+              class="form-control border-success" 
+              name="provincia"
+              [ngModel]="usuarioActual.provincia" 
+              #provincia="ngModel" 
+              required
+            >
             <small class="form-text text-muted">*Obligatorio.</small>
           </div>
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">Localidad:</label>
-            <input type="text" class="form-control border-success" name="localidad"
-              [ngModel]="usuarioActual.localidad" #localidad="ngModel" required>
+            <input 
+              type="text" 
+              class="form-control border-success" 
+              name="localidad"
+              [ngModel]="usuarioActual.localidad" 
+              #localidad="ngModel" 
+              required
+            >
             <small class="form-text text-muted">*Obligatorio.</small>
           </div>
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">CP:</label>
-            <input type="number" class="form-control border-success" name="cp" [ngModel]="usuarioActual.cp"
-              #cp="ngModel" required>
+            <input 
+              type="number" 
+              class="form-control border-success" 
+              name="cp" 
+              [ngModel]="usuarioActual.cp"
+              #cp="ngModel" 
+              required
+            >
             <small class="form-text text-muted">*Obligatorio.</small>
           </div>
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">Contraseña:</label>
-            <input type="password" class="form-control border-success" name="password"
-              (ngModel)="usuarioActual.password" #password="ngModel" required>
+            <input 
+              type="password" 
+              class="form-control border-success" 
+              name="password"
+              (ngModel)="usuarioActual.password"
+               #password="ngModel" 
+              required
+            >
             <small class="form-text text-muted">*Obligatorio para actualizar perfil, no para cambiar contraseña.</small>
           </div>
          </form>
@@ -84,11 +137,22 @@
       <div class="container-fluid">
         <div class="row align-items-center d-flex justify-content-center">
           <div class="my-1">
-            <button type="button" class="btn btn-success mr-1"
+            <button 
+              type="button" 
+              class="btn btn-success mr-1"
               (click)="validarUsuario(usuarioActual.user_id, name.value, password.value, email.value, comunidad.value, provincia.value, localidad.value, cp.value)"
-              (click)="password" (click)="this.password.reset()">Actualizar Perfil</button>
-              <button type="button" class="btn btn-success ml-1"
-              (click)="openModal(cambioPassword)">Cambiar Contraseña</button>
+              (click)="password" 
+              (click)="this.password.reset()"
+            >
+              Actualizar Perfil
+            </button>
+            <button 
+              type="button" 
+              class="btn btn-success ml-1"
+              (click)="openModal(cambioPassword)"
+            >
+              Cambiar Contraseña
+            </button>
           </div> &nbsp;
         </div>
       </div>
@@ -96,15 +160,18 @@
         <div class="row align-items-center d-flex justify-content-center pb-3">
           <div>
             <hr>
-            <button type="button" class="btn btn-danger btn-sm" 
-            (click)="validarBorrarUsuario(usuarioActual.user_id, name.value, password.value, email.value, comunidad.value, provincia.value, localidad.value, cp.value, modalBorrarUsuario)"
-            ><i class="fa fa-trash" aria-hidden="true"></i>
-              Eliminar Cuenta</button>
+            <button 
+              type="button" 
+              class="btn btn-danger btn-sm" 
+              (click)="validarBorrarUsuario(usuarioActual.user_id, name.value, password.value, email.value, comunidad.value, provincia.value, localidad.value, cp.value, modalBorrarUsuario)"
+            >
+              <i class="fa fa-trash" aria-hidden="true"></i>
+                Eliminar Cuenta
+            </button>
           </div> &nbsp;
         </div>
       </div>
     </div>
-
   </div>
 </div>
 <br>
@@ -119,7 +186,14 @@
     </form>
   </div>
   <div class="d-flex justify-content-center mb-3">
-    <button type="button" class="btn btn-outline-danger" (click)="borrarUsuario(usuarioActual.user_id)" (click)="modalRef.hide()">Eliminar Cuenta</button>
+    <button 
+      type="button" 
+      class="btn btn-outline-danger" 
+      (click)="borrarUsuario(usuarioActual.user_id)" 
+      (click)="modalRef.hide()"
+    >
+      Eliminar Cuenta
+    </button>
   </div>
 </ng-template>
 
@@ -133,7 +207,14 @@
     </form>
   </div>
   <div class="d-flex justify-content-center mb-3">
-    <button type="button" class="btn btn-outline-danger" [routerLink]="['/usuario']" (click)="modalRef.hide()">Cerrar</button>
+    <button 
+      type="button" 
+      class="btn btn-outline-danger" 
+      [routerLink]="['/usuario']" 
+      (click)="modalRef.hide()"
+    >
+      Cerrar
+    </button>
   </div>
 </ng-template>
 
@@ -141,7 +222,12 @@
 <ng-template #cambioPassword>
   <div class="modal-header">
     <h4 class="modal-title text-success" id="modal-basic-title2">Modifica tu contraseña</h4>
-     <button type="button" class="close pull-right" aria-label="close" (click)="modalRef.hide()">
+     <button 
+      type="button" 
+      class="close pull-right" 
+      aria-label="close" 
+      (click)="modalRef.hide()"
+     >
        <span aria-hidden="true">&times;</span>
      </button>
   </div>
@@ -149,34 +235,64 @@
     <form #cambioPasswordForm="ngForm" (ngSubmit)="onSubmit(cambioPasswordForm)" >
       <div class="form-group">
         <label for="recipient-name" class="col-form-label" >Escribe tu contraseña actual:</label>
-        <input type="password" class="form-control border-success" name="password" (ngModel)="usuario.password" #password="ngModel" 
-        [ngClass]="{'is-invalid': userForm.submitted && password.invalid}" minlength="3" required>
+        <input 
+          type="password" 
+          class="form-control border-success" 
+          name="password" 
+          (ngModel)="usuario.password" 
+          #password="ngModel" 
+          [ngClass]="{'is-invalid': userForm.submitted && password.invalid}" 
+          minlength="6" 
+          required
+        >
         <div *ngIf="userForm.submitted && password.invalid" class="invalid-feedback">
           <p *ngIf="password.errors.required">La contraseña es obligatoria</p>
-          <p *ngIf="password.errors.minlength">La contraseña debe tener al menos 3 caracteres</p>
+          <p *ngIf="password.errors.minlength">La contraseña debe tener al menos 6 caracteres</p>
         </div>
       </div>
       <div class="form-group">
         <label for="recipient-name" class="col-form-label" >Escribe tu nueva contraseña:</label>
-        <input type="password" class="form-control border-success" name="nuevoPassword" (ngModel)="nuevoPassword.password1" #password1="ngModel" 
-        [ngClass]="{'is-invalid': cambioPasswordForm.submitted && password1.invalid}" minlength="3" required>
+        <input 
+          type="password" 
+          class="form-control border-success" 
+          name="nuevoPassword" 
+          (ngModel)="nuevoPassword.password1" 
+          #password1="ngModel" 
+          [ngClass]="{'is-invalid': cambioPasswordForm.submitted && password1.invalid}" 
+          minlength="6" 
+          required
+        >
         <div *ngIf="cambioPasswordForm.submitted && password1.invalid" class="invalid-feedback">
           <p *ngIf="password1.errors.required">La contraseña es obligatoria</p>
-          <p *ngIf="password1.errors.minlength">La contraseña debe tener al menos 3 caracteres</p>
+          <p *ngIf="password1.errors.minlength">La contraseña debe tener al menos 6 caracteres</p>
         </div>
       </div>
       <div class="form-group">
         <label for="recipient-name" class="col-form-label">Confirma la contraseña nueva:</label>
-        <input type="password" class="form-control border-success" id="pass1" name="nuevoPassword2" (ngModel)="nuevoPassword.password2" #password2="ngModel" 
-        [ngClass]="{'is-invalid': cambioPasswordForm.submitted && password2.invalid}" minlength="3" required>
+        <input 
+          type="password" 
+          class="form-control border-success" 
+          id="pass1" 
+          name="nuevoPassword2" 
+          (ngModel)="nuevoPassword.password2" 
+          #password2="ngModel" 
+          [ngClass]="{'is-invalid': cambioPasswordForm.submitted && password2.invalid}" 
+          minlength="6" 
+          required
+        >
         <div *ngIf="cambioPasswordForm.submitted && password2.invalid" class="invalid-feedback">
           <p *ngIf="password2.errors.required">La contraseña es obligatoria</p>
-          <p *ngIf="password2.errors.minlength">La contraseña debe tener al menos 3 caracteres</p>
+          <p *ngIf="password2.errors.minlength">La contraseña debe tener al menos 6 caracteres</p>
       </div>
     </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-success" (click)="cambiarPassword(password.value, password1.value, password2.value)"
-        >Cambiar</button>
+        <button 
+          type="submit" 
+          class="btn btn-success" 
+          (click)="cambiarPassword(password.value, password1.value, password2.value)"
+        >
+          Cambiar
+        </button>
       </div>
     </form>
   </div>

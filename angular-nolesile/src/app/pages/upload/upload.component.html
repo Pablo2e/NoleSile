@@ -1,3 +1,5 @@
+<!-- SUBIR PRODUCTO -->
+
 <!-- HEADER Y CATEGORIAS -->
 <app-header></app-header>
 <app-categories></app-categories>
@@ -16,19 +18,40 @@
       <form #uploadForm="ngForm" (ngSubmit)="onSubmit(uploadForm); uploadForm.reset()">
         <div class="form-group mt-3">
           <label for="exampleFormControlFile1">Carga una Foto</label>
-          <input type="file" class="form-control-file" accept="image/.jpg,.jpeg,.png" name="product_image" [(ngModel)]="product.product_image"
-            #product_image="ngModel" required (change)="onFileSelected($event)">
+          <input 
+            type="file" 
+            class="form-control-file" 
+            accept="image/.jpg,.jpeg,.png" 
+            name="product_image" 
+            [(ngModel)]="product.product_image"
+            #product_image="ngModel" 
+            required 
+            (change)="onFileSelected($event)"
+          >
             <small id="emailHelp" class="form-text text-muted">*Obligatorio / Solo acepta .jpg, .jpeg, .png y 2MB maximo</small>
         </div>
         <div class="form-group">
           <label for="exampleInputPassword1">Producto</label>
-          <input type="text" class="form-control" name="nombre" [(ngModel)]="product.nombre" #nombre="ngModel"
-            placeholder="En una sola palabra" required>
+          <input 
+            type="text" 
+            class="form-control" 
+            name="nombre" 
+            [(ngModel)]="product.nombre" 
+            #nombre="ngModel"
+            placeholder="En una sola palabra" 
+            required
+          >
             <small id="emailHelp" class="form-text text-muted">*Obligatorio.</small>
         </div>
         <div class="form-group">
           <label for="exampleFormControlSelect1">Elige Categoría</label>
-          <select class="form-control" name="categoria" [(ngModel)]="product.categoria" #categoria="ngModel" required>
+          <select 
+            class="form-control" 
+            name="categoria" 
+            [(ngModel)]="product.categoria" 
+            #categoria="ngModel" 
+            required
+          >
             <option>Ordenadores</option>
             <option>Móviles</option>
             <option>Consolas</option>
@@ -45,14 +68,24 @@
         </div>
         <div class="form-group">
           <label for="exampleFormControlTextarea1">Describe el producto</label>
-          <textarea class="form-control" name="descripcion" [(ngModel)]="product.descripcion" #descripcion="ngModel"
-            required rows="3"></textarea>
+          <textarea 
+            class="form-control" 
+            name="descripcion" 
+            [(ngModel)]="product.descripcion" 
+            #descripcion="ngModel"
+            required 
+            rows="3"
+          ></textarea>
             <small id="emailHelp" class="form-text text-muted">*Obligatorio.</small>
         </div>
         <div class="row justify-content-center my-4">
-          <button type="submit" class="btn btn-success" 
+          <button 
+            type="submit" 
+            class="btn btn-success" 
             (click)="anyadirSile(nombre.value, descripcion.value, categoria.value, usuarioActual.user_id, product_image.value, modalProductoSubido)"
-            >Agregar</button>
+          >
+            Agregar
+          </button>
         </div>
       </form>
     </div>
@@ -69,8 +102,21 @@
     </form>
   </div>  
   <div class="d-flex justify-content-center mb-3">
-    <button type="button" class="btn btn-success"  [routerLink]="['/siles']" (click)="modalRef.hide()">Ir a mis Siles</button> &nbsp;
-    <button type="button" class="btn btn-success"  [routerLink]="['/subir']" (click)="!uploadForm.valid" (click)="modalRef.hide()">Subir otro</button> 
+    <button 
+      type="button" class="btn btn-success"  
+      (click)="modalRef.hide()"
+      [routerLink]="['/siles']" 
+    >
+      Ir a mis Siles
+    </button> &nbsp;
+    <button 
+      type="button" class="btn btn-success"  
+      (click)="!uploadForm.valid" 
+      (click)="modalRef.hide()"
+      [routerLink]="['/subir']" 
+    >
+      Subir otro
+    </button> 
   </div>
 </ng-template>
 

@@ -38,9 +38,7 @@ export class HeaderComponent implements OnInit {
     public usuarioService: UsuarioService, 
     public messageService: MessageService,
     private modalService: BsModalService,
-    private router: Router) { 
-      console.log('Constructor del header.ts')
-    }
+    private router: Router) {}
 
   //METODOS
   public verificarUsuario(){

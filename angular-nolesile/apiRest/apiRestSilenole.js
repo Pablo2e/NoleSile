@@ -1,11 +1,9 @@
+//Creamos las constantes para la conexión
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const cors = require('cors')
-//EXTRAS PARA LA PRUEBA CARGA DE FOTOS 
-const fileUpload = require('express-fileupload');
-const morgan = require('morgan');
-const _ = require('lodash'); 
+
 //PARA EL AUTENTICACIÓN REGISTER/LOGIN
 const bodyParserJSON = bodyParser.json();
 const bodyParserURLEncoded = bodyParser.urlencoded({ extended: true });
@@ -16,9 +14,7 @@ const SECRET_KEY = 'secretkey123456';
 const mysql = require('mysql');
 const util = require( 'util' );
 
-const limiteProductos = 50
-const limiteMensages = 200
-
+//Conexión a la base de datos
 const connection = mysql.createConnection({
     host: 'localhost',
     user: "root",
@@ -32,7 +28,11 @@ connection.connect(function(error){
     console.log('Conexión correcta')
 });
 
-// conexión a BD para async/await en verificar accessToken
+app.use(cors());
+app.use(bodyParserJSON);
+app.use(bodyParserURLEncoded);
+
+// conexión a la base de datos para async/await en verificar accessToken
 function makeDb(config) {
     const connection = mysql.createConnection(config);  
     return {
@@ -52,11 +52,12 @@ const db = makeDb( {
     database: 'silenole'
 } );
 
-app.use(cors());
-app.use(bodyParserJSON);
-app.use(bodyParserURLEncoded);
-
-//EXTRAS PARA LA PRUEBA CARGA DE FOTOS 
+//EXTRAS PARA LA CARGA DE FOTOS 
+const fileUpload = require('express-fileupload');
+const morgan = require('morgan');
+const _ = require('lodash'); 
+app.use(morgan('dev'));
+//Limitamos el tamaño maximo de las fotos
 app.use(fileUpload({
     createParentPath: true,
     limits: { 
@@ -64,10 +65,13 @@ app.use(fileUpload({
     },
 }));
 
-app.use(morgan('dev'));
+//Constantes para limitar cantidad de productos y mensajes
+const limiteProductos = 50
+const limiteMensages = 200
+
 
 // Función de verificación de tokens
-verifyToken = async (accessToken, user_id) => {
+const verifyToken = async (accessToken, user_id) => {
     console.log("verificando token");
     let params = [user_id];
     let sql = "SELECT accessToken FROM user WHERE user_id = ?";
@@ -89,14 +93,14 @@ verifyToken = async (accessToken, user_id) => {
     return resultCode;
 }
 
-// Función de verificación de numero de productos
-verifyNumberOfProducts = async (user_id) => {
-    console.log("verificando numero de productos");
+// Función de verificación de número de productos
+const verifyNumberOfProducts = async (user_id) => {
+    console.log("verificando número de productos");
     let params = [user_id];
     let sql = `SELECT COUNT(*) AS cuentaProductos FROM products WHERE user_id =?`;
     let resultCode;
     await db.query(sql, params).then( result => {
-        console.log ("numero de productos" , result);
+        console.log ("número de productos" , result);
         if (result[0] === undefined || result[0] === null){
             resultCode = 500;
         } else {
@@ -112,14 +116,14 @@ verifyNumberOfProducts = async (user_id) => {
     return resultCode;
 }
 
-// Función de verificación de numero de mensajes
-verifyNumberOfMessages = async (sender_id) => {
-    console.log("verificando numero de mensajes");
+// Función de verificación de número de mensajes
+const verifyNumberOfMessages = async (sender_id) => {
+    console.log("verificando número de mensajes");
     let params = [sender_id];
     let sql = `SELECT COUNT(*) AS cuentaMensajes FROM messages WHERE sender_id =?`;
     let resultCode;
     await db.query(sql, params).then( result => {
-        console.log ("numero de productos" , result);
+        console.log ("número de productos" , result);
         if (result[0] === undefined || result[0] === null){
             resultCode = 500;
         } else {
@@ -331,11 +335,11 @@ app.post("/user/login", function (request, response) {
       if (err) {
         console.log(err)
       } else {
-          console.log(email, password, result);
-          if (result[0] === undefined) {
-            response.status(403).send({ message: 'Something is wrong' });
-            return;
-          }
+        console.log(email, password, result);
+        if (result[0] === undefined) {
+        response.status(403).send({ message: 'Something is wrong' });
+        return;
+        }
         console.log('Usuario Correcto')
         let user = result[0];
         console.log(user);

@@ -20,7 +20,6 @@ export class CategoriesComponent implements OnInit {
     public productService:ProductService, 
     public loginService: LoginService) {}
 
-
   public pasarCategoria(categoria: string){
     this.productService.actualizarCategoriaSeleccionada(categoria);
     this.mostrarProductosPorCategoria()

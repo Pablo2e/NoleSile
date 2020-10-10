@@ -93,7 +93,7 @@ export class LoginComponent implements OnInit {
     console.log(name, password, pass2, email, comunidad, provincia, localidad, cp)
     if (name === null || password === null || email === null || comunidad === null ||
       provincia === null || cp === null || name === "" || password === "" || email === "" || 
-      comunidad === "" || provincia === "" || cp === 0 || password.length < 3) {
+      comunidad === "" || provincia === "" || cp === 0 || password.length < 6) {
       this.toastr.error("Por favor, revisa todos los campos", "Algo fue mal")
     } else {
       if (password !== pass2) {

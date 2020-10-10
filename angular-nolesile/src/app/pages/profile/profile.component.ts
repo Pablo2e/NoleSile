@@ -152,7 +152,7 @@ export class ProfileComponent implements OnInit {
   public cambiarPassword(passwordActual:string, passwordNuevo: string, passwordNuevo2: string){
     console.log(passwordActual, passwordNuevo, passwordNuevo2)
     const resultPassword = this.confirmarPassword(passwordActual);
-      if (resultPassword === true && (passwordNuevo === passwordNuevo2) && passwordNuevo.length >= 3) {
+      if (resultPassword === true && (passwordNuevo === passwordNuevo2) && passwordNuevo.length >= 6) {
         const user_id = this.usuarioActual.user_id
         const name =  this.usuarioActual.name;
         const email = this.usuarioActual.email;

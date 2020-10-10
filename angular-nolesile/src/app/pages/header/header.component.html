@@ -1,4 +1,4 @@
-<!-- HEADER -->
+<!-- CABECERA -->
 <div class="container-fluid ">
 
   <div class="row">
@@ -9,30 +9,94 @@
 
   <div class="row">
     <div class="col-12 d-flex justify-content-center mt-2 mb-2">
-      <button class="btn btn-outline-success btn-sm mr-3 my-2 my-sm-0" type="button" (click)="verificarUsuario()" routerLinkActive="active"><i
-          class="fa fa-user-circle-o" aria-hidden="true"></i> {{this.loginService.usuarioActual.name}}</button>
-      <button class="btn btn-outline-success btn-sm mr-3 my-2 my-sm-0" type="button" routerLinkActive="active"  [routerLink]="['/siles']"><i
-          class="fa fa-check-square" aria-hidden="true"></i> Mis Siles</button>
-      <button class="btn btn-outline-success btn-sm mr-3 my-2 my-sm-0" type="button" routerLinkActive="active"  [routerLink]="['/subir']"><i
-          class="fa fa-upload" aria-hidden="true"></i> Subir Siles</button>
-      <button *ngIf="this.loginService.avisoMensaje" class="btn btn-danger btn-sm mr-3 my-2 my-sm-0" type="button" routerLinkActive="active" (click)="desactivarAvisoMensaje()" [routerLink]="['/mensajes']"><i
-        class="fa fa-envelope-open" aria-hidden="true"></i> Tienes Mensajes Nuevos</button>
-      <button *ngIf="!this.loginService.avisoMensaje" class="btn btn-outline-success btn-sm mr-3 my-2 my-sm-0" type="button" routerLinkActive="active" [routerLink]="['/mensajes']"><i
-          class="fa fa-envelope-open" aria-hidden="true"></i> Mis Mensajes</button>
-      <button class="btn btn-outline-success btn-sm my-2 my-sm-0" type="button" routerLinkActive="active"  (click)="openModal(ModalCerrarSesion)"><i
-        class="fa fa-times-circle-o" aria-hidden="true"></i> Cerrar Sesión</button>
+      <button 
+        class="btn btn-outline-success btn-sm mr-3 my-2 my-sm-0" 
+        type="button" 
+        (click)="verificarUsuario()" 
+        routerLinkActive="active"
+      >
+        <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+          {{this.loginService.usuarioActual.name}}
+      </button>
+      <button 
+        class="btn btn-outline-success btn-sm mr-3 my-2 my-sm-0" 
+        type="button" 
+        routerLinkActive="active"  
+        [routerLink]="['/siles']"
+      >
+        <i class="fa fa-check-square" aria-hidden="true"></i>
+          Mis Siles
+      </button>
+      <button 
+        class="btn btn-outline-success btn-sm mr-3 my-2 my-sm-0" 
+        type="button" 
+        routerLinkActive="active"  
+        [routerLink]="['/subir']"
+      >
+        <i class="fa fa-upload" aria-hidden="true"></i>
+          Subir Siles
+      </button>
+      <button 
+        *ngIf="this.loginService.avisoMensaje" 
+        class="btn btn-danger btn-sm mr-3 my-2 my-sm-0" 
+        type="button" 
+        routerLinkActive="active" 
+        (click)="desactivarAvisoMensaje()" 
+        [routerLink]="['/mensajes']"
+      >
+        <i class="fa fa-envelope-open" aria-hidden="true"></i>
+         Tienes Mensajes Nuevos
+      </button>
+      <button 
+        *ngIf="!this.loginService.avisoMensaje" 
+        class="btn btn-outline-success btn-sm mr-3 my-2 my-sm-0" 
+        type="button" 
+        routerLinkActive="active" 
+        [routerLink]="['/mensajes']"
+      >
+        <i class="fa fa-envelope-open" aria-hidden="true"></i>
+           Mis Mensajes
+      </button>
+      <button 
+        class="btn btn-outline-success btn-sm my-2 my-sm-0" 
+        type="button" 
+        routerLinkActive="active"  
+        (click)="openModal(ModalCerrarSesion)"
+      >
+        <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+         Cerrar Sesión
+      </button>
     </div>
   </div>
 
+  <!-- BARRA Y BOTON DE BUSCAR -->
   <div class="container">
     <div class="input-group input-group-sm mt-2 mb-3">
-      <input type="text" class="form-control border border-success" id="nole" placeholder="Busca un nole" name="clave"
-        aria-label="Recipient's username" aria-describedby="button-addon2" [(ngModel)]="product.nombre"
-        #nombre="ngModel" (keyup.enter)="buscarProducto(nombre.value)" (keyup.enter)="this.nombre.reset()" required>
+      <input 
+        type="text" 
+        class="form-control border border-success" 
+        id="nole" 
+        placeholder="Busca un nole" 
+        name="clave"
+        aria-label="Recipient's username" 
+        aria-describedby="button-addon2" 
+        [(ngModel)]="product.nombre"
+        #nombre="ngModel" 
+        (keyup.enter)="buscarProducto(nombre.value)" 
+        (keyup.enter)="this.nombre.reset()" 
+        required
+      >
       <div class="input-group-append">
-        <button class="btn btn-outline-success" type="button"
-          (click)="buscarProducto(nombre.value)" (click)="this.nombre.reset()" id="button-addon2"><i class="fa fa-search" aria-hidden="true"></i>
-          Buscar</button>
+        <button 
+          type="button"
+          class="btn btn-outline-success" 
+          id="button-addon2"
+          (click)="buscarProducto(nombre.value)" 
+          (click)="this.nombre.reset()" 
+        >
+          <i class="fa fa-search" aria-hidden="true"></i>
+            Buscar
+        </button>
       </div>
     </div>
   </div>
@@ -51,8 +115,15 @@
     </form>
   </div>
   <div class="d-flex justify-content-center mb-3">
-    <button type="button" class="btn btn-outline-danger" (click)="cerrarSesion()" [routerLink]="['/']" (click)="modalRef.hide()">Cerrar
-      Sesión</button>
+    <button 
+      type="button" 
+      class="btn btn-outline-danger" 
+      (click)="cerrarSesion()" 
+      (click)="modalRef.hide()"
+      [routerLink]="['/']" 
+    >
+      Cerrar Sesión
+    </button>
   </div>
 </ng-template>
 
