@@ -5,7 +5,9 @@
     class="row align-items-center justify-content-center minh-100"
     style="background: url(assets/img/fondoInicio6c.jpg) no-repeat center; background-size: cover;"
   > <!-- TEXTO Y BOTONES DE REGISTRO E INGRESO -->
-    <div class="col display-1 text-success text-center">NoleSile <h3>Tu lugar de intercambio de bienes</h3>
+    <div class="col display-1 text-success text-center">
+      NoleSile 
+      <h3>Tu lugar de intercambio de bienes</h3>
 
       <div class="col-12 d-flex justify-content-center mt-3 mb-3">
 
@@ -36,13 +38,20 @@
       </div>
       
     </div>
+
   </div>
+
 </div>
 
 <!-- MODAL DE REGISTRARSE-->
 <ng-template #modalRegistrarse>
+
   <div class="modal-header">
-    <h4 class="modal-title text-success" id="modal-basic-title2">Registrarse</h4>
+
+    <h4 class="modal-title text-success" id="modal-basic-title2">
+      Registrarse
+    </h4>
+
     <button 
       type="button" 
       class="close pull-right" 
@@ -51,14 +60,19 @@
     >
       <span aria-hidden="true">&times;</span>
     </button>
+
   </div>
+
   <div class="modal-body">
     <!-- FORMULARIO -->
     <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)">
+
       <div class="form-group">
+
         <label for="recipient-name" class="col-form-label">
           Nombre Usuario:
         </label>
+
         <input 
           type="text" 
           class="form-control border-success" 
@@ -69,14 +83,19 @@
           [ngClass]="{'is-invalid': userForm.submitted && name.invalid}" 
           required
         >
+
         <div *ngIf="userForm.submitted && name.invalid"  class="invalid-feedback">
           <p *ngIf="name.errors.required">El nombre es obligatorio</p>
         </div>
+
       </div>
+
       <div class="form-group">
+
         <label for="recipient-name" class="col-form-label">
           Email:
         </label>
+
         <input 
           type="email" 
           class="form-control border-success" 
@@ -87,13 +106,20 @@
           email 
           required
         >
+
         <div *ngIf="userForm.submitted && email.invalid" class="invalid-feedback">
           <p *ngIf="email.errors.required">El email es obligatorio</p>
           <p *ngIf="email.errors.email">El formato de email es incorrecto</p>
         </div>
+
       </div>
+
       <div class="form-group">
-        <label for="recipient-name" class="col-form-label">Comunidad Autónoma:</label>
+
+        <label for="recipient-name" class="col-form-label">
+          Comunidad Autónoma:
+        </label>
+
         <input 
           type="text" 
           class="form-control border-success" 
@@ -105,10 +131,16 @@
         >
         <div *ngIf="userForm.submitted && comunidad.invalid" class="invalid-feedback">
           <p *ngIf="comunidad.errors.required">La Comunidad Autónoma es obligatoria</p>
+        </div>
+        
       </div>
-    </div>
+
       <div class="form-group">
-        <label for="recipient-name" class="col-form-label">Provincia:</label>
+
+        <label for="recipient-name" class="col-form-label">
+          Provincia:
+        </label>
+
         <input 
           type="text" 
           class="form-control border-success" 
@@ -121,9 +153,15 @@
         <div *ngIf="userForm.submitted && provincia.invalid" class="invalid-feedback">
           <p *ngIf="provincia.errors.required">La Provincia es obligatoria</p>
         </div>
+
       </div>
+
       <div class="form-group">
-        <label for="recipient-name" class="col-form-label">Localidad:</label>
+
+        <label for="recipient-name" class="col-form-label">
+          Localidad:
+        </label>
+
         <input 
           type="text" 
           class="form-control border-success" 
@@ -135,10 +173,16 @@
         >
         <div *ngIf="userForm.submitted && localidad.invalid" class="invalid-feedback">
           <p *ngIf="localidad.errors.required">La Localidad es obligatoria</p>
+        </div>
+
       </div>
-    </div>
+
       <div class="form-group">
-        <label for="recipient-name" class="col-form-label">CP:</label>
+
+        <label for="recipient-name" class="col-form-label">
+          CP:
+        </label>
+
         <input 
           type="number" 
           class="form-control border-success" 
@@ -150,10 +194,15 @@
         >
         <div *ngIf="userForm.submitted && cp.invalid" class="invalid-feedback">
           <p *ngIf="cp.errors.required">El Codigo Postal es obligatorio</p>
+        </div>
+
       </div>
-    </div>
+
       <div class="form-group">
-        <label for="recipient-name" for="password" class="col-form-label">Contraseña:</label>
+
+        <label for="recipient-name" for="password" class="col-form-label">
+          Contraseña:
+        </label>
         <input 
           type="password" 
           class="form-control border-success" 
@@ -168,10 +217,15 @@
         <div *ngIf="userForm.submitted && password.invalid" class="invalid-feedback">
           <p *ngIf="password.errors.required">La contraseña es obligatoria</p>
           <p *ngIf="password.errors.minlength">La contraseña debe tener al menos 6 caracteres</p>
+        </div>
+
       </div>
-    </div>
+
       <div class="form-group ">
-        <label for="recipient-name" for="confirmPassword" class="col-form-label">Confirma la contraseña:</label>
+
+        <label for="recipient-name" for="confirmPassword" class="col-form-label">
+          Confirma la contraseña:
+        </label>
         <input 
           type="password" 
           class="form-control border-success" 
@@ -179,9 +233,11 @@
           name="password2"  
           required
         >
+
       </div>
       <!-- CHECKBOX DE TERMINOS DE USO Y POLITICA DE PRIVACIDAD -->
       <div class="form-group form-check">
+
         <input 
           type="checkbox" 
           class="form-check-input" 
@@ -190,8 +246,11 @@
         <label class="form-check-label">
           He leído y acepto los <a href="http://localhost:4200/terminos" target="_blank">Términos de uso</a>
         </label>
+
       </div>
+
       <div class="form-group form-check">
+
         <input 
           type="checkbox" 
           class="form-check-input"  
@@ -200,9 +259,11 @@
         <label class="form-check-label">
           He leído y acepto la <a href="http://localhost:4200/privacidad" target="_blank">Politica de Privacidad</a>
         </label>
+
       </div>
       <!-- BOTON REGISTRARSE -->
       <div class="modal-footer">
+
         <button 
           *ngIf="totalCheckboxMarcados===2" 
           type="submit" 
@@ -222,15 +283,24 @@
         >
           Registrarse
         </button>
+
       </div>
+
     </form>
+
   </div>
+
 </ng-template>
 
 <!--MODAL INICIO-->
 <ng-template #modalIngresar>
+
   <div class="modal-header">
-    <h4 class="modal-title text-success" id="modal-basic-title2">Ingresar</h4>
+
+    <h4 class="modal-title text-success" id="modal-basic-title2">
+      Ingresar
+    </h4>
+
      <button 
       type="button" 
       class="close pull-right" 
@@ -239,10 +309,12 @@
      >
        <span aria-hidden="true">&times;</span>
      </button>
+
   </div>
+
   <div class="modal-body">
     <!-- FORMULARIO -->
-    <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)" >
+    <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)">
       <div class="form-group">
         <label for="recipient-name" class="col-form-label" >Email:</label>
         <input 
