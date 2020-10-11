@@ -6,16 +6,23 @@
 
 <!-- CONTENEDOR PRODUCTOS ULTIMOS -->
 <div class="container-fluid">
+  
   <div class="row">
+    
     <div class="col text-success mt-5 mb-5 text-center">
       <h2>Últimos Agregados</h2>
     </div>
+    
   </div>
+  
 </div>
 
 <div class="container-fluid mb-5 ">
+
   <div class="row d-flex justify-content-center">
+
     <div class="col-10 border border-success ">
+
       <div class="row align-items-end d-flex justify-content-center">
 
         <!-- TARJETA -->
@@ -24,19 +31,24 @@
           style="width: 18rem; height: 450px" 
           *ngFor="let producto of productsUltimos"
         >
+
           <img 
             class="card-img-top m-auto" 
             src="{{producto.product_image}}" 
             alt="producto"
             style="max-width: 200px; max-height: 200px"
           >
+
           <div class="card-block ml-2 mr-2 text-center">
+
             <h4 class="card-title">Producto: {{producto.nombre}}</h4>
             <h6 class="card-text">Descripción:</h6>
             <p class="card-text">{{producto.descripcion}}</p>
+
           </div>
 
           <div class="mt-3 mb-3 d-flex justify-content-center">
+
             <button 
               type="button" 
               class="btn btn-outline-success btn-sm mr-1"
@@ -56,36 +68,53 @@
               <i class="fa fa-envelope-open" aria-hidden="true"></i> 
                 Enviar mensaje
             </button>
+
           </div>
+
         </div>
 
         <div *ngIf="productsUltimos.length!=0; else noHay"></div>
         <ng-template #noHay  > 
+
           <img 
             class="mt-3 mb-2" 
             src="http://localhost:3100/unicornio.png" 
             alt="Unicornio"
           >
-          <div class="display-4 text text-success text-center mb-2" >No hay productos agregados... pero mira que bonito unicornio</div> 
+
+          <div class="display-4 text text-success text-center mb-2" >
+            No hay productos agregados... pero mira que bonito unicornio
+          </div> 
+
         </ng-template>
 
       </div>
+
     </div>
+
   </div>
+
 </div>
 
 <!-- CONTENEDOR PRODUCTOS CERCANOS-->
 <div class="container-fluid">
+
   <div class="row">
+
     <div class="col text-success mt-2 mb-5 text-center">
       <h2>Más cercanos a tí</h2>
     </div>
+
   </div>
+
 </div>
 
 <div class="container-fluid mb-5 ">
+
   <div class="row d-flex justify-content-center">
+
     <div class="col-10 border border-success ">
+
       <div class="row align-items-end d-flex justify-content-center">
 
         <!-- TARJETA -->
@@ -94,16 +123,20 @@
           style="width: 18rem; height: 450px" 
           *ngFor="let producto of productsCercanos"
         >
+
           <img 
             class="card-img-top m-auto" 
             src="{{producto.product_image}}" 
             alt="Card image cap"
             style="max-width: 200px; max-height: 200px"
           >
+
           <div class="card-block ml-2 mr-2 text-center">
+
             <h4 class="card-title">Producto: {{producto.nombre}}</h4>
             <h6 class="card-text">Descripción:</h6>
             <p class="card-text">{{producto.descripcion}}</p>
+
           </div>
 
           <div class="mt-3 mb-3 d-flex justify-content-center">
@@ -125,22 +158,32 @@
               <i class="fa fa-envelope-open" aria-hidden="true"></i>
                 Enviar mensaje
             </button>
+
           </div>
+
         </div>
 
         <div *ngIf="productsCercanos.length!=0; else noHay2"></div>
         <ng-template #noHay2  > 
+
           <img 
             class="mt-3 mb-2" 
             src="http://localhost:3100/unicornio.png" 
             alt="Unicornio"
           >
-          <div class="display-4 text text-success text-center mb-2" >No hay productos cerca de tí... pero mira que bonito unicornio</div> 
+
+          <div class="display-4 text text-success text-center mb-2" >
+            No hay productos cerca de tí... pero mira que bonito unicornio
+          </div> 
+
         </ng-template>
 
       </div>
+
     </div>
+
   </div>
+  
 </div>
 
  <!-- FOOTER -->

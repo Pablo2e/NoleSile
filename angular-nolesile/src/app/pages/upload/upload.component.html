@@ -6,18 +6,31 @@
 
 <!-- FORMULARIO SUBIDA -->
 <div class="container-fluid ">
+
   <div class="row">
+
     <div class="col text-success mt-5 mb-5 text-center">
       <h2>Sube algo para intercambiar</h2>
     </div>
+
   </div>
+
 </div>
+
 <div class="container-fluid">
+
   <div class="row d-flex justify-content-center">
+
     <div class="col-10 col-sm-8 col-md-6 bg-light border border-success text-success mb-5">
+
       <form #uploadForm="ngForm" (ngSubmit)="onSubmit(uploadForm); uploadForm.reset()">
+
         <div class="form-group mt-3">
-          <label for="exampleFormControlFile1">Carga una Foto</label>
+
+          <label for="exampleFormControlFile1">
+            Carga una Foto
+          </label>
+
           <input 
             type="file" 
             class="form-control-file" 
@@ -28,10 +41,19 @@
             required 
             (change)="onFileSelected($event)"
           >
-            <small id="emailHelp" class="form-text text-muted">*Obligatorio / Solo acepta .jpg, .jpeg, .png y 2MB maximo</small>
+
+          <small id="emailHelp" class="form-text text-muted">
+            *Obligatorio / Solo acepta .jpg, .jpeg, .png y 2MB maximo
+          </small>
+
         </div>
+
         <div class="form-group">
-          <label for="exampleInputPassword1">Producto</label>
+
+          <label for="exampleInputPassword1">
+            Producto
+          </label>
+
           <input 
             type="text" 
             class="form-control" 
@@ -41,10 +63,19 @@
             placeholder="En una sola palabra" 
             required
           >
-            <small id="emailHelp" class="form-text text-muted">*Obligatorio.</small>
+
+          <small id="emailHelp" class="form-text text-muted">
+            *Obligatorio.
+          </small>
+
         </div>
+
         <div class="form-group">
-          <label for="exampleFormControlSelect1">Elige Categoría</label>
+
+          <label for="exampleFormControlSelect1">
+            Elige Categoría
+          </label>
+
           <select 
             class="form-control" 
             name="categoria" 
@@ -64,10 +95,19 @@
             <option>Electrodomésticos</option>
             <option>Otros</option>
           </select>
-          <small id="emailHelp" class="form-text text-muted">*Obligatorio.</small>
+
+          <small id="emailHelp" class="form-text text-muted">
+            *Obligatorio.
+          </small>
+
         </div>
+
         <div class="form-group">
-          <label for="exampleFormControlTextarea1">Describe el producto</label>
+
+          <label for="exampleFormControlTextarea1">
+            Describe el producto
+          </label>
+
           <textarea 
             class="form-control" 
             name="descripcion" 
@@ -76,9 +116,15 @@
             required 
             rows="3"
           ></textarea>
-            <small id="emailHelp" class="form-text text-muted">*Obligatorio.</small>
+
+            <small id="emailHelp" class="form-text text-muted">
+              *Obligatorio.
+            </small>
+
         </div>
+
         <div class="row justify-content-center my-4">
+
           <button 
             type="submit" 
             class="btn btn-success" 
@@ -86,22 +132,37 @@
           >
             Agregar
           </button>
+
         </div>
+
       </form>
+
     </div>
+
   </div>
+
 </div>
 
 <!-- MODAL PRODUCTO SUBIDO -->
 <ng-template #modalProductoSubido>
+  
   <div class="modal-body text-success text-center">
+    
     <form>
+      
       <div class="form-group">
-        <label for="recipient-name" class="col-form-label"><h3>Producto subido correctamente</h3></label>
+        <label for="recipient-name" class="col-form-label">
+          <h3>Producto subido correctamente</h3>
+        </label>
+        
       </div>
+      
     </form>
-  </div>  
+    
+  </div> 
+   
   <div class="d-flex justify-content-center mb-3">
+    
     <button 
       type="button" class="btn btn-success"  
       (click)="modalRef.hide()"
@@ -109,6 +170,7 @@
     >
       Ir a mis Siles
     </button> &nbsp;
+    
     <button 
       type="button" class="btn btn-success"  
       (click)="!uploadForm.valid" 
@@ -117,7 +179,9 @@
     >
       Subir otro
     </button> 
+    
   </div>
+  
 </ng-template>
 
 

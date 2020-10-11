@@ -6,33 +6,47 @@
 
 <!--DATOS DE USUARIO-->
 <div class="d-flex justify-content-center">
+
   <div class="float-left">
+
     <h4 class="titulo">
       <p class="text-center">Usuario {{nombreOwner}}</p>
     </h4>
+
     <div class="card border-success mb-3" style="max-width: 5rem;">
+
       <img 
         src="{{imagenOwner}}" 
         class="card-img-top" 
         alt="Foto dueño del producto"
       >
+
     </div>
+
   </div>
+
 </div>
 
 <!-- TÍTULO -->
 <div class="container-fluid">
+
   <div class="row">
+
     <div class="col text-success mt-5 mb-5 text-center">
       <h2>Sus Productos</h2>
     </div>
+
   </div>
+
 </div>
 
 <!-- CONTENEDOR PRODUCTOS -->
 <div class="container-fluid mb-5 ">
+
   <div class="row d-flex justify-content-center">
+
     <div class="col-10 border border-success ">
+
       <div class="row align-items-end d-flex justify-content-center">
         <!-- TARJETA -->
         <div 
@@ -40,18 +54,24 @@
           style="width: 18rem; height: 450px" 
           *ngFor="let producto of products"
         >
+
           <img 
             class="card-img-top m-auto" 
             src="{{producto.product_image}}" 
             alt="Producto"
             style="max-width: 200px; max-height: 200px"
           >
+
           <div class="card-block ml-2 mr-2 text-center">
+
             <h4 class="card-title">Producto: {{producto.nombre}}</h4>
             <h6 class="card-text">Descripción:</h6>
             <p class="card-text">{{producto.descripcion}}</p>
+
           </div>
+
           <div class="mt-3 mb-3 d-flex justify-content-center">
+
             <button 
               type="button" 
               class="btn btn-outline-success btn-sm mr-1" 
@@ -61,11 +81,17 @@
               <i class="fa fa-envelope-open" aria-hidden="true"></i>
                 Enviar Mensaje
             </button>
+
           </div>
+
         </div>
+
       </div>
+
     </div>
+
   </div>
+
 </div>
 
 <!-- FOOTER -->

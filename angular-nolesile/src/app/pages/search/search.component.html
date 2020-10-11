@@ -6,16 +6,23 @@
 
 <!-- FILTROS DE BUSQUEDA -->
 <div class="container-fluid mt-5 mb-4">
+
   <div class="row d-flex justify-content-center text-success">
     <h2>Afina tu búsqueda</h2>
   </div>
+
 </div>
 
 <div class="container-fluid mb-5">
+
   <div class="row d-flex justify-content-center">
+
     <div class="col-sm-12 col-md-6 d-flex justify-content-center justify-content-sm-center justify-content-md-end">
+
       <ul class="nav">
+
         <li ngbDropdown class="nav-item dropdown">
+
           <a 
             ngbDropdownToggle 
             class="nav-link dropdown-toggle text-success" 
@@ -26,14 +33,20 @@
           >
             Por cercanía
           </a>
+
           <div ngbDropdownMenu class="dropdown-menu">
+
             <a class="dropdown-item" (click)="buscarPorUbicacion('cp', usuarioActual.cp)">Codigo Postal</a>
             <a class="dropdown-item" (click)="buscarPorUbicacion('localidad', usuarioActual.localidad)">Localidad</a>
             <a class="dropdown-item" (click)="buscarPorUbicacion('provincia', usuarioActual.provincia)">Provincia</a>
             <a class="dropdown-item" (click)="buscarPorUbicacion('comunidad', usuarioActual.comunidad)">Comunidad Autonoma</a>
+
           </div>
+
         </li>
+
         <li ngbDropdown class="nav-item dropdown">
+
           <a 
             ngbDropdownToggle 
             class="nav-link dropdown-toggle text-success" 
@@ -44,16 +57,25 @@
           >
             Por tiempo
           </a>
+
           <div ngbDropdownMenu class="dropdown-menu text-success">
+
             <a class="dropdown-item" (click)="buscarPorDias(7)">Última semana</a>
             <a class="dropdown-item" (click)="buscarPorDias(30)">Último mes</a>
             <a class="dropdown-item" (click)="buscarPorDias(365)">Último año</a>
+
           </div>
+
         </li>
+
       </ul>
+
     </div>
+
     <div class="col-12 col-sm-12 col-md-6 d-flex justify-content-center justify-content-sm-center justify-content-md-start">
+
       <form class="form-inline my-2 my-lg-0">
+
         <input 
           class="form-control" 
           type="search" 
@@ -64,6 +86,7 @@
           #name="ngModel" 
           required
         >
+
         <button 
           class="btn btn-outline-success my-2 my-sm-0 active d-flex justify-content-center justify-content-sm-center" 
           role="button" 
@@ -73,44 +96,60 @@
         >
           Buscar
         </button>
+
       </form>
+
     </div>
+
   </div>
+
 </div>
 <!-- CIERRE FILTROS DE BUSQUEDA --> 
 
 <!-- CONTENEDOR PRODUCTOS -->
 <div class="container-fluid mb-5 ">
+
   <div class="row d-flex justify-content-center">
+
     <div class="col-10 border border-success ">
+
       <div class="row align-items-end d-flex justify-content-center">
+
         <!-- TARJETA -->
         <div 
           class="card border-0 mt-2" 
           style="width: 18rem; height: 450px" 
           *ngFor="let producto of productService.products"
         >
+
           <img 
             class="card-img-top m-auto" 
             src="{{producto.product_image}}" 
             alt="Card image cap"
             style="max-width: 200px; max-height: 200px"
           >
+
           <div class="card-block ml-2 mr-2 text-center">
+
             <h4 class="card-title">Producto: {{producto.nombre}}</h4>
             <h6 class="card-text">Descripción:</h6>
             <p class="card-text">{{producto.descripcion}}</p>
+
           </div>
+
           <div class="mt-3 mb-3 d-flex justify-content-center" *ngIf="producto.user_id != loginService.usuarioActual.user_id">
+
             <button 
               type="button" 
               class="btn btn-outline-success btn-sm mr-1"
               (click)="pasarIdOwner(producto.user_id)"
               [routerLink]="['/propietario']" 
             >
+
               <i class="fa fa-user-circle-o" aria-hidden="true"></i>
                 Ver Usuario
             </button>
+
             <button 
               type="button" 
               class="btn btn-outline-success btn-sm ml-1"
@@ -120,21 +159,33 @@
               <i class="fa fa-envelope-open" aria-hidden="true"></i>
                 Enviar mensaje
             </button>
+
           </div>
+
         </div>
+
         <!-- DIV UNICORNIO -->
         <div *ngIf="productService.products.length!=0; else noHay"></div>
-        <ng-template #noHay  > 
+        <ng-template #noHay> 
+
           <img 
             class="mt-3 mb-2" 
             src="http://localhost:3100/unicornio.png" 
             alt="Unicornio"
           >
-          <div class="display-4 text text-success text-center mb-2" >No tenemos lo que buscas... pero mira que bonito unicornio</div> 
+
+          <div class="display-4 text text-success text-center mb-2">
+            No tenemos lo que buscas... pero mira que bonito unicornio
+          </div> 
+
         </ng-template>
+
       </div>
+
     </div>
+
   </div>
+
 </div>
 
 <!-- FOOTER -->
