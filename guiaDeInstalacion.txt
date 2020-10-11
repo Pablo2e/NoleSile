@@ -1,0 +1,23 @@
+//instalar nodeJS y npm en ubuntu (https://ubunlog.com/nodejs-npm-instalacion-ubuntu-20-04-18-04/)
+sudo apt install curl
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+sudo apt install nodejs
+
+//instalar angular
+sudo npm install -g @angular/cli
+
+//instalar typescript
+sudo npm install -g typescript
+
+//instalar mariaDB
+sudo apt update
+sudo apt install mariadb-server
+sudo mysql_secure_installation
+
+//instalar apache (https://ubunlog.com/servidor-web-apache-instalacion-conceptos-basicos-ubuntu-20-04/)
+sudo apt update
+sudo apt install apache2
+sudo ufw allow 'Apache Full'
+
+//instalar bcryptjs
+sudo npm install bcryptjs
