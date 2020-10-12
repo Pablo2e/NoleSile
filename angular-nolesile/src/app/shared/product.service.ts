@@ -6,6 +6,8 @@ import { Product } from '../models/product';
 import { Usuario } from '../models/usuario';
 // SERVICIOS IMPORTADOS
 import { LoginService } from './login.service';
+// CONSTANTES GLOBALES
+import {apiServerUrl, imageServerUrl} from 'src/app/shared/globals'
 
 
 @Injectable({
@@ -22,8 +24,8 @@ export class ProductService {
   public categoriaSeleccionada: any; 
   public idProductoSeleccionado: number;
   
-  private url = "http://localhost:3000/" 
-  public urlImg = "http://localhost:3100/" 
+  private url = apiServerUrl; 
+  public urlImg = imageServerUrl; 
 
 
   constructor(
@@ -60,7 +62,7 @@ export class ProductService {
         'Authorization': accessToken,
       })
     };
-    return this.http.get(this.url+ "products/", options );
+    return this.http.get(this.url+ "/products/", options );
   }
 
   public getProductsByUser(id: number) {
@@ -72,7 +74,7 @@ export class ProductService {
         'User': user_id, 
       })
     };
-    return this.http.get(this.url + "products/" + id, options);
+    return this.http.get(this.url + "/products/" + id, options);
   }
   
   public postProduct(newProduct: Product) {
@@ -82,7 +84,7 @@ export class ProductService {
         'Authorization': accessToken,
       })
     };
-    return this.http.post(this.url + "products/", newProduct, options)
+    return this.http.post(this.url + "/products/", newProduct, options)
   }
 
   public putProduct(newProduct: Product) {
@@ -93,7 +95,7 @@ export class ProductService {
       })
     };
     console.log(newProduct);
-    return this.http.put(this.url+ "products/", newProduct, options)
+    return this.http.put(this.url+ "/products/", newProduct, options)
   }
 
   public getProductsByName(clave: string) {
@@ -106,7 +108,7 @@ export class ProductService {
       })
     };
     console.log("hola desde getProductsByName " + clave)
-    return this.http.get(this.url + "buscar/?filterProductName=" + clave + "&filterUser=" + this.usuarioActual.user_id, options);
+    return this.http.get(this.url + "/buscar/?filterProductName=" + clave + "&filterUser=" + this.usuarioActual.user_id, options);
   }
 
   public getProductsBySelectedCategory() {
@@ -118,7 +120,7 @@ export class ProductService {
         'User': user_id,
       })
     };
-    return this.http.get(this.url + "buscar/" + this.categoriaSeleccionada + "?filterUser=" + this.usuarioActual.user_id, options);
+    return this.http.get(this.url + "/buscar/" + this.categoriaSeleccionada + "?filterUser=" + this.usuarioActual.user_id, options);
   }
   
   public getProductsBySelectedCategoryAndCp(cp: number) {
@@ -130,7 +132,7 @@ export class ProductService {
         'User': user_id,
       })
     };
-    return this.http.get(this.url + "buscar-cercanos/categoria/" + this.categoriaSeleccionada + "/cp/" + cp + "?filterUser=" + this.usuarioActual.user_id, options);
+    return this.http.get(this.url + "/buscar-cercanos/categoria/" + this.categoriaSeleccionada + "/cp/" + cp + "?filterUser=" + this.usuarioActual.user_id, options);
   }
 
   public getProductsBySelectedCategoryAndLocation(tipo_loc:string, valor_loc:any) {
@@ -142,7 +144,7 @@ export class ProductService {
         'User': user_id,
       })
     };
-    return this.http.get(this.url + "buscar-cercanos/categoria/" + this.categoriaSeleccionada + "/" + tipo_loc + "/" + valor_loc + "?filterUser=" + this.usuarioActual.user_id, options);
+    return this.http.get(this.url + "/buscar-cercanos/categoria/" + this.categoriaSeleccionada + "/" + tipo_loc + "/" + valor_loc + "?filterUser=" + this.usuarioActual.user_id, options);
   }
 
   public getProductsBySelectedCategoryAndDays(dias: number) {
@@ -154,7 +156,7 @@ export class ProductService {
         'User': user_id,
       })
     };
-    return this.http.get(this.url + "buscar-ultimos/" + "?filterUser=" + this.usuarioActual.user_id + "&days=" + dias, options);
+    return this.http.get(this.url + "/buscar-ultimos/" + "?filterUser=" + this.usuarioActual.user_id + "&days=" + dias, options);
   }
 
   public getLatestProducts(){
@@ -168,7 +170,7 @@ export class ProductService {
     };
     console.log("obteniendo últimos productos")
     console.log(this.usuarioActual.user_id)
-    return this.http.get(this.url + "buscar-ultimos/" + "?filterUser=" + this.usuarioActual.user_id, options) 
+    return this.http.get(this.url + "/buscar-ultimos/" + "?filterUser=" + this.usuarioActual.user_id, options) 
   }
 
   public getClosestProducts(){
@@ -184,7 +186,7 @@ export class ProductService {
     console.log(this.usuarioActual)
     console.log(this.usuarioActual.user_id)
     console.log(this.usuarioActual.localidad)
-    return this.http.get(this.url + "buscar-cercanos/" + "?filterUser=" + this.usuarioActual.user_id + "&filterWhere=" + this.usuarioActual.localidad, options) 
+    return this.http.get(this.url + "/buscar-cercanos/" + "?filterUser=" + this.usuarioActual.user_id + "&filterWhere=" + this.usuarioActual.localidad, options) 
   }
   
   public getOwnerByName(nombreUsuario: string) {
@@ -197,7 +199,7 @@ export class ProductService {
         'User': user_id, 
       })
     };
-    return this.http.get(this.url + "buscar/usuario/" + nombreUsuario, options);
+    return this.http.get(this.url + "/buscar/usuario/" + nombreUsuario, options);
   }
 
   public deleteProduct(id:number){
@@ -212,7 +214,7 @@ export class ProductService {
         user_id: this.usuarioActual.user_id
       },
     };
-  return this.http.delete(this.url+ "products/", options)
+  return this.http.delete(this.url+ "/products/", options)
   }
 
 }

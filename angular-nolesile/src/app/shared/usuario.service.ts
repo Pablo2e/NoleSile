@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { Usuario } from './../models/usuario';
 // SERVICIOS IMPORTADOS
 import { LoginService } from './login.service';
+// CONSTANTES GLOBALES
+import {apiServerUrl, imageServerUrl} from 'src/app/shared/globals'
 
 
 @Injectable({
@@ -18,8 +20,8 @@ export class UsuarioService {
   public usuario: Usuario;
   public idUsuario: number;
   
-  private url = "http://localhost:3000/"
-  public urlImg = "http://localhost:3100/"
+  private url = apiServerUrl;
+  public urlImg = imageServerUrl
 
   
   constructor(
@@ -30,7 +32,7 @@ export class UsuarioService {
 
   public getUsuario(id: number){
     if (!id){
-      return this.http.get(this.url + "user/register")
+      return this.http.get(this.url + "/user/register")
     }else{
       const accessToken = this.loginService.getToken();
       const user_id = this.loginService.usuarioActual.user_id.toString();
@@ -40,7 +42,7 @@ export class UsuarioService {
           'User': user_id, 
         })
       };
-      return this.http.get(this.url + "user/" + id, options)
+      return this.http.get(this.url + "/user/" + id, options)
     }
   }
 
@@ -51,7 +53,7 @@ export class UsuarioService {
           'Authorization': accessToken,
         })
       };
-    return this.http.put(this.url + "user", cambios, options)
+    return this.http.put(this.url + "/user", cambios, options)
   }
   
   public deleteUsuario(id: number){
@@ -65,7 +67,7 @@ export class UsuarioService {
         user_id: id,
       },
     };
-    return this.http.delete(this.url + "user/", options)
+    return this.http.delete(this.url + "/user/", options)
   }
   
   //Para la carga y borrar fotos

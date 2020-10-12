@@ -7,6 +7,9 @@ import { Nole } from '../models/nole';
 import { Notificacion } from '../models/notificaciones';
 // SERVICIOS IMPORTADOS
 import { LoginService } from './login.service';
+// CONSTANTES GLOBALES
+import {apiServerUrl} from 'src/app/shared/globals'
+
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +17,7 @@ import { LoginService } from './login.service';
 
 export class MessageService {
 
-  private url = "http://localhost:3000/"
+  private url = apiServerUrl
   public message:Message
   public noleSeleccionado = new Nole(0, 0);
   public sileSeleccionado = new Nole(0, 0);
@@ -35,7 +38,7 @@ export class MessageService {
         'User': user_id
       })
     };
-    return this.http.get(this.url + "messages/" + chat_id, options)
+    return this.http.get(this.url + "/messages/" + chat_id, options)
   }
 
   public postMessage(nuevoMensaje: Message) {
@@ -46,7 +49,7 @@ export class MessageService {
       })
     };
     console.log(nuevoMensaje);
-    return this.http.post(this.url + "messages/", nuevoMensaje, options)
+    return this.http.post(this.url + "/messages/", nuevoMensaje, options)
   } 
   
   public changeMessageToRead(cambio){
@@ -58,12 +61,12 @@ export class MessageService {
         'User': user_id
       })
     };
-    return this.http.put(this.url + "messages/", cambio, options)
+    return this.http.put(this.url + "/messages/", cambio, options)
   }
 
   public createUserNotification(nuevaNotificacion: Notificacion) {
     console.log(nuevaNotificacion);
-    return this.http.post(this.url + "notifications/", nuevaNotificacion)
+    return this.http.post(this.url + "/notifications/", nuevaNotificacion)
   }
 
   public modifyNotificationsByUser(nuevaNotificacion: Notificacion) {
@@ -77,7 +80,7 @@ export class MessageService {
       })
     };
     console.log(nuevaNotificacion);
-    return this.http.put(this.url + "notifications/", nuevaNotificacion, options)
+    return this.http.put(this.url + "/notifications/", nuevaNotificacion, options)
   }
  
   public getNotificationsByUser(id: number) {
@@ -88,7 +91,7 @@ export class MessageService {
           'Authorization': accessToken,
         })
       };
-    return this.http.get(this.url + "notifications/"+ id, options)
+    return this.http.get(this.url + "/notifications/"+ id, options)
   }
 
   public postNole(newNoleRelation: Nole) {
@@ -98,7 +101,7 @@ export class MessageService {
         'Authorization': accessToken, 
       })
     };
-    return this.http.post(this.url + "noles/", newNoleRelation, options)
+    return this.http.post(this.url + "/noles/", newNoleRelation, options)
   }
 
   public getNolesByUser(id: number) {
@@ -108,7 +111,7 @@ export class MessageService {
           'Authorization': accessToken,
         })
       };
-    return this.http.get(this.url + "noles/" + id, options);
+    return this.http.get(this.url + "/noles/" + id, options);
   }
 
   public getSilesByUser(id: number) {
@@ -118,7 +121,7 @@ export class MessageService {
           'Authorization': accessToken,
         })
       };
-    return this.http.get(this.url + "siles/" + id, options);
+    return this.http.get(this.url + "/siles/" + id, options);
   }
 
   public deleteNole(chat_id: string) {
@@ -130,7 +133,7 @@ export class MessageService {
         'User': user_id
       })
     };
-    return this.http.delete(this.url + "noles/" + chat_id, options);
+    return this.http.delete(this.url + "/noles/" + chat_id, options);
   }
   
 }

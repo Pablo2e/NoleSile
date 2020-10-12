@@ -28,21 +28,17 @@ connection.connect(function(error){
     console.log('Conexión correcta')
 });
 
-app.use(cors());
-app.use(bodyParserJSON);
-app.use(bodyParserURLEncoded);
-
 // conexión a la base de datos para async/await en verificar accessToken
 function makeDb(config) {
     const connection = mysql.createConnection(config);  
     return {
-      query( sql, args ) {
-        return util.promisify( connection.query )
-          .call( connection, sql, args );
-      },
-      close() {
-        return util.promisify( connection.end ).call( connection );
-      }
+        query( sql, args ) {
+            return util.promisify( connection.query )
+            .call( connection, sql, args );
+        },
+        close() {
+            return util.promisify( connection.end ).call( connection );
+        }
     };
 }
 const db = makeDb( {
@@ -64,6 +60,10 @@ app.use(fileUpload({
         fileSize: 2 * 1024 * 1024 * 1024 //2MB max file(s) size
     },
 }));
+
+app.use(cors());
+app.use(bodyParserJSON);
+app.use(bodyParserURLEncoded);
 
 //Constantes para limitar cantidad de productos y mensajes
 const limiteProductos = 50

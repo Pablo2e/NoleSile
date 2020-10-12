@@ -12,6 +12,8 @@ import { ProductService } from 'src/app/shared/product.service';
 import { UsuarioService } from 'src/app/shared/usuario.service';
 import { LoginService } from 'src/app/shared/login.service';
 import { ToastrService } from 'ngx-toastr';
+// CONSTANTES GLOBALES
+import {unicornio} from 'src/app/shared/globals'
 
 
 @Component({
@@ -35,6 +37,7 @@ export class MessagesComponent implements OnInit {
   public modalRef: BsModalRef;
   public chat_idParaBorrar: string;
   public cambio: any;
+  public unicornio: string = unicornio
 
   constructor(
     public usuarioService:UsuarioService, 

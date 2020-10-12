@@ -5,9 +5,6 @@ const app = express();
 const cors = require('cors')
 const fs = require('fs');
 
-app.use(cors());
-app.use(bodyParser.json());
-
 //EXTRAS PARA LA CARGA DE FOTOS 
 const fileUpload = require('express-fileupload');
 const morgan = require('morgan');
@@ -22,6 +19,9 @@ app.use(fileUpload({
         fileSize: 2 * 1024 * 1024 * 1024 //2MB max file(s) size
     },
 }));
+
+app.use(cors());
+app.use(bodyParser.json());
 
 //Puerto a usar 
 const port = process.env.PORT || 3100;
