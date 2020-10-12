@@ -6,8 +6,7 @@ import { Product } from '../models/product';
 import { Usuario } from '../models/usuario';
 // SERVICIOS IMPORTADOS
 import { LoginService } from './login.service';
-// CONSTANTES GLOBALES
-import {apiServerUrl, imageServerUrl} from 'src/app/shared/globals'
+import { GlobalsService } from './globals.service';
 
 
 @Injectable({
@@ -24,12 +23,13 @@ export class ProductService {
   public categoriaSeleccionada: any; 
   public idProductoSeleccionado: number;
   
-  private url = apiServerUrl; 
-  public urlImg = imageServerUrl; 
+  private url: string = this.globalsService.apiServerUrl; 
+  public urlImg: string = this.globalsService.imageServerUrl; 
 
 
   constructor(
-    public loginService:LoginService, 
+    public loginService:LoginService,
+    public globalsService:GlobalsService, 
     private http: HttpClient) {
       this.usuarioActual=this.loginService.usuarioActual
       console.log("funcionando servicio product");

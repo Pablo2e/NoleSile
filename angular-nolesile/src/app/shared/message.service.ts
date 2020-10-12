@@ -7,8 +7,7 @@ import { Nole } from '../models/nole';
 import { Notificacion } from '../models/notificaciones';
 // SERVICIOS IMPORTADOS
 import { LoginService } from './login.service';
-// CONSTANTES GLOBALES
-import {apiServerUrl} from 'src/app/shared/globals'
+import { GlobalsService } from './globals.service';
 
 
 @Injectable({
@@ -17,7 +16,7 @@ import {apiServerUrl} from 'src/app/shared/globals'
 
 export class MessageService {
 
-  private url = apiServerUrl
+  private url: string = this.globalsService.apiServerUrl
   public message:Message
   public noleSeleccionado = new Nole(0, 0);
   public sileSeleccionado = new Nole(0, 0);
@@ -25,8 +24,10 @@ export class MessageService {
     
  
   constructor(
-    private http:HttpClient,
-    public loginService:LoginService) { }
+    public loginService:LoginService,
+    public globalsService:GlobalsService,
+    private http:HttpClient) { }
+    
 
 
   public getMessages(chat_id: string) {

@@ -8,8 +8,8 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 // MODELOS
 import { Usuario } from '../models/usuario';
-// CONSTANTES GLOBALES
-import {apiServerUrl, fotoUsuarioPorDefecto} from 'src/app/shared/globals'
+// SERVICIOS IMPORTADOS
+import { GlobalsService } from './globals.service';
 
 
 @Injectable({
@@ -19,13 +19,14 @@ import {apiServerUrl, fotoUsuarioPorDefecto} from 'src/app/shared/globals'
 
 export class LoginService {
 
-  private backUrl = apiServerUrl;
-  public defaultUserPicture = fotoUsuarioPorDefecto;
+  private backUrl: string = this.globalsService.apiServerUrl;
+  public defaultUserPicture: string = this.globalsService.fotoUsuarioPorDefecto;
   private token: string;
   public usuarioActual = new Usuario(null, null, null, null, null, null, null, null, this.defaultUserPicture);
   public avisoMensaje: boolean;
 
   constructor(
+    public globalsService:GlobalsService,
     private http: HttpClient,
     private router: Router, 
     private toastr: ToastrService) {}

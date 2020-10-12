@@ -6,8 +6,7 @@ import { Router } from '@angular/router';
 import { Usuario } from './../models/usuario';
 // SERVICIOS IMPORTADOS
 import { LoginService } from './login.service';
-// CONSTANTES GLOBALES
-import {apiServerUrl, imageServerUrl} from 'src/app/shared/globals'
+import { GlobalsService } from './globals.service';
 
 
 @Injectable({
@@ -20,11 +19,12 @@ export class UsuarioService {
   public usuario: Usuario;
   public idUsuario: number;
   
-  private url = apiServerUrl;
-  public urlImg = imageServerUrl
+  private url = this.globalsService.apiServerUrl;
+  public urlImg = this.globalsService.imageServerUrl
 
   
   constructor(
+    public globalsService:GlobalsService,
     private http: HttpClient,
     private router: Router, 
     public loginService:LoginService) { }
