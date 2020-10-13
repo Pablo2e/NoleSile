@@ -32,9 +32,7 @@ export class ProductService {
     public globalsService:GlobalsService, 
     private http: HttpClient) {
       this.usuarioActual=this.loginService.usuarioActual
-      if(this.globalsService.DEBUG){
-        console.log()
-      } else {
+      if(this.globalsService.INFO){
         console.log("funcionando servicio product");
       }
     }
@@ -52,8 +50,6 @@ export class ProductService {
   public actualizarCategoriaSeleccionada(newCat: any){
     this.categoriaSeleccionada = newCat;
     if(this.globalsService.DEBUG){
-      console.log()
-    } else {
       console.log(this.categoriaSeleccionada)
     }
     this.getProductsBySelectedCategory();
@@ -75,7 +71,7 @@ export class ProductService {
 
   public getProductsByUser(id: number) {
     const accessToken = this.loginService.getToken();
-    const user_id = this.loginService.usuarioActual.user_id.toString();
+    const user_id = this.loginService.getUserId();
     const options = {
       headers: new HttpHeaders({
         'Authorization': accessToken, 
@@ -103,8 +99,6 @@ export class ProductService {
       })
     };
     if(this.globalsService.DEBUG){
-      console.log()
-    } else {
       console.log(newProduct);
     }
     return this.http.put(this.url+ "/products/", newProduct, options)
@@ -112,7 +106,7 @@ export class ProductService {
 
   public getProductsByName(clave: string) {
     const accessToken = this.loginService.getToken();
-    const user_id = this.loginService.usuarioActual.user_id.toString();
+    const user_id = this.loginService.getUserId();
     const options = {
       headers: new HttpHeaders({
         'Authorization': accessToken, 
@@ -120,16 +114,14 @@ export class ProductService {
       })
     };
     if(this.globalsService.DEBUG){
-      console.log()
-    } else {
-      console.log("hola desde getProductsByName " + clave)
+      console.log("getProductsByName " + clave)
     }
     return this.http.get(this.url + "/buscar/?filterProductName=" + clave + "&filterUser=" + this.usuarioActual.user_id, options);
   }
 
   public getProductsBySelectedCategory() {
     const accessToken = this.loginService.getToken();
-    const user_id = this.loginService.usuarioActual.user_id.toString();
+    const user_id = this.loginService.getUserId();
     const options = {
       headers: new HttpHeaders({
         'Authorization': accessToken, 
@@ -141,7 +133,7 @@ export class ProductService {
   
   public getProductsBySelectedCategoryAndCp(cp: number) {
     const accessToken = this.loginService.getToken();
-    const user_id = this.loginService.usuarioActual.user_id.toString();
+    const user_id = this.loginService.getUserId();
     const options = {
       headers: new HttpHeaders({
         'Authorization': accessToken, 
@@ -153,7 +145,7 @@ export class ProductService {
 
   public getProductsBySelectedCategoryAndLocation(tipo_loc:string, valor_loc:any) {
     const accessToken = this.loginService.getToken();
-    const user_id = this.loginService.usuarioActual.user_id.toString();
+    const user_id = this.loginService.getUserId();
     const options = {
       headers: new HttpHeaders({
         'Authorization': accessToken, 
@@ -165,7 +157,7 @@ export class ProductService {
 
   public getProductsBySelectedCategoryAndDays(dias: number) {
     const accessToken = this.loginService.getToken();
-    const user_id = this.loginService.usuarioActual.user_id.toString();
+    const user_id = this.loginService.getUserId();
     const options = {
       headers: new HttpHeaders({
         'Authorization': accessToken, 
@@ -177,7 +169,7 @@ export class ProductService {
 
   public getLatestProducts(){
     const accessToken = this.loginService.getToken();
-    const user_id = this.loginService.usuarioActual.user_id.toString();
+    const user_id = this.loginService.getUserId();
     const options = {
       headers: new HttpHeaders({
         'Authorization': accessToken, 
@@ -185,17 +177,15 @@ export class ProductService {
       })
     };
     if(this.globalsService.DEBUG){
-      console.log()
-    } else {
-      console.log("obteniendo últimos productos")
       console.log(this.usuarioActual.user_id)
+      console.log("obteniendo últimos productos")
     }
     return this.http.get(this.url + "/buscar-ultimos/" + "?filterUser=" + this.usuarioActual.user_id, options) 
   }
 
   public getClosestProducts(){
     const accessToken = this.loginService.getToken();
-    const user_id = this.loginService.usuarioActual.user_id.toString();
+    const user_id = this.loginService.getUserId();
     const options = {
       headers: new HttpHeaders({
         'Authorization': accessToken, 
@@ -203,8 +193,6 @@ export class ProductService {
       })
     };
     if(this.globalsService.DEBUG){
-      console.log()
-    } else {
       console.log("obteniendo productos cercanos")
       console.log(this.usuarioActual)
       console.log(this.usuarioActual.user_id)
@@ -215,10 +203,8 @@ export class ProductService {
   
   public getOwnerByName(nombreUsuario: string) {
     const accessToken = this.loginService.getToken();
-    let user_id = this.loginService.usuarioActual.user_id.toString();
+    let user_id = this.loginService.getUserId();
     if(this.globalsService.DEBUG){
-      console.log()
-    } else {
       console.log(user_id)
     }
     const options = {

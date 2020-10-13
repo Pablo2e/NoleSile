@@ -45,14 +45,10 @@ export class HeaderComponent implements OnInit {
   public verificarUsuario(){
     let user_id = this.loginService.usuarioActual.user_id
     if(this.globalsService.DEBUG){
-      console.log()
-    } else {
       console.log(user_id)
     }
     this.usuarioService.getUsuario(user_id).subscribe((data) => {
       if(this.globalsService.DEBUG){
-        console.log()
-      } else {
         console.log(data)
       }
       this.router.navigate(["/usuario"]);
@@ -67,15 +63,11 @@ export class HeaderComponent implements OnInit {
 
   public buscarProducto(clave: string) {
     if(this.globalsService.DEBUG){
-      console.log()
-    } else {
       console.log(clave)
     }
     this.productService.getProductsByName(clave).subscribe((data) => {
       this.productService.products = data
       if(this.globalsService.DEBUG){
-        console.log()
-      } else {
         console.log(data)
       }
       this.router.navigate(["/buscar"]);
@@ -92,8 +84,6 @@ export class HeaderComponent implements OnInit {
       this.loginService.usuarioActual = null;
       this.productService.usuarioActual = null;
       if(this.globalsService.DEBUG){
-        console.log()
-      } else {
         console.log(data)
       }
     }, (error) => {
@@ -108,8 +98,6 @@ export class HeaderComponent implements OnInit {
     let notificacionDesactivar:Notificacion = new Notificacion(this.loginService.usuarioActual.user_id, false)
     this.messageService.modifyNotificationsByUser(notificacionDesactivar).subscribe((data) => {
       if(this.globalsService.DEBUG){
-        console.log()
-      } else {
         console.log(data)
       }
     }, (error) => {
@@ -124,8 +112,6 @@ export class HeaderComponent implements OnInit {
   public verificarMensajesNuevos(){
     this.messageService.getNotificationsByUser(this.loginService.usuarioActual.user_id).subscribe((data) => {
       if(this.globalsService.DEBUG){
-        console.log()
-      } else {
         console.log(data)
       }
       if (data !== null) {
@@ -143,8 +129,6 @@ export class HeaderComponent implements OnInit {
   //FORMULARIO
   public onSubmit(form) {
     if(this.globalsService.DEBUG){
-      console.log()
-    } else {
       console.log(form.value)
     }
   }
@@ -155,9 +139,7 @@ export class HeaderComponent implements OnInit {
   }
   
   ngOnInit(): void {
-    if(this.globalsService.DEBUG){
-      console.log()
-    } else {
+    if(this.globalsService.INFO){
       console.log('ngOnInit.header.ts');
     }
     this.verificarMensajesNuevos();

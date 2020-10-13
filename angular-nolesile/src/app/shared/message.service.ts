@@ -32,7 +32,7 @@ export class MessageService {
 
   public getMessages(chat_id: string) {
     const accessToken = this.loginService.getToken();
-    let user_id = this.loginService.usuarioActual.user_id.toString();
+    let user_id = this.loginService.getUserId();
     const options = {
       headers: new HttpHeaders({
         'Authorization': accessToken, 
@@ -50,8 +50,6 @@ export class MessageService {
       })
     };
     if(this.globalsService.DEBUG){
-      console.log()
-    } else {
       console.log(nuevoMensaje);
     }
     return this.http.post(this.url + "/messages/", nuevoMensaje, options)
@@ -59,7 +57,7 @@ export class MessageService {
   
   public changeMessageToRead(cambio){
     const accessToken = this.loginService.getToken();
-    let user_id = this.loginService.usuarioActual.user_id.toString();
+    let user_id = this.loginService.getUserId();
     const options = {
       headers: new HttpHeaders({
         'Authorization': accessToken, 
@@ -71,8 +69,6 @@ export class MessageService {
 
   public createUserNotification(nuevaNotificacion: Notificacion) {
     if(this.globalsService.DEBUG){
-      console.log()
-    } else {
       console.log(nuevaNotificacion);
     }
     return this.http.post(this.url + "/notifications/", nuevaNotificacion)
@@ -80,10 +76,8 @@ export class MessageService {
 
   public modifyNotificationsByUser(nuevaNotificacion: Notificacion) {
     const accessToken = this.loginService.getToken();
-    let user_id = this.loginService.usuarioActual.user_id.toString();
+    let user_id = this.loginService.getUserId();
     if(this.globalsService.DEBUG){
-      console.log()
-    } else {
       console.log(accessToken,nuevaNotificacion.user_id)
     }
     const options = {
@@ -93,8 +87,6 @@ export class MessageService {
       })
     };
     if(this.globalsService.DEBUG){
-      console.log()
-    } else {
       console.log(nuevaNotificacion);
     }
     return this.http.put(this.url + "/notifications/", nuevaNotificacion, options)
@@ -103,8 +95,6 @@ export class MessageService {
   public getNotificationsByUser(id: number) {
     const accessToken = this.loginService.getToken();
     if(this.globalsService.DEBUG){
-      console.log()
-    } else {
       console.log(id, accessToken)
     }
       const options = {
@@ -147,7 +137,7 @@ export class MessageService {
 
   public deleteNole(chat_id: string) {
     const accessToken = this.loginService.getToken();
-    let user_id = this.loginService.usuarioActual.user_id.toString();
+    let user_id = this.loginService.getUserId();
     const options = {
       headers: new HttpHeaders({
         'Authorization': accessToken, 

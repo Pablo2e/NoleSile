@@ -27,6 +27,7 @@ export class SearchComponent implements OnInit {
   public idProducto: number;
   public categoriaActual: any;
   public usuario = new Usuario(null, null, null, null, null, null, null, null, null)
+  public unicornio: string = this.globalsService.unicornio
   
   constructor(
     public productService: ProductService, 

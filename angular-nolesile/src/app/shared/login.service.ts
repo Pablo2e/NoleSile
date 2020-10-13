@@ -33,8 +33,6 @@ export class LoginService {
 
   public register(nuevoUsuario: Usuario) {
     if(this.globalsService.DEBUG){
-      console.log()
-    } else {
       console.log(this.backUrl)
     }
     return this.http.post(this.backUrl + "/user/register", nuevoUsuario)

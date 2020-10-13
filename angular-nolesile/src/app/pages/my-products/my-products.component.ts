@@ -29,6 +29,7 @@ export class MyProductsComponent implements OnInit {
   public modalRef:BsModalRef; //MODAL NGX
   public selectedFile: File; //para cargar la foto
   private photoSize=2000000
+  public unicornio: string = this.globalsService.unicornio
 
   constructor(
     public productService:ProductService, 

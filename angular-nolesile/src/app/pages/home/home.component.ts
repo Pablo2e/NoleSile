@@ -25,6 +25,7 @@ export class HomeComponent implements OnInit {
   public productsUltimos: any;
   public productsCercanos: any;
   public idProducto: number
+  public unicornio: string = this.globalsService.unicornio
 
   constructor(
     public productService:ProductService, 
