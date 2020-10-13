@@ -32,7 +32,11 @@ export class ProductService {
     public globalsService:GlobalsService, 
     private http: HttpClient) {
       this.usuarioActual=this.loginService.usuarioActual
-      console.log("funcionando servicio product");
+      if(this.globalsService.DEBUG){
+        console.log()
+      } else {
+        console.log("funcionando servicio product");
+      }
     }
 
 
@@ -47,7 +51,11 @@ export class ProductService {
 
   public actualizarCategoriaSeleccionada(newCat: any){
     this.categoriaSeleccionada = newCat;
-    console.log(this.categoriaSeleccionada)
+    if(this.globalsService.DEBUG){
+      console.log()
+    } else {
+      console.log(this.categoriaSeleccionada)
+    }
     this.getProductsBySelectedCategory();
   }
 
@@ -94,7 +102,11 @@ export class ProductService {
         'Authorization': accessToken,
       })
     };
-    console.log(newProduct);
+    if(this.globalsService.DEBUG){
+      console.log()
+    } else {
+      console.log(newProduct);
+    }
     return this.http.put(this.url+ "/products/", newProduct, options)
   }
 
@@ -107,7 +119,11 @@ export class ProductService {
         'User': user_id,
       })
     };
-    console.log("hola desde getProductsByName " + clave)
+    if(this.globalsService.DEBUG){
+      console.log()
+    } else {
+      console.log("hola desde getProductsByName " + clave)
+    }
     return this.http.get(this.url + "/buscar/?filterProductName=" + clave + "&filterUser=" + this.usuarioActual.user_id, options);
   }
 
@@ -168,8 +184,12 @@ export class ProductService {
         'User': user_id,
       })
     };
-    console.log("obteniendo últimos productos")
-    console.log(this.usuarioActual.user_id)
+    if(this.globalsService.DEBUG){
+      console.log()
+    } else {
+      console.log("obteniendo últimos productos")
+      console.log(this.usuarioActual.user_id)
+    }
     return this.http.get(this.url + "/buscar-ultimos/" + "?filterUser=" + this.usuarioActual.user_id, options) 
   }
 
@@ -182,17 +202,25 @@ export class ProductService {
         'User': user_id,
       })
     };
-    console.log("obteniendo productos cercanos")
-    console.log(this.usuarioActual)
-    console.log(this.usuarioActual.user_id)
-    console.log(this.usuarioActual.localidad)
+    if(this.globalsService.DEBUG){
+      console.log()
+    } else {
+      console.log("obteniendo productos cercanos")
+      console.log(this.usuarioActual)
+      console.log(this.usuarioActual.user_id)
+      console.log(this.usuarioActual.localidad)
+    }
     return this.http.get(this.url + "/buscar-cercanos/" + "?filterUser=" + this.usuarioActual.user_id + "&filterWhere=" + this.usuarioActual.localidad, options) 
   }
   
   public getOwnerByName(nombreUsuario: string) {
     const accessToken = this.loginService.getToken();
     let user_id = this.loginService.usuarioActual.user_id.toString();
-    console.log(user_id)
+    if(this.globalsService.DEBUG){
+      console.log()
+    } else {
+      console.log(user_id)
+    }
     const options = {
       headers: new HttpHeaders({
         'Authorization': accessToken, 

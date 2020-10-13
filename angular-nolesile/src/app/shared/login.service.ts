@@ -32,7 +32,11 @@ export class LoginService {
     private toastr: ToastrService) {}
 
   public register(nuevoUsuario: Usuario) {
-    console.log(this.backUrl)
+    if(this.globalsService.DEBUG){
+      console.log()
+    } else {
+      console.log(this.backUrl)
+    }
     return this.http.post(this.backUrl + "/user/register", nuevoUsuario)
   }
 
@@ -76,7 +80,6 @@ export class LoginService {
   }
 
   public logout() {
-    console.log ( 'Hola desde Logout')
     const accessToken = this.getToken();
     const options = {
       headers: new HttpHeaders({

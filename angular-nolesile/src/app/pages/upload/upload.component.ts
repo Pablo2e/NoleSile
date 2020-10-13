@@ -9,6 +9,7 @@ import { Usuario } from 'src/app/models/usuario';
 // SERVICIOS
 import { ProductService } from 'src/app/shared/product.service';
 import { LoginService } from 'src/app/shared/login.service';
+import { GlobalsService } from 'src/app/shared/globals.service';
 
 
 @Component({
@@ -31,7 +32,8 @@ export class UploadComponent implements OnInit {
   constructor(
     public productService:ProductService, 
     public loginService:LoginService, 
-    public modalService:BsModalService, 
+    public modalService:BsModalService,
+    public globalsService: GlobalsService, 
     private toastr: ToastrService) {
     this.usuarioActual=this.loginService.usuarioActual
   }
@@ -39,12 +41,19 @@ export class UploadComponent implements OnInit {
   // METODOS
   public pasarIdProducto(numero){
     this.idProducto=numero
-    console.log(this.idProducto)
+    if(this.globalsService.DEBUG){
+      console.log()
+    } else {
+      console.log(this.idProducto)
+    }
   }
   
   public anyadirSile(nombre: string, descripcion: string, categoria: string, user_id: number, product_image: string, template: TemplateRef < any > ){
-    console.log('Hola desde anyadir')
-    console.log(this.productService.product)
+    if(this.globalsService.DEBUG){
+      console.log()
+    } else {
+      console.log(this.productService.product)
+    }
     if (nombre === null || descripcion === null || categoria === null || product_image === null ||
       nombre === "" || descripcion === "" || categoria === "" || product_image === "") {
       this.toastr.error("Por favor, completa todos los campos", "Algo fue mal")
@@ -56,10 +65,18 @@ export class UploadComponent implements OnInit {
       const fd = new FormData()
       fd.append('product_image',this.selectedFile, nombreFotoProducto);
       this.productService.uploadImageProduct(fd).subscribe((data)=>{
-        console.log(data)
+        if(this.globalsService.DEBUG){
+          console.log()
+        } else {
+          console.log(data);
+        }
       })
       this.productService.postProduct(new Product(null, nombre, descripcion, categoria, user_id, productImageUrl, date)).subscribe((data)=>{
-        console.log(data)
+        if(this.globalsService.DEBUG){
+          console.log()
+        } else {
+          console.log(data);
+        }
         this.openModal(template);
       }, (error) => {
         console.log(error);
@@ -78,28 +95,32 @@ export class UploadComponent implements OnInit {
     this.selectedFile = <File>event.target.files[0]	
 	  let fileName = this.selectedFile.name; 
 	  let fileSize = this.selectedFile.size; //recupera el tamaño del archivo
-	if(fileSize > this.photoSize){
-    this.toastr.error("El archivo no debe superar los 2MB", "Algo fue mal")
-		fileName = '';
-	}else{
-		// recuperamos la extensión del archivo
-		let ext = fileName.split('.').pop();
+    if(fileSize > this.photoSize){
+      this.toastr.error("El archivo no debe superar los 2MB", "Algo fue mal")
+      fileName = '';
+    } else {
+      // recuperamos la extensión del archivo
+		  let ext = fileName.split('.').pop();
 		// Convertimos en minúscula porque la extensión del archivo puede estar en mayúscula
-		ext = ext.toLowerCase();
-		switch (ext) {
-			case 'jpg':
-			case 'jpeg':
-			case 'png': break;
-			default:
-				this.toastr.error('El archivo no tiene la extensión adecuada', "Algo fue mal");
-				fileName = '';
+		  ext = ext.toLowerCase();
+      switch (ext) {
+        case 'jpg':
+        case 'jpeg':
+        case 'png': break;
+        default:
+        this.toastr.error('El archivo no tiene la extensión adecuada', "Algo fue mal");
+        fileName = '';
 		  }
     }
   }
 
   // FORMULARIO
   public onSubmit(form){
-    console.log(form.value)
+    if(this.globalsService.DEBUG){
+      console.log()
+    } else {
+      console.log(form.value)
+    }
   }
 
   // MODAL

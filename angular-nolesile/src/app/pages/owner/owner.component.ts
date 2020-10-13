@@ -8,6 +8,7 @@ import { ProductService } from 'src/app/shared/product.service';
 import { LoginService } from 'src/app/shared/login.service';
 import { UsuarioService } from 'src/app/shared/usuario.service';
 import { MessageService } from 'src/app/shared/message.service';
+import { GlobalsService } from 'src/app/shared/globals.service';
 
 
 @Component({
@@ -29,7 +30,8 @@ export class OwnerComponent implements OnInit {
     public productService:ProductService, 
     public usuarioService:UsuarioService,
     public loginService:LoginService, 
-    public messageService:MessageService,) {
+    public messageService:MessageService,
+    public globalsService: GlobalsService) {
       this.obtenerOwnerInfo(this.productService.ownerActual)
       this.mostrarProductos(this.productService.ownerActual)
    }
@@ -38,14 +40,26 @@ export class OwnerComponent implements OnInit {
   public mostrarProductos(uid){
     this.productService.getProductsByUser(uid).subscribe((data)=>{
       this.products = data
-      console.log(data)
+      if(this.globalsService.DEBUG){
+        console.log()
+      } else {
+        console.log(data);
+      }
     })
   }
 
   public obtenerOwnerInfo(uid){
-    console.log(uid)
+    if(this.globalsService.DEBUG){
+      console.log()
+    } else {
+      console.log(uid);
+    }
     this.usuarioService.getUsuario(uid).subscribe((data)=>{
-      console.log(data)
+      if(this.globalsService.DEBUG){
+        console.log()
+      } else {
+        console.log(data);
+      }
       this.nombreOwner = data[0].name;
       this.imagenOwner = data[0].user_image;
     })
@@ -55,7 +69,11 @@ export class OwnerComponent implements OnInit {
     let uid=this.loginService.usuarioActual.user_id;
     let newNole= new Nole(uid,pid);
     this.messageService.postNole(newNole).subscribe((data)=>{
-      console.log(data)
+      if(this.globalsService.DEBUG){
+        console.log()
+      } else {
+        console.log(data);
+      }
     })
     this.messageService.noleSeleccionado = newNole;
   }

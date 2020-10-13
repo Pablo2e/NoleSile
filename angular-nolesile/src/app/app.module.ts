@@ -28,7 +28,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 //Carrousel NG
 import { NgbModule, NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
-
+//NGX Logger
+import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,17 @@ import { NgbModule, NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
     ToastrModule.forRoot({
       positionClass: 'toast-top-center',
     }),
+    LoggerModule.forRoot({
+      serverLoggingUrl: '/api/logs', 
+      level: NgxLoggerLevel.DEBUG, 
+      serverLogLevel: NgxLoggerLevel.ERROR
+    })
+    /* LoggerModule.forRoot({
+      serverLoggingUrl: '/api/logs',
+      level: NgxLoggerLevel.TRACE,
+      serverLogLevel: NgxLoggerLevel.ERROR,
+      disableConsoleLogging: false
+    }) */
   ],
   providers: [ ],
   bootstrap: [AppComponent]

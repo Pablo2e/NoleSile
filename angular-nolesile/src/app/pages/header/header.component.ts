@@ -13,7 +13,7 @@ import { ProductService } from 'src/app/shared/product.service';
 import { LoginService } from 'src/app/shared/login.service';
 import { UsuarioService } from 'src/app/shared/usuario.service';
 import { MessageService } from 'src/app/shared/message.service';
-
+import { GlobalsService } from 'src/app/shared/globals.service';
 
 
 @Component({
@@ -37,15 +37,24 @@ export class HeaderComponent implements OnInit {
     public loginService: LoginService,
     public usuarioService: UsuarioService, 
     public messageService: MessageService,
+    public globalsService: GlobalsService,
     private modalService: BsModalService,
     private router: Router) {}
 
   //METODOS
   public verificarUsuario(){
     let user_id = this.loginService.usuarioActual.user_id
-    console.log(user_id)
+    if(this.globalsService.DEBUG){
+      console.log()
+    } else {
+      console.log(user_id)
+    }
     this.usuarioService.getUsuario(user_id).subscribe((data) => {
-      console.log(data)
+      if(this.globalsService.DEBUG){
+        console.log()
+      } else {
+        console.log(data)
+      }
       this.router.navigate(["/usuario"]);
     }, (error) => {
       console.log(error);
@@ -57,10 +66,18 @@ export class HeaderComponent implements OnInit {
   }
 
   public buscarProducto(clave: string) {
-    console.log(clave)
+    if(this.globalsService.DEBUG){
+      console.log()
+    } else {
+      console.log(clave)
+    }
     this.productService.getProductsByName(clave).subscribe((data) => {
       this.productService.products = data
-      console.log(data)
+      if(this.globalsService.DEBUG){
+        console.log()
+      } else {
+        console.log(data)
+      }
       this.router.navigate(["/buscar"]);
     }, (error) => {
       console.log(error);
@@ -74,7 +91,11 @@ export class HeaderComponent implements OnInit {
     this.loginService.logout().subscribe((data) => {
       this.loginService.usuarioActual = null;
       this.productService.usuarioActual = null;
-      console.log(data)
+      if(this.globalsService.DEBUG){
+        console.log()
+      } else {
+        console.log(data)
+      }
     }, (error) => {
       console.log(error);
       if (error.status === 401) {
@@ -86,7 +107,11 @@ export class HeaderComponent implements OnInit {
   public desactivarAvisoMensaje(){
     let notificacionDesactivar:Notificacion = new Notificacion(this.loginService.usuarioActual.user_id, false)
     this.messageService.modifyNotificationsByUser(notificacionDesactivar).subscribe((data) => {
-      console.log(data)
+      if(this.globalsService.DEBUG){
+        console.log()
+      } else {
+        console.log(data)
+      }
     }, (error) => {
       console.log(error);
       if (error.status === 401) {
@@ -98,7 +123,11 @@ export class HeaderComponent implements OnInit {
 
   public verificarMensajesNuevos(){
     this.messageService.getNotificationsByUser(this.loginService.usuarioActual.user_id).subscribe((data) => {
-      console.log(data)
+      if(this.globalsService.DEBUG){
+        console.log()
+      } else {
+        console.log(data)
+      }
       if (data !== null) {
         this.loginService.avisoMensaje = data[0].mensajes_nuevos;
         // this.router.navigate(["/home"])
@@ -113,7 +142,11 @@ export class HeaderComponent implements OnInit {
 
   //FORMULARIO
   public onSubmit(form) {
-    console.log(form.value)
+    if(this.globalsService.DEBUG){
+      console.log()
+    } else {
+      console.log(form.value)
+    }
   }
 
   //MODAL
@@ -122,7 +155,11 @@ export class HeaderComponent implements OnInit {
   }
   
   ngOnInit(): void {
-    console.log('ngOnInit.header.ts');
+    if(this.globalsService.DEBUG){
+      console.log()
+    } else {
+      console.log('ngOnInit.header.ts');
+    }
     this.verificarMensajesNuevos();
   }
   

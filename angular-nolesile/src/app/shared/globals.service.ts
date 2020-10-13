@@ -11,6 +11,7 @@ export class GlobalsService {
     public imageServerUrl = "http://localhost:3100/";
     public fotoUsuarioPorDefecto = "assets/img/perfil.jpg";
     public unicornio = "assets/img/unicornio.png"; 
+    public DEBUG= true
 
     constructor() {}
 

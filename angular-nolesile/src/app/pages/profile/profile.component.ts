@@ -10,6 +10,7 @@ import { Password } from './../../models/password';
 // SERVICIOS
 import { UsuarioService } from 'src/app/shared/usuario.service';
 import { LoginService } from 'src/app/shared/login.service';
+import { GlobalsService } from 'src/app/shared/globals.service';
 import { Router } from '@angular/router';
 
 
@@ -34,6 +35,7 @@ export class ProfileComponent implements OnInit {
     public usuarioService:UsuarioService, 
     public loginService: LoginService, 
     public modalService: BsModalService,
+    public globalsService: GlobalsService,
     private router: Router, 
     private toastr: ToastrService) { 
     this.usuarioActual=this.loginService.usuarioActual
@@ -84,7 +86,11 @@ export class ProfileComponent implements OnInit {
       this.toastr.error("Por favor, completa todos los campos", "Algo fue mal")
       return
     }
-    console.log('Usuario Modificado')
+    if(this.globalsService.DEBUG){
+      console.log()
+    } else {
+      console.log('Usuario Modificado')
+    }
     let userImageUrl;
     let oldImage;
     if(this.selectedFile === null) {
@@ -92,18 +98,34 @@ export class ProfileComponent implements OnInit {
     } else {
       oldImage = this.usuarioActual.user_image;
       oldImage = oldImage.replace(this.usuarioService.urlImg, "");
-      console.log(oldImage);
+      if(this.globalsService.DEBUG){
+        console.log()
+      } else {
+        console.log(oldImage);
+      }
       userImageUrl = this.usuarioService.urlImg + this.token() + "-" + idUsuario + ".jpg";
     }
     let userUpdated = new Usuario(idUsuario, name, password, email, comunidad, provincia, localidad, cp, userImageUrl);  
     if(this.selectedFile === null) {
       this.usuarioService.putUsuario(userUpdated).subscribe((data)=>{
-        console.log(data)
-        this.usuarioService.getUsuario(idUsuario).subscribe(data => {
+        if(this.globalsService.DEBUG){
+          console.log()
+        } else {
           console.log(data);
+        }
+        this.usuarioService.getUsuario(idUsuario).subscribe(data => {
+          if(this.globalsService.DEBUG){
+            console.log()
+          } else {
+            console.log(data);
+          }
           this.loginService.usuarioActual = data[0];
           this.usuarioActual = data[0];
-          console.log(this.usuarioActual);
+          if(this.globalsService.DEBUG){
+            console.log()
+          } else {
+            console.log(this.usuarioActual);
+          }
           this.toastr.success("Tus datos se han actualizado", "Usuario modificado con éxito")
           this.router.navigate(["/usuario"]);
         })
@@ -121,14 +143,30 @@ export class ProfileComponent implements OnInit {
         console.log(data)
       })
       this.usuarioService.uploadImage(fd).subscribe((data)=>{
-        console.log(data)
+        if(this.globalsService.DEBUG){
+          console.log()
+        } else {
+          console.log(data);
+        }
         this.usuarioService.putUsuario(userUpdated).subscribe((data)=>{
-          console.log(data)
-          this.usuarioService.getUsuario(idUsuario).subscribe(data => {
+          if(this.globalsService.DEBUG){
+            console.log()
+          } else {
             console.log(data);
+          }
+          this.usuarioService.getUsuario(idUsuario).subscribe(data => {
+            if(this.globalsService.DEBUG){
+              console.log()
+            } else {
+              console.log(data);
+            }
             this.loginService.usuarioActual = data[0];
             this.usuarioActual = data[0];
-            console.log(this.usuarioActual);
+            if(this.globalsService.DEBUG){
+              console.log()
+            } else {
+              console.log(this.usuarioActual);
+            }
             this.toastr.success("Tus datos se han actualizado", "Usuario modificado con éxito")
             this.router.navigate(["/usuario"]);
             this.selectedFile = null;
@@ -145,12 +183,20 @@ export class ProfileComponent implements OnInit {
 
   public confirmarPassword(password:string){
     const resultPassword = bcrypt.compareSync(password, this.loginService.usuarioActual.password)
-    console.log(resultPassword, password, this.loginService.usuarioActual.password )
+    if(this.globalsService.DEBUG){
+      console.log()
+    } else {
+      console.log(resultPassword, password, this.loginService.usuarioActual.password )
+    }
     return resultPassword;
   }
 
   public cambiarPassword(passwordActual:string, passwordNuevo: string, passwordNuevo2: string){
-    console.log(passwordActual, passwordNuevo, passwordNuevo2)
+    if(this.globalsService.DEBUG){
+      console.log()
+    } else {
+      console.log(passwordActual, passwordNuevo, passwordNuevo2)
+    }
     const resultPassword = this.confirmarPassword(passwordActual);
       if (resultPassword === true && (passwordNuevo === passwordNuevo2) && passwordNuevo.length >= 6) {
         const user_id = this.usuarioActual.user_id
@@ -183,12 +229,19 @@ export class ProfileComponent implements OnInit {
   }
 
   public borrarUsuario(id:number){
-    console.log('Usuario Borrado')
+    if(this.globalsService.DEBUG){
+      console.log()
+    } else {
+      console.log('Usuario Borrado')
+    }
     let fotoUsuario = this.usuarioActual.user_image
     fotoUsuario = fotoUsuario.replace(this.usuarioService.urlImg, "");
     this.usuarioService.deleteImage(fotoUsuario).subscribe((data)=>{
-      console.log(data)
-      console.log(data)
+      if(this.globalsService.DEBUG){
+        console.log()
+      } else {
+        console.log(data);
+      }
     }, (error) => {
       console.log(error);
       if (error.status === 401) {
@@ -197,7 +250,11 @@ export class ProfileComponent implements OnInit {
       }
     })
     this.usuarioService.deleteUsuario(id).subscribe((data)=>{
-      console.log(data)
+      if(this.globalsService.DEBUG){
+        console.log()
+      } else {
+        console.log(data);
+      }
       this.loginService.logout();
       this.usuarioActual = new Usuario(null,null,null,null,null,null,null,null,null);
       this.loginService.usuarioActual = this.usuarioActual;
@@ -219,7 +276,11 @@ export class ProfileComponent implements OnInit {
   
   // FORMULARIO
   onSubmit(form){
-    console.log(form.value)
+    if(this.globalsService.DEBUG){
+      console.log()
+    } else {
+      console.log(form.value)
+    }
   }
 
   //MODALES NGX

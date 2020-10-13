@@ -12,7 +12,10 @@ import { LoginService } from 'src/app/shared/login.service';
 import { ProductService } from 'src/app/shared/product.service';
 import { MessageService } from 'src/app/shared/message.service';
 import { Notificacion } from 'src/app/models/notificaciones';
+import { GlobalsService } from 'src/app/shared/globals.service';
 import { ToastrService } from 'ngx-toastr';
+//NGX Logger
+/* import { NGXLogger } from 'ngx-logger'; */
 
 
 @Component({
@@ -45,18 +48,29 @@ export class LoginComponent implements OnInit {
     public usuarioService: UsuarioService,
     public productService: ProductService, 
     public messageService: MessageService,
+    public globalsService: GlobalsService,
     public modalService: BsModalService,
     private fb: FormBuilder, 
     private toastr: ToastrService,
-    private router: Router) 
-    {console.log("Funcionando servicio usuario")
+    private router: Router,
+    /* private logger: NGXLogger */) 
+    {
+      if(this.globalsService.DEBUG){
+      console.log()
+      } else {
+        console.log("Funcionando servicio usuario")
+      }
     // check for existing session
     if (this.loginService.getToken() != null) {
       // ya existe session
       // cargar datos session usuario
       const user_id = this.loginService.getUserId();
       this.usuarioService.getUsuario(user_id).subscribe(data => {
-        console.log(data);
+        if(this.globalsService.DEBUG){
+          console.log()
+        } else {
+          console.log(data);
+        }
         this.loginService.usuarioActual = data[0];
         this.productService.usuarioActual = data[0];
         this.router.navigate(["/inicio"]);
@@ -78,7 +92,11 @@ export class LoginComponent implements OnInit {
       // cargar datos session usuario
       const user_id = this.loginService.getUserId();
       this.usuarioService.getUsuario(user_id).subscribe(data => {
-        console.log(data);
+        if(this.globalsService.DEBUG){
+          console.log()
+        } else {
+          console.log(data);
+        }
         this.loginService.usuarioActual = data[0];
         this.productService.usuarioActual = data[0];
         this.router.navigate(["/inicio"]);
@@ -90,7 +108,11 @@ export class LoginComponent implements OnInit {
 
   public newUsuario(name: string, password: string, email: string, comunidad: string, provincia: string, localidad: string, cp: number) {
     const pass2 = ( < HTMLInputElement > document.getElementById("pass2")).value
-    console.log(name, password, pass2, email, comunidad, provincia, localidad, cp)
+    if(this.globalsService.DEBUG){
+      console.log()
+    } else {
+      console.log(name, password, pass2, email, comunidad, provincia, localidad, cp)
+    }
     if (name === null || password === null || email === null || comunidad === null ||
       provincia === null || cp === null || name === "" || password === "" || email === "" || 
       comunidad === "" || provincia === "" || cp === 0 || password.length < 6) {
@@ -100,7 +122,11 @@ export class LoginComponent implements OnInit {
         this.toastr.error("Las contraseñas no coinciden", "Algo fue mal")
       } else {
         this.loginService.register(new Usuario(null, name, password, email, comunidad, provincia, localidad, cp, this.loginService.defaultUserPicture)).subscribe((data:any) => {
-          console.log(data)
+          if(this.globalsService.DEBUG){
+            console.log()
+          } else {
+            console.log(data);
+          }
           if (data === null) {
             this.toastr.error("No se registró correctamente", "Algo fue mal")
           } else {
@@ -109,9 +135,17 @@ export class LoginComponent implements OnInit {
             this.toastr.success("Registrado con éxito", "Bienvenido a NoleSile")
             this.modalRef.hide();
             const newUserId = data.insertId;
-            console.log(newUserId);
+            if(this.globalsService.DEBUG){
+              console.log()
+            } else {
+              console.log(newUserId);
+            }
             this.messageService.createUserNotification(new Notificacion(newUserId, false)).subscribe((data) => {
-              console.log(data)
+              if(this.globalsService.DEBUG){
+                console.log()
+              } else {
+                console.log(data);
+              }
             })
           }
         }, (error) => {
@@ -133,17 +167,33 @@ export class LoginComponent implements OnInit {
       email: email1,
       password: password1
     };
-    console.log(user)
+    if(this.globalsService.DEBUG){
+      console.log()
+    } else {
+      console.log(user);
+    }
     this.loginService.login(user).subscribe(data => {
-      console.log(data);
+      if(this.globalsService.DEBUG){
+        console.log()
+      } else {
+        console.log(data);
+      }
       if (data !== null) {
         this.loginService.usuarioActual = data[0];
         this.productService.usuarioActual = data[0];
-        console.log(this.loginService.usuarioActual);
+        if(this.globalsService.DEBUG){
+          console.log()
+        } else {
+          console.log(this.loginService.usuarioActual);
+        }
         this.modalRef.hide();
         this.router.navigate(["/inicio"])
         this.messageService.getNotificationsByUser(this.loginService.usuarioActual.user_id).subscribe((data) => {
-          console.log(data)
+          if(this.globalsService.DEBUG){
+            console.log()
+          } else {
+            console.log(data);
+          }
           if (data !== null) {
             this.loginService.avisoMensaje = data[0].mensajes_nuevos;
             this.router.navigate(["/inicio"])
@@ -155,7 +205,11 @@ export class LoginComponent implements OnInit {
           }
         })
       } else {
-        console.log("Usuario Inexistente")
+        if(this.globalsService.DEBUG){
+          console.log()
+        } else {
+          console.log("Usuario Inexistente")
+        }
         this.toastr.error("El ususario o la contraseña no son válidos", "Algo fue mal");
         this.router.navigate(["/"])
       }
@@ -164,7 +218,11 @@ export class LoginComponent implements OnInit {
       if (error.status === 401) {
         this.loginService.forcedLogout();
       } else if (error.status === 403){
-        console.log("Usuario Inexistente")
+        if(this.globalsService.DEBUG){
+          console.log()
+        } else {
+          console.log("Usuario Inexistente")
+        }
         this.toastr.error("El ususario o la contraseña no son válidos", "Algo fue mal");
         this.router.navigate(["/"])
       }
@@ -173,7 +231,11 @@ export class LoginComponent implements OnInit {
 
   //FORMULARIOS
   onSubmit(form) {
-    console.log(form.value)
+    if(this.globalsService.DEBUG){
+      console.log()
+    } else {
+      console.log(form.value);
+    }
   }
 
   initForm() {
@@ -204,11 +266,19 @@ export class LoginComponent implements OnInit {
     if(e.target.checked==true){
       this.chekboxTerminoActivo = true
       this.totalCheckboxMarcados ++
-      console.log(this.chekboxTerminoActivo, this.totalCheckboxMarcados)
+      if(this.globalsService.DEBUG){
+        console.log()
+      } else {
+        console.log(this.chekboxTerminoActivo, this.totalCheckboxMarcados);
+      }
     } else {
       this.chekboxTerminoActivo = false
       this.totalCheckboxMarcados --
-      console.log(this.chekboxTerminoActivo, this.totalCheckboxMarcados)
+      if(this.globalsService.DEBUG){
+        console.log()
+      } else {
+        console.log(this.chekboxTerminoActivo, this.totalCheckboxMarcados);
+      }
     }
   }
 
@@ -216,11 +286,19 @@ export class LoginComponent implements OnInit {
     if(e.target.checked==true){
       this.chekboxPoliticaActivo = true
       this.totalCheckboxMarcados ++
-      console.log(this.chekboxPoliticaActivo, this.totalCheckboxMarcados)
+      if(this.globalsService.DEBUG){
+        console.log()
+      } else {
+        console.log(this.chekboxPoliticaActivo, this.totalCheckboxMarcados);
+      }
     } else {
       this.chekboxPoliticaActivo = false
       this.totalCheckboxMarcados --
-      console.log(this.chekboxPoliticaActivo, this.totalCheckboxMarcados)
+      if(this.globalsService.DEBUG){
+        console.log()
+      } else {
+        console.log(this.chekboxPoliticaActivo, this.totalCheckboxMarcados);
+      }
     }
   }
 

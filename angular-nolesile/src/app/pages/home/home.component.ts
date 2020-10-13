@@ -8,6 +8,7 @@ import { Nole } from 'src/app/models/nole';
 import { ProductService } from 'src/app/shared/product.service';
 import { LoginService } from 'src/app/shared/login.service';
 import { MessageService } from 'src/app/shared/message.service';
+import { GlobalsService } from 'src/app/shared/globals.service';
 
 
 @Component({
@@ -28,7 +29,8 @@ export class HomeComponent implements OnInit {
   constructor(
     public productService:ProductService, 
     public loginService: LoginService, 
-    public messageService:MessageService) {
+    public messageService:MessageService,
+    public globalsService: GlobalsService) {
       this.productsCercanos = [];
       this.mostrarUltimosProductos();
       this.mostraProductosCercanos();
@@ -38,7 +40,11 @@ export class HomeComponent implements OnInit {
   public mostrarUltimosProductos(){
     this.productService.getLatestProducts().subscribe((data) => {
       this.productsUltimos = data
-      console.log(data)
+      if(this.globalsService.DEBUG){
+        console.log()
+      } else {
+        console.log(data);
+      }
     }, (error) => {
       console.log(error);
       if (error.status === 401) {
@@ -50,7 +56,11 @@ export class HomeComponent implements OnInit {
   public mostraProductosCercanos() {
     this.productService.getClosestProducts().subscribe((data) => {
       this.productsCercanos = data
-      console.log(data)
+      if(this.globalsService.DEBUG){
+        console.log()
+      } else {
+        console.log(data);
+      }
     }, (error) => {
       console.log(error);
       if (error.status === 401) {
@@ -61,7 +71,11 @@ export class HomeComponent implements OnInit {
   
   public pasarIdOwner(oid) {
     this.productService.ownerActual = oid
-    console.log(this.productService.ownerActual)
+    if(this.globalsService.DEBUG){
+      console.log()
+    } else {
+      console.log(this.productService.ownerActual)
+    }
   }
   
   public relacionarProductoMensaje(pid) {
@@ -69,7 +83,11 @@ export class HomeComponent implements OnInit {
     this.productService.idProductoSeleccionado=pid;
     let newNole = new Nole(uid, pid);
     this.messageService.postNole(newNole).subscribe((data) => {
-      console.log(data)
+      if(this.globalsService.DEBUG){
+        console.log()
+      } else {
+        console.log(data)
+      }
     }, (error) => {
       console.log(error);
       if (error.status === 401) {

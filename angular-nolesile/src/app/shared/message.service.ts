@@ -49,7 +49,11 @@ export class MessageService {
         'Authorization': accessToken, 
       })
     };
-    console.log(nuevoMensaje);
+    if(this.globalsService.DEBUG){
+      console.log()
+    } else {
+      console.log(nuevoMensaje);
+    }
     return this.http.post(this.url + "/messages/", nuevoMensaje, options)
   } 
   
@@ -66,27 +70,43 @@ export class MessageService {
   }
 
   public createUserNotification(nuevaNotificacion: Notificacion) {
-    console.log(nuevaNotificacion);
+    if(this.globalsService.DEBUG){
+      console.log()
+    } else {
+      console.log(nuevaNotificacion);
+    }
     return this.http.post(this.url + "/notifications/", nuevaNotificacion)
   }
 
   public modifyNotificationsByUser(nuevaNotificacion: Notificacion) {
     const accessToken = this.loginService.getToken();
     let user_id = this.loginService.usuarioActual.user_id.toString();
-    console.log(accessToken,nuevaNotificacion.user_id)
+    if(this.globalsService.DEBUG){
+      console.log()
+    } else {
+      console.log(accessToken,nuevaNotificacion.user_id)
+    }
     const options = {
       headers: new HttpHeaders({
         'Authorization': accessToken, 
         'User': user_id
       })
     };
-    console.log(nuevaNotificacion);
+    if(this.globalsService.DEBUG){
+      console.log()
+    } else {
+      console.log(nuevaNotificacion);
+    }
     return this.http.put(this.url + "/notifications/", nuevaNotificacion, options)
   }
  
   public getNotificationsByUser(id: number) {
     const accessToken = this.loginService.getToken();
-    console.log(id, accessToken)
+    if(this.globalsService.DEBUG){
+      console.log()
+    } else {
+      console.log(id, accessToken)
+    }
       const options = {
         headers: new HttpHeaders({
           'Authorization': accessToken,

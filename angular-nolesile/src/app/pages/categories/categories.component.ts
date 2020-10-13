@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 // SERVICIOS
 import { ProductService } from 'src/app/shared/product.service';
 import { LoginService } from 'src/app/shared/login.service';
+import { GlobalsService } from 'src/app/shared/globals.service';
 
 
 @Component({
@@ -18,7 +19,8 @@ export class CategoriesComponent implements OnInit {
 
   constructor(
     public productService:ProductService, 
-    public loginService: LoginService) {}
+    public loginService: LoginService,
+    public globalsService: GlobalsService) {}
 
   public pasarCategoria(categoria: string){
     this.productService.actualizarCategoriaSeleccionada(categoria);
@@ -28,7 +30,9 @@ export class CategoriesComponent implements OnInit {
   public mostrarProductosPorCategoria(){
     this.productService.getProductsBySelectedCategory().subscribe((data)=>{
       this.productService.products = data
-      console.log(data)
+      if(this.globalsService.DEBUG){
+        console.log()
+      };
     }, (error) => {
       console.log(error);
       if (error.status === 401) {
