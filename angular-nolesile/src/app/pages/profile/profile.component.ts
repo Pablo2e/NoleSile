@@ -86,9 +86,7 @@ export class ProfileComponent implements OnInit {
       this.toastr.error("Por favor, completa todos los campos", "Algo fue mal")
       return
     }
-    if(this.globalsService.DEBUG){
-      console.log()
-    } else {
+    if(this.globalsService.INFO){
       console.log('Usuario Modificado')
     }
     let userImageUrl;
@@ -99,8 +97,6 @@ export class ProfileComponent implements OnInit {
       oldImage = this.usuarioActual.user_image;
       oldImage = oldImage.replace(this.usuarioService.urlImg, "");
       if(this.globalsService.DEBUG){
-        console.log()
-      } else {
         console.log(oldImage);
       }
       userImageUrl = this.usuarioService.urlImg + this.token() + "-" + idUsuario + ".jpg";
@@ -109,28 +105,24 @@ export class ProfileComponent implements OnInit {
     if(this.selectedFile === null) {
       this.usuarioService.putUsuario(userUpdated).subscribe((data)=>{
         if(this.globalsService.DEBUG){
-          console.log()
-        } else {
           console.log(data);
         }
         this.usuarioService.getUsuario(idUsuario).subscribe(data => {
           if(this.globalsService.DEBUG){
-            console.log()
-          } else {
             console.log(data);
           }
           this.loginService.usuarioActual = data[0];
           this.usuarioActual = data[0];
           if(this.globalsService.DEBUG){
-            console.log()
-          } else {
             console.log(this.usuarioActual);
           }
           this.toastr.success("Tus datos se han actualizado", "Usuario modificado con éxito")
           this.router.navigate(["/usuario"]);
         })
       }, (error) => {
-        console.log(error);
+        if(this.globalsService.ERROR){
+          console.log(error);
+        }
         if (error.status === 401) {
           this.loginService.forcedLogout();
         }
@@ -144,27 +136,19 @@ export class ProfileComponent implements OnInit {
       })
       this.usuarioService.uploadImage(fd).subscribe((data)=>{
         if(this.globalsService.DEBUG){
-          console.log()
-        } else {
           console.log(data);
         }
         this.usuarioService.putUsuario(userUpdated).subscribe((data)=>{
           if(this.globalsService.DEBUG){
-            console.log()
-          } else {
             console.log(data);
           }
           this.usuarioService.getUsuario(idUsuario).subscribe(data => {
             if(this.globalsService.DEBUG){
-              console.log()
-            } else {
               console.log(data);
             }
             this.loginService.usuarioActual = data[0];
             this.usuarioActual = data[0];
             if(this.globalsService.DEBUG){
-              console.log()
-            } else {
               console.log(this.usuarioActual);
             }
             this.toastr.success("Tus datos se han actualizado", "Usuario modificado con éxito")
@@ -172,7 +156,9 @@ export class ProfileComponent implements OnInit {
             this.selectedFile = null;
           })
         }, (error) => {
-          console.log(error);
+          if(this.globalsService.ERROR){
+            console.log(error);
+          }
           if (error.status === 401) {
             this.loginService.forcedLogout();
           }
@@ -184,8 +170,6 @@ export class ProfileComponent implements OnInit {
   public confirmarPassword(password:string){
     const resultPassword = bcrypt.compareSync(password, this.loginService.usuarioActual.password)
     if(this.globalsService.DEBUG){
-      console.log()
-    } else {
       console.log(resultPassword, password, this.loginService.usuarioActual.password )
     }
     return resultPassword;
@@ -193,8 +177,6 @@ export class ProfileComponent implements OnInit {
 
   public cambiarPassword(passwordActual:string, passwordNuevo: string, passwordNuevo2: string){
     if(this.globalsService.DEBUG){
-      console.log()
-    } else {
       console.log(passwordActual, passwordNuevo, passwordNuevo2)
     }
     const resultPassword = this.confirmarPassword(passwordActual);
@@ -229,21 +211,19 @@ export class ProfileComponent implements OnInit {
   }
 
   public borrarUsuario(id:number){
-    if(this.globalsService.DEBUG){
-      console.log()
-    } else {
+    if(this.globalsService.INFO){
       console.log('Usuario Borrado')
     }
     let fotoUsuario = this.usuarioActual.user_image
     fotoUsuario = fotoUsuario.replace(this.usuarioService.urlImg, "");
     this.usuarioService.deleteImage(fotoUsuario).subscribe((data)=>{
       if(this.globalsService.DEBUG){
-        console.log()
-      } else {
         console.log(data);
       }
     }, (error) => {
-      console.log(error);
+      if(this.globalsService.ERROR){
+        console.log(error);
+      }
       if (error.status === 401) {
         this.loginService.forcedLogout();
         this.loginService.usuarioActual = null;
@@ -251,8 +231,6 @@ export class ProfileComponent implements OnInit {
     })
     this.usuarioService.deleteUsuario(id).subscribe((data)=>{
       if(this.globalsService.DEBUG){
-        console.log()
-      } else {
         console.log(data);
       }
       this.loginService.logout();
@@ -277,8 +255,6 @@ export class ProfileComponent implements OnInit {
   // FORMULARIO
   onSubmit(form){
     if(this.globalsService.DEBUG){
-      console.log()
-    } else {
       console.log(form.value)
     }
   }

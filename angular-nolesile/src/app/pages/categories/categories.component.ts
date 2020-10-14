@@ -34,7 +34,9 @@ export class CategoriesComponent implements OnInit {
         console.log()
       };
     }, (error) => {
-      console.log(error);
+      if(this.globalsService.ERROR){
+        console.log(error);
+      }
       if (error.status === 401) {
         this.loginService.forcedLogout();
       }

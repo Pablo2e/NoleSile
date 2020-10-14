@@ -46,7 +46,9 @@ export class MessagesComponent implements OnInit {
     public globalsService:GlobalsService, 
     public modalServices:BsModalService, 
     private toastr: ToastrService) { 
-    console.log("Funcionando servicio messageService")
+      if(this.globalsService.INFO){
+        console.log("Funcionando servicio messageService")
+      }
     this.noles=[];
     this.siles=[];
     this.usuarioActual = this.loginService.usuarioActual;
@@ -60,21 +62,15 @@ export class MessagesComponent implements OnInit {
   public pasarIdOwner(oid) {
     this.productService.ownerActual = oid
     if(this.globalsService.DEBUG){
-      console.log()
-    } else {
       console.log(oid)
     }
     if(this.globalsService.DEBUG){
-      console.log()
-    } else {
       console.log(this.productService.ownerActual)
     }
   }
 
   public pasarNole(nole){
     if(this.globalsService.DEBUG){
-      console.log()
-    } else {
       console.log("El chat seleccionado es: " + nole.chat_id);
     }
     this.messageService.noleSeleccionado.chat_id = nole.chat_id;
@@ -85,8 +81,6 @@ export class MessagesComponent implements OnInit {
 
   public pasarNoleParaBorrar(chat_id){
     if(this.globalsService.DEBUG){
-      console.log()
-    } else {
       console.log("El chat seleccionado es: " + chat_id);
     }
     this.chat_idParaBorrar = chat_id;
@@ -95,8 +89,6 @@ export class MessagesComponent implements OnInit {
 
   public pasarSile(sile){
     if(this.globalsService.DEBUG){
-      console.log()
-    } else {
       console.log("El chat seleccionado es: " + sile.chat_id);
     }
     this.messageService.sileSeleccionado.chat_id = sile.chat_id;
@@ -106,14 +98,10 @@ export class MessagesComponent implements OnInit {
   }
 
   public enviarMsgNoleSeleccionado(text:string){
-    if(this.globalsService.DEBUG){
-      console.log()
-    } else {
+    if(this.globalsService.INFO){
       console.log('Hola desde enviarMsgNoleSeleccionado')
     }
     if(this.globalsService.DEBUG){
-      console.log()
-    } else {
       console.log(text)
     }
     let sender_id = this.loginService.usuarioActual.user_id;
@@ -121,21 +109,19 @@ export class MessagesComponent implements OnInit {
     let product_id = this.messageService.noleSeleccionado.product_id
     let receiver_id = this.messageService.noleSeleccionado.user_id
     if(this.globalsService.DEBUG){
-      console.log()
-    } else {
       console.log(receiver_id + 'dueño del nole')
     }
     let date = new Date();
     this.messageService.postMessage(new Message(null, chat_id, sender_id, receiver_id, product_id, text, date)).subscribe((data)=>{
       if(this.globalsService.DEBUG){
-        console.log()
-      } else {
         console.log(data);
       }
       this.activarAvisoMensaje(receiver_id)
       this.cargarMensajesNoles();
     }, (error) => {
-      console.log(error);
+      if(this.globalsService.ERROR){
+        console.log(error);
+      }
       if (error.status === 401) {
         this.loginService.forcedLogout();
       } else if (error.status === 409) {
@@ -151,7 +137,9 @@ export class MessagesComponent implements OnInit {
       this.cargarSiles()
       this.cargarMensajesSiles()
     }, (error) => {
-      console.log(error);
+      if(this.globalsService.ERROR){
+        console.log(error);
+      }
       if (error.status === 401) {
         this.loginService.forcedLogout();
       }
@@ -163,12 +151,12 @@ export class MessagesComponent implements OnInit {
     this.messageService.getNolesByUser(uid).subscribe((data)=>{
       this.noles = data
       if(this.globalsService.DEBUG){
-        console.log()
-      } else {
         console.log(data);
       } 
     }, (error) => {
-      console.log(error);
+      if(this.globalsService.ERROR){
+        console.log(error);
+      }
       if (error.status === 401) {
         this.loginService.forcedLogout();
       }
@@ -185,12 +173,12 @@ export class MessagesComponent implements OnInit {
         msg.date = date.toLocaleString();
       })
       if(this.globalsService.DEBUG){
-        console.log()
-      } else {
         console.log(data);
       }  
     }, (error) => {
-      console.log(error);
+      if(this.globalsService.ERROR){
+        console.log(error);
+      }
       if (error.status === 401) {
         this.loginService.forcedLogout();
       }
@@ -202,12 +190,12 @@ export class MessagesComponent implements OnInit {
       this.messageService.getSilesByUser(uid).subscribe((data)=>{
         this.siles = data
         if(this.globalsService.DEBUG){
-          console.log()
-        } else {
           console.log(data);
         } 
       }, (error) => {
-        console.log(error);
+        if(this.globalsService.ERROR){
+          console.log(error);
+        }
         if (error.status === 401) {
           this.loginService.forcedLogout();
         }
@@ -224,12 +212,12 @@ export class MessagesComponent implements OnInit {
         msg.date = date.toLocaleString();
       })
       if(this.globalsService.DEBUG){
-        console.log()
-      } else {
         console.log(data);
       }  
     }, (error) => {
-      console.log(error);
+      if(this.globalsService.ERROR){
+        console.log(error);
+      }
       if (error.status === 401) {
         this.loginService.forcedLogout();
       }
@@ -237,14 +225,10 @@ export class MessagesComponent implements OnInit {
   }
 
   public enviarMsgSileSeleccionado(text:string){
-    if(this.globalsService.DEBUG){
-      console.log()
-    } else {
+    if(this.globalsService.INFO){
       console.log('Hola desde enviarMsgSileSeleccionado')
     }
     if(this.globalsService.DEBUG){
-      console.log()
-    } else {
       console.log(text)
     }
     let sender_id = this.loginService.usuarioActual.user_id;
@@ -252,21 +236,19 @@ export class MessagesComponent implements OnInit {
     let product_id = this.messageService.sileSeleccionado.product_id
     let receiver_id = this.productService.ownerActual
     if(this.globalsService.DEBUG){
-      console.log()
-    } else {
       console.log(receiver_id + 'interesado en mi sile')
     }
     let date = new Date();
     this.messageService.postMessage(new Message(null, chat_id, sender_id, receiver_id, product_id, text, date)).subscribe((data)=>{
       if(this.globalsService.DEBUG){
-        console.log()
-      } else {
         console.log(data);
       }
       this.activarAvisoMensaje(receiver_id)
       this.cargarMensajesSiles();
     }, (error) => {
-      console.log(error);
+      if(this.globalsService.ERROR){
+        console.log(error);
+      }
       if (error.status === 401) {
         this.loginService.forcedLogout();
       }
@@ -277,12 +259,12 @@ export class MessagesComponent implements OnInit {
     let notificacionActivar:Notificacion = new Notificacion(receiver_id, true)
     this.messageService.modifyNotificationsByUser(notificacionActivar).subscribe((data) => {
       if(this.globalsService.DEBUG){
-        console.log()
-      } else {
         console.log(data);
       }
     }, (error) => {
-      console.log(error);
+      if(this.globalsService.ERROR){
+        console.log(error);
+      }
       if (error.status === 401) {
         this.loginService.forcedLogout();
       }
@@ -295,18 +277,16 @@ export class MessagesComponent implements OnInit {
       receiver_id: this.loginService.usuarioActual.user_id,
     }
     if(this.globalsService.DEBUG){
-      console.log()
-    } else {
       console.log(this.cambio)
     }
     this.messageService.changeMessageToRead(this.cambio).subscribe((data)=>{
       if(this.globalsService.DEBUG){
-        console.log()
-      } else {
-        console.log(data);
+       console.log(data);
       }
     }, (error) => {
-      console.log(error);
+      if(this.globalsService.ERROR){
+        console.log(error);
+      }
       if (error.status === 401) {
         this.loginService.forcedLogout();
       }
@@ -316,8 +296,6 @@ export class MessagesComponent implements OnInit {
   //FORMULARIOS
   public onSubmit(form){
     if(this.globalsService.DEBUG){
-      console.log()
-    } else {
       console.log(form.value)
     }
   }

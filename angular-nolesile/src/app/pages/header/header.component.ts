@@ -53,7 +53,9 @@ export class HeaderComponent implements OnInit {
       }
       this.router.navigate(["/usuario"]);
     }, (error) => {
-      console.log(error);
+      if(this.globalsService.ERROR){
+        console.log(error);
+      }
       if (error.status === 401) {
         this.loginService.forcedLogout();
         this.productService.usuarioActual = null;
@@ -72,7 +74,9 @@ export class HeaderComponent implements OnInit {
       }
       this.router.navigate(["/buscar"]);
     }, (error) => {
-      console.log(error);
+      if(this.globalsService.ERROR){
+        console.log(error);
+      }
       if (error.status === 401) {
         this.loginService.forcedLogout();
       }
@@ -87,7 +91,9 @@ export class HeaderComponent implements OnInit {
         console.log(data)
       }
     }, (error) => {
-      console.log(error);
+      if(this.globalsService.ERROR){
+        console.log(error);
+      }
       if (error.status === 401) {
         this.loginService.forcedLogout();
       }
@@ -101,7 +107,9 @@ export class HeaderComponent implements OnInit {
         console.log(data)
       }
     }, (error) => {
-      console.log(error);
+      if(this.globalsService.ERROR){
+        console.log(error);
+      }
       if (error.status === 401) {
         this.loginService.forcedLogout();
       }
@@ -119,7 +127,9 @@ export class HeaderComponent implements OnInit {
         // this.router.navigate(["/home"])
       }
     }, (error) => {
-      console.log(error);
+      if(this.globalsService.ERROR){
+        console.log(error);
+      }
       if (error.status === 401) {
         this.loginService.forcedLogout();
       }

@@ -42,12 +42,12 @@ export class HomeComponent implements OnInit {
     this.productService.getLatestProducts().subscribe((data) => {
       this.productsUltimos = data
       if(this.globalsService.DEBUG){
-        console.log()
-      } else {
         console.log(data);
       }
     }, (error) => {
-      console.log(error);
+      if(this.globalsService.ERROR){
+        console.log(error);
+      }
       if (error.status === 401) {
         this.loginService.forcedLogout();
       }
@@ -58,12 +58,12 @@ export class HomeComponent implements OnInit {
     this.productService.getClosestProducts().subscribe((data) => {
       this.productsCercanos = data
       if(this.globalsService.DEBUG){
-        console.log()
-      } else {
         console.log(data);
       }
     }, (error) => {
-      console.log(error);
+      if(this.globalsService.ERROR){
+        console.log(error);
+      }
       if (error.status === 401) {
         this.loginService.forcedLogout();
       }
@@ -73,8 +73,6 @@ export class HomeComponent implements OnInit {
   public pasarIdOwner(oid) {
     this.productService.ownerActual = oid
     if(this.globalsService.DEBUG){
-      console.log()
-    } else {
       console.log(this.productService.ownerActual)
     }
   }
@@ -85,12 +83,12 @@ export class HomeComponent implements OnInit {
     let newNole = new Nole(uid, pid);
     this.messageService.postNole(newNole).subscribe((data) => {
       if(this.globalsService.DEBUG){
-        console.log()
-      } else {
         console.log(data)
       }
     }, (error) => {
-      console.log(error);
+      if(this.globalsService.ERROR){
+        console.log(error);
+      }
       if (error.status === 401) {
         this.loginService.forcedLogout();
       }

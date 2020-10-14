@@ -41,8 +41,6 @@ export class OwnerComponent implements OnInit {
     this.productService.getProductsByUser(uid).subscribe((data)=>{
       this.products = data
       if(this.globalsService.DEBUG){
-        console.log()
-      } else {
         console.log(data);
       }
     })
@@ -50,14 +48,10 @@ export class OwnerComponent implements OnInit {
 
   public obtenerOwnerInfo(uid){
     if(this.globalsService.DEBUG){
-      console.log()
-    } else {
       console.log(uid);
     }
     this.usuarioService.getUsuario(uid).subscribe((data)=>{
       if(this.globalsService.DEBUG){
-        console.log()
-      } else {
         console.log(data);
       }
       this.nombreOwner = data[0].name;
@@ -70,8 +64,6 @@ export class OwnerComponent implements OnInit {
     let newNole= new Nole(uid,pid);
     this.messageService.postNole(newNole).subscribe((data)=>{
       if(this.globalsService.DEBUG){
-        console.log()
-      } else {
         console.log(data);
       }
     })

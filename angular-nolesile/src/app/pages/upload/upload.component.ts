@@ -42,16 +42,12 @@ export class UploadComponent implements OnInit {
   public pasarIdProducto(numero){
     this.idProducto=numero
     if(this.globalsService.DEBUG){
-      console.log()
-    } else {
       console.log(this.idProducto)
     }
   }
   
   public anyadirSile(nombre: string, descripcion: string, categoria: string, user_id: number, product_image: string, template: TemplateRef < any > ){
     if(this.globalsService.DEBUG){
-      console.log()
-    } else {
       console.log(this.productService.product)
     }
     if (nombre === null || descripcion === null || categoria === null || product_image === null ||
@@ -66,20 +62,18 @@ export class UploadComponent implements OnInit {
       fd.append('product_image',this.selectedFile, nombreFotoProducto);
       this.productService.uploadImageProduct(fd).subscribe((data)=>{
         if(this.globalsService.DEBUG){
-          console.log()
-        } else {
           console.log(data);
         }
       })
       this.productService.postProduct(new Product(null, nombre, descripcion, categoria, user_id, productImageUrl, date)).subscribe((data)=>{
         if(this.globalsService.DEBUG){
-          console.log()
-        } else {
           console.log(data);
         }
         this.openModal(template);
       }, (error) => {
-        console.log(error);
+        if(this.globalsService.ERROR){
+          console.log(error);
+        }
         if (error.status === 401) {
           this.loginService.forcedLogout();
           this.productService.usuarioActual = null;
@@ -117,8 +111,6 @@ export class UploadComponent implements OnInit {
   // FORMULARIO
   public onSubmit(form){
     if(this.globalsService.DEBUG){
-      console.log()
-    } else {
       console.log(form.value)
     }
   }
