@@ -18,7 +18,7 @@ export class ProductService {
 
   public product: any
   public products: any;
-  public usuarioActual: Usuario;
+  //public usuarioActual: Usuario;
   public ownerActual: number
   public categoriaSeleccionada: any; 
   public idProductoSeleccionado: number;
@@ -30,10 +30,23 @@ export class ProductService {
   constructor(
     public loginService:LoginService,
     public globalsService:GlobalsService, 
-    private http: HttpClient) {
-      this.usuarioActual=this.loginService.usuarioActual
+    private http: HttpClient) 
+    {
+      this.products = [];
       if(this.globalsService.INFO){
-        console.log("funcionando servicio product");
+        console.log("Funcionando servicio product");
+      }
+      // check for existing session
+      if (this.loginService.getToken() != null) {
+        // ya existe session
+        // cargar datos session usuario
+        const user_id = this.loginService.getUserId();
+        this.loginService.getUsuario(user_id).subscribe(data => {
+          if(this.globalsService.DEBUG){
+            console.log(data);
+          }
+        this.loginService.usuarioActual = data[0];
+        })
       }
     }
 
@@ -45,6 +58,22 @@ export class ProductService {
 
   public deleteImage(imageName: string){
     return this.http.delete(this.urlImg + "delete-img/" + imageName)
+  }
+  
+  public mostrarProductosPorCategoria(){
+    this.getProductsBySelectedCategory().subscribe((data)=>{
+      this.products = data
+      if(this.globalsService.DEBUG){
+        console.log()
+      };
+    }, (error) => {
+      if(this.globalsService.ERROR){
+        console.log(error);
+      }
+      if (error.status === 401) {
+        this.loginService.forcedLogout();
+      }
+    })
   }
 
   public actualizarCategoriaSeleccionada(newCat: any){
@@ -116,7 +145,7 @@ export class ProductService {
     if(this.globalsService.DEBUG){
       console.log("getProductsByName " + clave)
     }
-    return this.http.get(this.url + "/buscar/?filterProductName=" + clave + "&filterUser=" + this.usuarioActual.user_id, options);
+    return this.http.get(this.url + "/buscar/?filterProductName=" + clave + "&filterUser=" + user_id, options);
   }
 
   public getProductsBySelectedCategory() {
@@ -128,7 +157,7 @@ export class ProductService {
         'User': user_id,
       })
     };
-    return this.http.get(this.url + "/buscar/" + this.categoriaSeleccionada + "?filterUser=" + this.usuarioActual.user_id, options);
+    return this.http.get(this.url + "/buscar/" + this.categoriaSeleccionada + "?filterUser=" + user_id, options);
   }
   
   public getProductsBySelectedCategoryAndCp(cp: number) {
@@ -140,7 +169,7 @@ export class ProductService {
         'User': user_id,
       })
     };
-    return this.http.get(this.url + "/buscar-cercanos/categoria/" + this.categoriaSeleccionada + "/cp/" + cp + "?filterUser=" + this.usuarioActual.user_id, options);
+    return this.http.get(this.url + "/buscar-cercanos/categoria/" + this.categoriaSeleccionada + "/cp/" + cp + "?filterUser=" + user_id, options);
   }
 
   public getProductsBySelectedCategoryAndLocation(tipo_loc:string, valor_loc:any) {
@@ -152,7 +181,7 @@ export class ProductService {
         'User': user_id,
       })
     };
-    return this.http.get(this.url + "/buscar-cercanos/categoria/" + this.categoriaSeleccionada + "/" + tipo_loc + "/" + valor_loc + "?filterUser=" + this.usuarioActual.user_id, options);
+    return this.http.get(this.url + "/buscar-cercanos/categoria/" + this.categoriaSeleccionada + "/" + tipo_loc + "/" + valor_loc + "?filterUser=" + user_id, options);
   }
 
   public getProductsBySelectedCategoryAndDays(dias: number) {
@@ -164,7 +193,7 @@ export class ProductService {
         'User': user_id,
       })
     };
-    return this.http.get(this.url + "/buscar-ultimos/" + "?filterUser=" + this.usuarioActual.user_id + "&days=" + dias, options);
+    return this.http.get(this.url + "/buscar-ultimos/" + "?filterUser=" + user_id + "&days=" + dias, options);
   }
 
   public getLatestProducts(){
@@ -177,10 +206,10 @@ export class ProductService {
       })
     };
     if(this.globalsService.DEBUG){
-      console.log(this.usuarioActual.user_id)
+      console.log(localStorage.getItem("USER_ID"))
       console.log("obteniendo últimos productos")
     }
-    return this.http.get(this.url + "/buscar-ultimos/" + "?filterUser=" + this.usuarioActual.user_id, options) 
+    return this.http.get(this.url + "/buscar-ultimos/" + "?filterUser=" + user_id, options) 
   }
 
   public getClosestProducts(){
@@ -194,11 +223,9 @@ export class ProductService {
     };
     if(this.globalsService.DEBUG){
       console.log("obteniendo productos cercanos")
-      console.log(this.usuarioActual)
-      console.log(this.usuarioActual.user_id)
-      console.log(this.usuarioActual.localidad)
+      console.log(user_id)
     }
-    return this.http.get(this.url + "/buscar-cercanos/" + "?filterUser=" + this.usuarioActual.user_id + "&filterWhere=" + this.usuarioActual.localidad, options) 
+    return this.http.get(this.url + "/buscar-cercanos/" + "?filterUser=" + user_id + "&filterWhere=" + this.loginService.usuarioActual.localidad, options) 
   }
   
   public getOwnerByName(nombreUsuario: string) {
@@ -225,7 +252,7 @@ export class ProductService {
       }),
       body: {
         product_id: id,
-        user_id: this.usuarioActual.user_id
+        user_id: this.loginService.usuarioActual.user_id
       },
     };
   return this.http.delete(this.url+ "/products/", options)

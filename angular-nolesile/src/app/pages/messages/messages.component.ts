@@ -104,7 +104,7 @@ export class MessagesComponent implements OnInit {
     if(this.globalsService.DEBUG){
       console.log(text)
     }
-    let sender_id = this.loginService.usuarioActual.user_id;
+    let sender_id = this.loginService.getUserId();
     let chat_id = this.messageService.noleSeleccionado.chat_id
     let product_id = this.messageService.noleSeleccionado.product_id
     let receiver_id = this.messageService.noleSeleccionado.user_id
@@ -147,7 +147,7 @@ export class MessagesComponent implements OnInit {
   }
 
   public cargarNoles() {
-    let uid=this.loginService.usuarioActual.user_id
+    let uid=this.loginService.getUserId()
     this.messageService.getNolesByUser(uid).subscribe((data)=>{
       this.noles = data
       if(this.globalsService.DEBUG){
@@ -186,7 +186,7 @@ export class MessagesComponent implements OnInit {
   }
 
   public cargarSiles() {
-      let uid=this.loginService.usuarioActual.user_id
+      let uid=this.loginService.getUserId()
       this.messageService.getSilesByUser(uid).subscribe((data)=>{
         this.siles = data
         if(this.globalsService.DEBUG){
@@ -231,7 +231,7 @@ export class MessagesComponent implements OnInit {
     if(this.globalsService.DEBUG){
       console.log(text)
     }
-    let sender_id = this.loginService.usuarioActual.user_id;
+    let sender_id = this.loginService.getUserId();
     let chat_id = this.messageService.sileSeleccionado.chat_id
     let product_id = this.messageService.sileSeleccionado.product_id
     let receiver_id = this.productService.ownerActual
@@ -274,7 +274,7 @@ export class MessagesComponent implements OnInit {
   public cambiarMensajeALeido(chatId){
     this.cambio = {
       chat_id: chatId,
-      receiver_id: this.loginService.usuarioActual.user_id,
+      receiver_id: this.loginService.getUserId(),
     }
     if(this.globalsService.DEBUG){
       console.log(this.cambio)

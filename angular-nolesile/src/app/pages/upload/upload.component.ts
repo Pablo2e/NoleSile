@@ -76,7 +76,6 @@ export class UploadComponent implements OnInit {
         }
         if (error.status === 401) {
           this.loginService.forcedLogout();
-          this.productService.usuarioActual = null;
         } else if (error.status === 409) {
           this.toastr.error("Ya no puedes añadir más productos, borra alguno antes", "Algo fue mal")
         }

@@ -27,10 +27,15 @@ export class UsuarioService {
     public globalsService:GlobalsService,
     private http: HttpClient,
     private router: Router, 
-    public loginService:LoginService) { }
+    public loginService:LoginService) 
+    {
+      if(this.globalsService.INFO){
+        console.log("Funcionando servicio usuario")
+      }
+    }
     
 
-  public getUsuario(id: number){
+  /* public getUsuario(id: number){
     if (!id){
       return this.http.get(this.url + "/user/register")
     }else{
@@ -45,7 +50,7 @@ export class UsuarioService {
       };
       return this.http.get(this.url + "/user/" + id, options)
     }
-  }
+  } */
 
   public putUsuario(cambios: Usuario){
     const accessToken = this.loginService.getToken();

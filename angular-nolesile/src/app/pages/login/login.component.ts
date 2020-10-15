@@ -55,22 +55,9 @@ export class LoginComponent implements OnInit {
     private router: Router,
     /* private logger: NGXLogger */) 
     {
-      if(this.globalsService.INFO){
-        console.log("Funcionando servicio usuario")
-      }
     // check for existing session
-    if (this.loginService.getToken() != null) {
-      // ya existe session
-      // cargar datos session usuario
-      const user_id = this.loginService.getUserId();
-      this.usuarioService.getUsuario(user_id).subscribe(data => {
-        if(this.globalsService.DEBUG){
-          console.log(data);
-        }
-        this.loginService.usuarioActual = data[0];
-        this.productService.usuarioActual = data[0];
-        this.router.navigate(["/inicio"]);
-      })
+    if (this.loginService.loadExistingSession()) {
+      this.router.navigate(["/inicio"]);
     }
     //checkea si ya hay cookies o no
     if(this.getCookie('closedApp')!=null){
@@ -87,12 +74,11 @@ export class LoginComponent implements OnInit {
       // ya existe session
       // cargar datos session usuario
       const user_id = this.loginService.getUserId();
-      this.usuarioService.getUsuario(user_id).subscribe(data => {
+      this.loginService.getUsuario(user_id).subscribe(data => {
         if(this.globalsService.DEBUG){
           console.log(data);
         }
         this.loginService.usuarioActual = data[0];
-        this.productService.usuarioActual = data[0];
         this.router.navigate(["/inicio"]);
       })
     } else {
@@ -164,7 +150,6 @@ export class LoginComponent implements OnInit {
       }
       if (data !== null) {
         this.loginService.usuarioActual = data[0];
-        this.productService.usuarioActual = data[0];
         if(this.globalsService.DEBUG){
           console.log(this.loginService.usuarioActual);
         }
@@ -174,7 +159,7 @@ export class LoginComponent implements OnInit {
           if(this.globalsService.DEBUG){
             console.log(data);
           }
-          if (data !== null) {
+          if (data !== null && data[0] !== undefined) {
             this.loginService.avisoMensaje = data[0].mensajes_nuevos;
             this.router.navigate(["/inicio"])
           }

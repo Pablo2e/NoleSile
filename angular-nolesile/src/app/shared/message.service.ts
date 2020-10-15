@@ -26,7 +26,12 @@ export class MessageService {
   constructor(
     public loginService:LoginService,
     public globalsService:GlobalsService,
-    private http:HttpClient) { }
+    private http:HttpClient) 
+    {
+      if(this.globalsService.INFO){
+        console.log("Funcionando servicio message")
+      }
+    }
     
 
 

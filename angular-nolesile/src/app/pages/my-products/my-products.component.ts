@@ -39,7 +39,8 @@ export class MyProductsComponent implements OnInit {
     private toastr: ToastrService) { 
     this.products = [];
     this.selectedFile = null;
-    this.mostrarProductos(this.idUsuario=this.loginService.usuarioActual.user_id)
+    this.idUsuario = this.loginService.getUserId()
+    this.mostrarProductos(this.idUsuario)
   }
 
   // METODOS
@@ -55,7 +56,6 @@ export class MyProductsComponent implements OnInit {
       }
       if (error.status === 401) {
         this.loginService.forcedLogout();
-        this.productService.usuarioActual = null;
       }
     })
   }
@@ -143,7 +143,6 @@ export class MyProductsComponent implements OnInit {
         }
         if (error.status === 401) {
           this.loginService.forcedLogout();
-          this.productService.usuarioActual = null;
         }
       })
     } else {
@@ -172,7 +171,6 @@ export class MyProductsComponent implements OnInit {
           }
           if (error.status === 401) {
             this.loginService.forcedLogout();
-            this.productService.usuarioActual = null;
           }
         })
       })
@@ -203,7 +201,6 @@ export class MyProductsComponent implements OnInit {
       }
       if (error.status === 401) {
         this.loginService.forcedLogout();
-        this.productService.usuarioActual = null;
       }
     })
     this.productService.deleteProduct(idProducto).subscribe((data)=>{
@@ -217,7 +214,6 @@ export class MyProductsComponent implements OnInit {
       }
       if (error.status === 401) {
         this.loginService.forcedLogout();
-        this.productService.usuarioActual = null;
       }
     })
   }

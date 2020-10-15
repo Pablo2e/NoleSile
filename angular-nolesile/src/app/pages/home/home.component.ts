@@ -20,19 +20,23 @@ import { GlobalsService } from 'src/app/shared/globals.service';
 
 export class HomeComponent implements OnInit {
   
-  public usuarioActual = new Usuario(null, null, null, null, null, null, null, null, null)
+  //public usuarioActual = new Usuario(null, null, null, null, null, null, null, null, null)
   public product= new Product(null,null,null,null,null,null,null)
   public productsUltimos: any;
   public productsCercanos: any;
   public idProducto: number
   public unicornio: string = this.globalsService.unicornio
+  public usuarioActual
 
   constructor(
     public productService:ProductService, 
     public loginService: LoginService, 
     public messageService:MessageService,
     public globalsService: GlobalsService) {
+      this.loginService.loadExistingSession()
       this.productsCercanos = [];
+      this.productsUltimos = [];
+      //this.usuarioActual=this.loginService.usuarioActual
       this.mostrarUltimosProductos();
       this.mostraProductosCercanos();
     }
@@ -78,7 +82,7 @@ export class HomeComponent implements OnInit {
   }
   
   public relacionarProductoMensaje(pid) {
-    let uid = this.loginService.usuarioActual.user_id;
+    let uid = this.loginService.getUserId();
     this.productService.idProductoSeleccionado=pid;
     let newNole = new Nole(uid, pid);
     this.messageService.postNole(newNole).subscribe((data) => {

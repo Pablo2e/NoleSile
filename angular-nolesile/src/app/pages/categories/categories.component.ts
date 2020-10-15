@@ -24,10 +24,10 @@ export class CategoriesComponent implements OnInit {
 
   public pasarCategoria(categoria: string){
     this.productService.actualizarCategoriaSeleccionada(categoria);
-    this.mostrarProductosPorCategoria()
+    this.productService.mostrarProductosPorCategoria()
   }
 
-  public mostrarProductosPorCategoria(){
+  /* public mostrarProductosPorCategoria(){
     this.productService.getProductsBySelectedCategory().subscribe((data)=>{
       this.productService.products = data
       if(this.globalsService.DEBUG){
@@ -41,9 +41,12 @@ export class CategoriesComponent implements OnInit {
         this.loginService.forcedLogout();
       }
     })
-  }
+  } */
 
   ngOnInit(): void {
+    if(this.globalsService.INFO){
+      console.log('ngOnInit.categories.ts');
+    }
   }
 
 }

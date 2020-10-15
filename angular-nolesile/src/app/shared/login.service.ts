@@ -25,11 +25,54 @@ export class LoginService {
   public usuarioActual = new Usuario(null, null, null, null, null, null, null, null, this.defaultUserPicture);
   public avisoMensaje: boolean;
 
+
   constructor(
     public globalsService:GlobalsService,
     private http: HttpClient,
     private router: Router, 
-    private toastr: ToastrService) {}
+    private toastr: ToastrService) 
+    {
+      if(this.globalsService.INFO){
+        console.log("Funcionando servicio login") 
+      }
+      if(!this.loadExistingSession()){
+        this.router.navigate(["/"])
+      }
+    }
+
+    public loadExistingSession(): any{
+      if (this.getToken() != null) {
+        // ya existe session
+        // cargar datos session usuario
+        const user_id = this.getUserId();
+        this.getUsuario(user_id).subscribe(data => {
+          if(this.globalsService.DEBUG){
+            console.log(data);
+          }
+          this.usuarioActual = data[0];
+        })
+        return true
+      } else {
+        return false
+      } 
+    }
+
+    public getUsuario(id: number){
+      if (!id){
+        return this.http.get(this.backUrl + "/user/register")
+      }else{
+        const accessToken = this.getToken();
+        const user_id = this.getUserId();
+        console.log(user_id)
+        const options = {
+          headers: new HttpHeaders({
+            'Authorization': accessToken, 
+            'User': user_id, 
+          })
+        };
+        return this.http.get(this.backUrl + "/user/" + id, options)
+      }
+    }
 
   public register(nuevoUsuario: Usuario) {
     if(this.globalsService.DEBUG){

@@ -36,8 +36,16 @@ export class SearchComponent implements OnInit {
     public globalsService: GlobalsService, 
     private router:Router, 
     private toastr: ToastrService) {
-    this.usuarioActual = this.loginService.usuarioActual;
-  }
+      if(!this.loginService.loadExistingSession()){
+        this.router.navigate(["/"])
+      } else {
+        this.usuarioActual = this.loginService.getUserId();
+        if(this.productService.categoriaSeleccionada === null || this.productService.categoriaSeleccionada === undefined){
+          this.productService.actualizarCategoriaSeleccionada('Todo')
+          this.router.navigate(["/inicio"])
+        }
+      }
+    }
 
   // METODOS
   public mostrarProductos() {
@@ -51,7 +59,6 @@ export class SearchComponent implements OnInit {
         console.log(error);
       }
       if (error.status === 401) {
-        this.productService.usuarioActual = null;
         this.loginService.forcedLogout();
       }
     })
@@ -164,7 +171,10 @@ export class SearchComponent implements OnInit {
     this.messageService.noleSeleccionado = newNole;
   }
   
-  ngOnInit(): void {}
-  
+  ngOnInit(): void {
+    if(this.globalsService.INFO){
+      console.log('ngOnInit.search.ts');
+    }
+  }
 }
 

@@ -1,5 +1,7 @@
 // COMPONENTE
 import { Component, OnInit } from '@angular/core';
+import { Router } from "@angular/router";
+import { Location } from '@angular/common';
 // MODELO
 import { Product } from 'src/app/models/product';
 import { Nole } from 'src/app/models/nole';
@@ -31,10 +33,18 @@ export class OwnerComponent implements OnInit {
     public usuarioService:UsuarioService,
     public loginService:LoginService, 
     public messageService:MessageService,
-    public globalsService: GlobalsService) {
-      this.obtenerOwnerInfo(this.productService.ownerActual)
-      this.mostrarProductos(this.productService.ownerActual)
-   }
+    public globalsService: GlobalsService,
+    private router: Router,
+    private location: Location) {
+      if(this.productService.ownerActual !== null && this.productService.ownerActual !== undefined){
+        this.obtenerOwnerInfo(this.productService.ownerActual)
+        this.mostrarProductos(this.productService.ownerActual)
+      } else {
+        /* this.router.navigate(["/inicio"]) */
+        this.location.back();
+     }
+
+      }
   
   // METODOS
   public mostrarProductos(uid){
@@ -50,7 +60,7 @@ export class OwnerComponent implements OnInit {
     if(this.globalsService.DEBUG){
       console.log(uid);
     }
-    this.usuarioService.getUsuario(uid).subscribe((data)=>{
+    this.loginService.getUsuario(uid).subscribe((data)=>{
       if(this.globalsService.DEBUG){
         console.log(data);
       }

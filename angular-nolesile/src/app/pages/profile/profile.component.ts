@@ -107,7 +107,7 @@ export class ProfileComponent implements OnInit {
         if(this.globalsService.DEBUG){
           console.log(data);
         }
-        this.usuarioService.getUsuario(idUsuario).subscribe(data => {
+        this.loginService.getUsuario(idUsuario).subscribe(data => {
           if(this.globalsService.DEBUG){
             console.log(data);
           }
@@ -142,7 +142,7 @@ export class ProfileComponent implements OnInit {
           if(this.globalsService.DEBUG){
             console.log(data);
           }
-          this.usuarioService.getUsuario(idUsuario).subscribe(data => {
+          this.loginService.getUsuario(idUsuario).subscribe(data => {
             if(this.globalsService.DEBUG){
               console.log(data);
             }

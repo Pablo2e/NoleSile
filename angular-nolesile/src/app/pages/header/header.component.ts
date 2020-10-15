@@ -43,11 +43,11 @@ export class HeaderComponent implements OnInit {
 
   //METODOS
   public verificarUsuario(){
-    let user_id = this.loginService.usuarioActual.user_id
+    let user_id = this.loginService.getUserId()
     if(this.globalsService.DEBUG){
       console.log(user_id)
     }
-    this.usuarioService.getUsuario(user_id).subscribe((data) => {
+    this.loginService.getUsuario(user_id).subscribe((data) => {
       if(this.globalsService.DEBUG){
         console.log(data)
       }
@@ -58,7 +58,6 @@ export class HeaderComponent implements OnInit {
       }
       if (error.status === 401) {
         this.loginService.forcedLogout();
-        this.productService.usuarioActual = null;
       }
     })
   }
@@ -86,7 +85,6 @@ export class HeaderComponent implements OnInit {
   public cerrarSesion(){
     this.loginService.logout().subscribe((data) => {
       this.loginService.usuarioActual = null;
-      this.productService.usuarioActual = null;
       if(this.globalsService.DEBUG){
         console.log(data)
       }
@@ -101,7 +99,7 @@ export class HeaderComponent implements OnInit {
   }
 
   public desactivarAvisoMensaje(){
-    let notificacionDesactivar:Notificacion = new Notificacion(this.loginService.usuarioActual.user_id, false)
+    let notificacionDesactivar:Notificacion = new Notificacion(this.loginService.getUserId(), false)
     this.messageService.modifyNotificationsByUser(notificacionDesactivar).subscribe((data) => {
       if(this.globalsService.DEBUG){
         console.log(data)
@@ -118,11 +116,11 @@ export class HeaderComponent implements OnInit {
   }
 
   public verificarMensajesNuevos(){
-    this.messageService.getNotificationsByUser(this.loginService.usuarioActual.user_id).subscribe((data) => {
+    this.messageService.getNotificationsByUser(this.loginService.getUserId()).subscribe((data) => {
       if(this.globalsService.DEBUG){
         console.log(data)
       }
-      if (data !== null) {
+      if (data !== null && data[0] !== undefined) {
         this.loginService.avisoMensaje = data[0].mensajes_nuevos;
         // this.router.navigate(["/home"])
       }
