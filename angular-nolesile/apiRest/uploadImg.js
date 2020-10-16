@@ -3,7 +3,17 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const cors = require('cors')
-const fs = require('fs');
+
+const PORT = 3100;
+const SSL_PORT = 3103;
+
+//PARA LA CONEXION A HTTPS
+const https = require("https"),
+fs = require("fs");
+const options = {
+    /* key: fs.readFileSync("/etc/ssl/private/_.nolesile.com_private_key.key"),
+    cert: fs.readFileSync("/etc/ssl/certs/nolesile.com_ssl_certificate.cer") */
+};
 
 //EXTRAS PARA LA CARGA DE FOTOS 
 const fileUpload = require('express-fileupload');
@@ -24,10 +34,12 @@ app.use(cors());
 app.use(bodyParser.json());
 
 //Puerto a usar 
-const port = process.env.PORT || 3100;
+const port = process.env.PORT || PORT;
 app.listen(port, () => 
   console.log(`App is listening on port ${port}.`)
 );
+
+https.createServer(options, app).listen(SSL_PORT);
 
 //Subir imagen de usuario
 app.post('/upload-img', async (req, res) => {

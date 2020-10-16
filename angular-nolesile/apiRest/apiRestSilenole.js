@@ -89,6 +89,8 @@ app.use(bodyParserURLEncoded);
 const limiteProductos = 50
 const limiteMensages = 200
 
+app.listen(PORT);
+https.createServer(options, app).listen(SSL_PORT);
 
 // Función de verificación de tokens
 const verifyToken = async (accessToken, user_id) => {
@@ -1204,5 +1206,3 @@ app.get("/buscar-cercanos/categoria/:categoria/:tipo_loc/:valor_loc", async func
 /* ---------------------------------FIN BUSCAR----------------------------------- */
 
 
-app.listen(PORT);
-https.createServer(options, app).listen(SSL_PORT);
