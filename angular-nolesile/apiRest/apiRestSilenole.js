@@ -20,6 +20,11 @@ const connection = mysql.createConnection({
     user: "root",
     password: null,
     database: 'silenole'
+    // Estos son del servidor
+    // user: "nolesile",
+    // password: "Nolesile+7571",
+    // database: 'nolesile' 
+    
 });
 connection.connect(function(error){
     if(error)
@@ -46,6 +51,10 @@ const db = makeDb( {
     user: "root",
     password: null,
     database: 'silenole'
+    // Estos son del servidor
+    // user: "nolesile",
+    // password: "Nolesile+7571",
+    // database: 'nolesile'
 } );
 
 //EXTRAS PARA LA CARGA DE FOTOS 
@@ -419,7 +428,7 @@ app.post("/user/register", function (request, response) {
     let cp = request.body.cp;
     let user_image = request.body.user_image;
     let params = [name, email, password, comunidad, provincia, localidad, cp, user_image]
-    let sql = "INSERT INTO user (name, email, password, comunidad, provincia, localidad, cp, user_image) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)";
+    let sql = "INSERT INTO user (name, email, password, comunidad, provincia, localidad, cp, user_image, accessToken) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, '')";
     connection.query(sql, params, function(err, result){
         if (err){
             if (err.sqlMessage.includes('email')){
