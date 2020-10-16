@@ -13,6 +13,17 @@ const SECRET_KEY = 'secretkey123456';
 
 const mysql = require('mysql');
 const util = require( 'util' );
+const PORT = 3000;
+const SSL_PORT = 3003;
+
+//PARA LA CONEXION A HTTPS
+const https = require("https"),
+fs = require("fs");
+const options = {
+    /* key: fs.readFileSync("/etc/ssl/private/_.nolesile.com_private_key.key"),
+    cert: fs.readFileSync("/etc/ssl/certs/nolesile.com_ssl_certificate.cer") */
+};
+  
 
 //Conexión a la base de datos
 const connection = mysql.createConnection({
@@ -1193,4 +1204,5 @@ app.get("/buscar-cercanos/categoria/:categoria/:tipo_loc/:valor_loc", async func
 /* ---------------------------------FIN BUSCAR----------------------------------- */
 
 
-app.listen(3000);
+app.listen(PORT);
+https.createServer(options, app).listen(SSL_PORT);
