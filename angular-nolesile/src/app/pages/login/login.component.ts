@@ -153,7 +153,7 @@ export class LoginComponent implements OnInit {
         if(this.globalsService.DEBUG){
           console.log(this.loginService.usuarioActual);
         }
-        this.modalRef.hide();
+        /* this.modalRef.hide(); */
         this.router.navigate(["/inicio"])
         this.messageService.getNotificationsByUser(this.loginService.usuarioActual.user_id).subscribe((data) => {
           if(this.globalsService.DEBUG){

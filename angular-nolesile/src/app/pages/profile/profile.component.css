@@ -8,5 +8,10 @@
     text-align: center;
 }
 
-/* .silenole{font-size: 4em;} */
+.neumorphismo{
+    margin: 10px;
+    border-radius: 5px;
+    box-shadow:  10px 10px 20px #cccccc, 
+                -10px -10px 20px #ffffff;
+}
 

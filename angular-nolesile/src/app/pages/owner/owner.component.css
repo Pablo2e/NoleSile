@@ -11,3 +11,11 @@
     margin-top: 30px;
     color: green;
 }
+
+.tarjeta{
+    margin: 10px;
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow:  10px 10px 20px #cccccc, 
+                -10px -10px 20px #ffffff;
+  }

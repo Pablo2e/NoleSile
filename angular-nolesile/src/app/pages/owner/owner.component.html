@@ -13,7 +13,7 @@
       <p class="text-center">Usuario {{nombreOwner}}</p>
     </h4>
 
-    <div class="card border-success mb-3" style="max-width: 5rem;">
+    <div class="card border-success" style="max-width: 5rem;">
 
       <img 
         src="{{imagenOwner}}" 
@@ -45,12 +45,12 @@
 
   <div class="row d-flex justify-content-center">
 
-    <div class="col-10 border border-success ">
+    <div class="col-10">
 
       <div class="row align-items-end d-flex justify-content-center">
         <!-- TARJETA -->
         <div 
-          class="card border-0 mt-2" 
+          class="card border-0 mt-2 tarjeta" 
           style="width: 18rem; height: 450px" 
           *ngFor="let producto of products"
         >

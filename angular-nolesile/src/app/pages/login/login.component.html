@@ -17,8 +17,8 @@
           aria-pressed="true" 
           type="submit"
           data-toggle="modal" 
-          data-target="#modalIntroducer" 
-          (click)="checkOpenSession(modalIngresar)"
+          data-target="#modalIntroducer"
+          (click)="staticModalIngresar.show()" 
         >
           Ingresar
         </button>
@@ -30,7 +30,7 @@
           type="submit"
           data-toggle="modal" 
           data-target="#modalRegistrar" 
-          (click)="checkOpenSession(modalRegistrarse)"
+          (click)="staticModalRegistrarse.show()"
         >
           Registrarse
         </button>
@@ -44,346 +44,378 @@
 </div>
 
 <!-- MODAL DE REGISTRARSE-->
-<ng-template #modalRegistrarse>
-  
-  <div class="modal-header">
+<div 
+  class="modal fade" 
+  bsModal 
+  #staticModalRegistrarse="bs-modal" 
+  [config]="{backdrop: 'static'}"
+  tabindex="-1" 
+  role="dialog" 
+  aria-labelledby="dialog-static-name"
+>
+  <div class="modal-dialog modal-md">
+
+    <div class="modal-content">
+
+      <div class="modal-header">
     
-    <h4 class="modal-title text-success" id="modal-basic-title2">
-      Registrarse
-    </h4>
-
-    <button 
-      type="button" 
-      class="close pull-right" 
-      aria-label="close" 
-      (click)="modalRef.hide()"
-    >
-      <span aria-hidden="true">&times;</span>
-    </button>
-
-  </div>
-  
-  <div class="modal-body">
-    <!-- FORMULARIO -->
-    <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)">
-
-      <div class="form-group">
-
-        <label for="recipient-name" class="col-form-label">
-          Nombre Usuario:
-        </label>
-
-        <input 
-          type="text" 
-          class="form-control border-success" 
-          id="nombre" 
-          name="name" 
-          [(ngModel)]="usuario.name" 
-          #name="ngModel" 
-          [ngClass]="{'is-invalid': userForm.submitted && name.invalid}" 
-          required
-        >
-
-        <div *ngIf="userForm.submitted && name.invalid"  class="invalid-feedback">
-          <p *ngIf="name.errors.required">El nombre es obligatorio</p>
-        </div>
-
-      </div>
-
-      <div class="form-group">
-
-        <label for="recipient-name" class="col-form-label">
-          Email:
-        </label>
-
-        <input 
-          type="email" 
-          class="form-control border-success" 
-          name="email" 
-          [(ngModel)]="usuario.email" 
-          #email="ngModel" 
-          [ngClass]="{'is-invalid': userForm.submitted && email.invalid}" 
-          email 
-          required
-        >
-
-        <div *ngIf="userForm.submitted && email.invalid" class="invalid-feedback">
-          <p *ngIf="email.errors.required">El email es obligatorio</p>
-          <p *ngIf="email.errors.email">El formato de email es incorrecto</p>
-        </div>
-
-      </div>
-
-      <div class="form-group">
-
-        <label for="recipient-name" class="col-form-label">
-          Comunidad Autónoma:
-        </label>
-
-        <input 
-          type="text" 
-          class="form-control border-success" 
-          name="comunidad" 
-          [(ngModel)]="usuario.comunidad" 
-          #comunidad="ngModel" 
-          [ngClass]="{'is-invalid': userForm.submitted && comunidad.invalid}" 
-          required
-        >
-        <div *ngIf="userForm.submitted && comunidad.invalid" class="invalid-feedback">
-          <p *ngIf="comunidad.errors.required">La Comunidad Autónoma es obligatoria</p>
-        </div>
-        
-      </div>
-
-      <div class="form-group">
-
-        <label for="recipient-name" class="col-form-label">
-          Provincia:
-        </label>
-
-        <input 
-          type="text" 
-          class="form-control border-success" 
-          name="provincia" 
-          [(ngModel)]="usuario.provincia" 
-          #provincia="ngModel"
-          [ngClass]="{'is-invalid': userForm.submitted && provincia.invalid}" 
-          required
-        >
-        <div *ngIf="userForm.submitted && provincia.invalid" class="invalid-feedback">
-          <p *ngIf="provincia.errors.required">La Provincia es obligatoria</p>
-        </div>
-
-      </div>
-
-      <div class="form-group">
-
-        <label for="recipient-name" class="col-form-label">
-          Localidad:
-        </label>
-
-        <input 
-          type="text" 
-          class="form-control border-success" 
-          name="localidad" 
-          [(ngModel)]="usuario.localidad"
-          #localidad="ngModel"
-          [ngClass]="{'is-invalid': userForm.submitted && localidad.invalid}" 
-          required
-        >
-        <div *ngIf="userForm.submitted && localidad.invalid" class="invalid-feedback">
-          <p *ngIf="localidad.errors.required">La Localidad es obligatoria</p>
-        </div>
-
-      </div>
-
-      <div class="form-group">
-
-        <label for="recipient-name" class="col-form-label">
-          CP:
-        </label>
-
-        <input 
-          type="number" 
-          class="form-control border-success" 
-          name="cp" 
-          [(ngModel)]="usuario.cp" 
-          #cp="ngModel"
-          [ngClass]="{'is-invalid': userForm.submitted && cp.invalid}" 
-          required
-        >
-        <div *ngIf="userForm.submitted && cp.invalid" class="invalid-feedback">
-          <p *ngIf="cp.errors.required">El Codigo Postal es obligatorio</p>
-        </div>
-
-      </div>
-
-      <div class="form-group">
-
-        <label for="recipient-name" for="password" class="col-form-label">
-          Contraseña:
-        </label>
-        
-        <input 
-          type="password" 
-          class="form-control border-success" 
-          id="pass1" 
-          name="password" 
-          [(ngModel)]="usuario.password" 
-          #password="ngModel" 
-          [ngClass]="{'is-invalid': userForm.submitted && password.invalid}" 
-          minlength="6" 
-          required
-        >
-        <div *ngIf="userForm.submitted && password.invalid" class="invalid-feedback">
-          <p *ngIf="password.errors.required">La contraseña es obligatoria</p>
-          <p *ngIf="password.errors.minlength">La contraseña debe tener al menos 6 caracteres</p>
-        </div>
-
-      </div>
-
-      <div class="form-group ">
-
-        <label for="recipient-name" for="confirmPassword" class="col-form-label">
-          Confirma la contraseña:
-        </label>
-        
-        <input 
-          type="password" 
-          class="form-control border-success" 
-          id="pass2" 
-          name="password2"  
-          required
-        >
-
-      </div>
-
-      <!-- CHECKBOX DE TERMINOS DE USO Y POLITICA DE PRIVACIDAD -->
-      <div class="form-group form-check">
-
-        <input 
-          type="checkbox" 
-          class="form-check-input" 
-          (change)=pasarTerminosATrue($event)
-        >
-        <label class="form-check-label">
-          He leído y acepto los <a href="http://localhost:4200/terminos" target="_blank">Términos de uso</a>
-        </label>
-
-      </div>
-
-      <div class="form-group form-check">
-
-        <input 
-          type="checkbox" 
-          class="form-check-input"  
-          (change)=pasarPoliticaATrue($event)
-        >
-        <label class="form-check-label">
-          He leído y acepto la <a href="http://localhost:4200/privacidad" target="_blank">Politica de Privacidad</a>
-        </label>
-
-      </div>
-
-      <!-- BOTON REGISTRARSE -->
-      <div class="modal-footer">
+        <h4 class="modal-title text-success" id="modal-basic-title2">
+          Registrarse
+        </h4>
 
         <button 
-          *ngIf="totalCheckboxMarcados===2" 
-          type="submit" 
-          class="btn btn-success" 
-          (click)="newUsuario(name.value, password.value, email.value, comunidad.value, provincia.value, localidad.value, cp.value)"
-          (keyup.enter)="newUsuario(name.value, password.value, email.value, comunidad.value, provincia.value, localidad.value, cp.value)" 
+          type="button" 
+          class="close pull-right" 
+          aria-label="close" 
+          (click)="staticModalRegistrarse.hide()"
         >
-          Registrarse
-        </button>
-        <button 
-          *ngIf="totalCheckboxMarcados!=2" 
-          type="submit" 
-          class="btn btn-success"
-          disabled
-        >
-          Registrarse
+          <span aria-hidden="true">&times;</span>
         </button>
 
       </div>
       
-    </form>
+      <div class="modal-body">
+        <!-- FORMULARIO -->
+        <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)">
+
+          <div class="form-group">
+
+            <label for="recipient-name" class="col-form-label">
+              Nombre Usuario:
+            </label>
+
+            <input 
+              type="text" 
+              class="form-control border-success" 
+              id="nombre" 
+              name="name" 
+              [(ngModel)]="usuario.name" 
+              #name="ngModel" 
+              [ngClass]="{'is-invalid': userForm.submitted && name.invalid}" 
+              required
+            >
+
+            <div *ngIf="userForm.submitted && name.invalid"  class="invalid-feedback">
+              <p *ngIf="name.errors.required">El nombre es obligatorio</p>
+            </div>
+
+          </div>
+
+          <div class="form-group">
+
+            <label for="recipient-name" class="col-form-label">
+              Email:
+            </label>
+
+            <input 
+              type="email" 
+              class="form-control border-success" 
+              name="email" 
+              [(ngModel)]="usuario.email" 
+              #email="ngModel" 
+              [ngClass]="{'is-invalid': userForm.submitted && email.invalid}" 
+              email 
+              required
+            >
+
+            <div *ngIf="userForm.submitted && email.invalid" class="invalid-feedback">
+              <p *ngIf="email.errors.required">El email es obligatorio</p>
+              <p *ngIf="email.errors.email">El formato de email es incorrecto</p>
+            </div>
+
+          </div>
+
+          <div class="form-group">
+
+            <label for="recipient-name" class="col-form-label">
+              Comunidad Autónoma:
+            </label>
+
+            <input 
+              type="text" 
+              class="form-control border-success" 
+              name="comunidad" 
+              [(ngModel)]="usuario.comunidad" 
+              #comunidad="ngModel" 
+              [ngClass]="{'is-invalid': userForm.submitted && comunidad.invalid}" 
+              required
+            >
+            <div *ngIf="userForm.submitted && comunidad.invalid" class="invalid-feedback">
+              <p *ngIf="comunidad.errors.required">La Comunidad Autónoma es obligatoria</p>
+            </div>
+            
+          </div>
+
+          <div class="form-group">
+
+            <label for="recipient-name" class="col-form-label">
+              Provincia:
+            </label>
+
+            <input 
+              type="text" 
+              class="form-control border-success" 
+              name="provincia" 
+              [(ngModel)]="usuario.provincia" 
+              #provincia="ngModel"
+              [ngClass]="{'is-invalid': userForm.submitted && provincia.invalid}" 
+              required
+            >
+            <div *ngIf="userForm.submitted && provincia.invalid" class="invalid-feedback">
+              <p *ngIf="provincia.errors.required">La Provincia es obligatoria</p>
+            </div>
+
+          </div>
+
+          <div class="form-group">
+
+            <label for="recipient-name" class="col-form-label">
+              Localidad:
+            </label>
+
+            <input 
+              type="text" 
+              class="form-control border-success" 
+              name="localidad" 
+              [(ngModel)]="usuario.localidad"
+              #localidad="ngModel"
+              [ngClass]="{'is-invalid': userForm.submitted && localidad.invalid}" 
+              required
+            >
+            <div *ngIf="userForm.submitted && localidad.invalid" class="invalid-feedback">
+              <p *ngIf="localidad.errors.required">La Localidad es obligatoria</p>
+            </div>
+
+          </div>
+
+          <div class="form-group">
+
+            <label for="recipient-name" class="col-form-label">
+              CP:
+            </label>
+
+            <input 
+              type="number" 
+              class="form-control border-success" 
+              name="cp" 
+              [(ngModel)]="usuario.cp" 
+              #cp="ngModel"
+              [ngClass]="{'is-invalid': userForm.submitted && cp.invalid}" 
+              required
+            >
+            <div *ngIf="userForm.submitted && cp.invalid" class="invalid-feedback">
+              <p *ngIf="cp.errors.required">El Codigo Postal es obligatorio</p>
+            </div>
+
+          </div>
+
+          <div class="form-group">
+
+            <label for="recipient-name" for="password" class="col-form-label">
+              Contraseña:
+            </label>
+            
+            <input 
+              type="password" 
+              class="form-control border-success" 
+              id="pass1" 
+              name="password" 
+              [(ngModel)]="usuario.password" 
+              #password="ngModel" 
+              [ngClass]="{'is-invalid': userForm.submitted && password.invalid}" 
+              minlength="6" 
+              required
+            >
+            <div *ngIf="userForm.submitted && password.invalid" class="invalid-feedback">
+              <p *ngIf="password.errors.required">La contraseña es obligatoria</p>
+              <p *ngIf="password.errors.minlength">La contraseña debe tener al menos 6 caracteres</p>
+            </div>
+
+          </div>
+
+          <div class="form-group ">
+
+            <label for="recipient-name" for="confirmPassword" class="col-form-label">
+              Confirma la contraseña:
+            </label>
+            
+            <input 
+              type="password" 
+              class="form-control border-success" 
+              id="pass2" 
+              name="password2"  
+              required
+            >
+
+          </div>
+
+          <!-- CHECKBOX DE TERMINOS DE USO Y POLITICA DE PRIVACIDAD -->
+          <div class="form-group form-check">
+
+            <input 
+              type="checkbox" 
+              class="form-check-input" 
+              (change)=pasarTerminosATrue($event)
+            >
+            <label class="form-check-label">
+              He leído y acepto los <a href="http://localhost:4200/terminos" target="_blank">Términos de uso</a>
+            </label>
+
+          </div>
+
+          <div class="form-group form-check">
+
+            <input 
+              type="checkbox" 
+              class="form-check-input"  
+              (change)=pasarPoliticaATrue($event)
+            >
+            <label class="form-check-label">
+              He leído y acepto la <a href="http://localhost:4200/privacidad" target="_blank">Politica de Privacidad</a>
+            </label>
+
+          </div>
+
+          <!-- BOTON REGISTRARSE -->
+          <div class="modal-footer">
+
+            <button 
+              *ngIf="totalCheckboxMarcados===2" 
+              type="submit" 
+              class="btn btn-success" 
+              (click)="newUsuario(name.value, password.value, email.value, comunidad.value, provincia.value, localidad.value, cp.value)"
+              (keyup.enter)="newUsuario(name.value, password.value, email.value, comunidad.value, provincia.value, localidad.value, cp.value)" 
+              (click)="staticModalRegistrarse.hide()"
+            >
+              Registrarse
+            </button>
+            <button 
+              *ngIf="totalCheckboxMarcados!=2" 
+              type="submit" 
+              class="btn btn-success"
+              disabled
+            >
+              Registrarse
+            </button>
+
+          </div>
+          
+        </form>
+
+      </div>
+
+    </div>
 
   </div>
 
-</ng-template>
+</div>
 
 <!--MODAL INICIO-->
-<ng-template #modalIngresar>
+<div 
+  class="modal fade" 
+  bsModal 
+  #staticModalIngresar="bs-modal" 
+  [config]="{backdrop: 'static'}"
+  tabindex="-1" 
+  role="dialog" 
+  aria-labelledby="dialog-static-name"
+>
+  <div class="modal-dialog modal-md">
 
-  <div class="modal-header">
+    <div class="modal-content">
 
-    <h4 class="modal-title text-success" id="modal-basic-title2">
-      Ingresar
-    </h4>
+      <div class="modal-header">
 
-    <button 
-      type="button" 
-      class="close pull-right" 
-      aria-label="close" 
-      (click)="modalRef.hide()"
-    >
-      <span aria-hidden="true">&times;</span>
-    </button>
-
-  </div>
-
-  <div class="modal-body">
-    <!-- FORMULARIO -->
-    <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)">
-      
-      <div class="form-group">
-
-        <label for="recipient-name" class="col-form-label" >
-          Email:
-        </label>
-
-        <input 
-          type="email" 
-          class="form-control border-success" 
-          name="email" 
-          [(ngModel)]="usuario.email" 
-          #email="ngModel" 
-          [ngClass]="{'is-invalid': userForm.submitted && email.invalid}" 
-          email 
-          required
-        >
-        <div *ngIf="userForm.submitted && email.invalid" class="invalid-feedback">
-          <p *ngIf="email.errors.required">El email es obligatorio</p>
-          <p *ngIf="email.errors.email">El formato de email es incorrecto</p>
-        </div>
-
-      </div>
-
-      <div class="form-group">
-
-        <label for="recipient-name" for="password" class="col-form-label">
-          Contraseña:
-        </label>
-
-        <input 
-          type="password" 
-          class="form-control border-success" 
-          id="pass1" 
-          name="password" 
-          [(ngModel)]="usuario.password" 
-          #password="ngModel" 
-          [ngClass]="{'is-invalid': userForm.submitted && password.invalid}" 
-          minlength="6" 
-          required
-        >
-        <div *ngIf="userForm.submitted && password.invalid" class="invalid-feedback">
-          <p *ngIf="password.errors.required">La contraseña es obligatoria</p>
-          <p *ngIf="password.errors.minlength">La contraseña debe tener al menos 6 caracteres</p>
-        </div>
-
-      </div>
-
-      <!-- BOTON REGISTRARSE -->
-      <div class="modal-footer">
+        <h4 id="dialog-static-name" class="modal-title text-success pull-left">
+          Ingresar
+        </h4>
 
         <button 
-          type="submit" 
-          class="btn btn-success" 
-          (click)="login(email.value, password.value)" 
-          (keyup.enter)="login(email.value, password.value)"
+          type="button" 
+          class="close pull-right" 
+          aria-label="Close" 
+          (click)="staticModalIngresar.hide()"
         >
-          Ingresar
+          <span aria-hidden="true">&times;</span>
         </button>
 
       </div>
 
-    </form>
+      <div class="modal-body">
+        <!-- FORMULARIO -->
+        <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)">
+          
+          <div class="form-group">
+
+            <label for="recipient-name" class="col-form-label" >
+              Email:
+            </label>
+
+            <input 
+              type="email" 
+              class="form-control border-success" 
+              name="email" 
+              [(ngModel)]="usuario.email" 
+              #email="ngModel" 
+              [ngClass]="{'is-invalid': userForm.submitted && email.invalid}" 
+              email 
+              required
+            >
+            <div *ngIf="userForm.submitted && email.invalid" class="invalid-feedback">
+              <p *ngIf="email.errors.required">El email es obligatorio</p>
+              <p *ngIf="email.errors.email">El formato de email es incorrecto</p>
+            </div>
+
+          </div>
+
+          <div class="form-group">
+
+            <label for="recipient-name" for="password" class="col-form-label">
+              Contraseña:
+            </label>
+
+            <input 
+              type="password" 
+              class="form-control border-success" 
+              id="pass1" 
+              name="password" 
+              [(ngModel)]="usuario.password" 
+              #password="ngModel" 
+              [ngClass]="{'is-invalid': userForm.submitted && password.invalid}" 
+              minlength="6" 
+              required
+            >
+            <div *ngIf="userForm.submitted && password.invalid" class="invalid-feedback">
+              <p *ngIf="password.errors.required">La contraseña es obligatoria</p>
+              <p *ngIf="password.errors.minlength">La contraseña debe tener al menos 6 caracteres</p>
+            </div>
+
+          </div>
+
+          <!-- BOTON REGISTRARSE -->
+          <div class="modal-footer">
+
+            <button 
+              type="submit" 
+              class="btn btn-success" 
+              (click)="login(email.value, password.value)" 
+              (keyup.enter)="login(email.value, password.value)"
+              (click)="staticModalIngresar.hide()"
+            >
+              Ingresar
+            </button>
+
+          </div>
+
+        </form>
+
+      </div>
+
+    </div>
 
   </div>
 
-</ng-template>
+</div>
 
 <!--MODAL COOKIES-->
 <div 
@@ -471,4 +503,3 @@
   </div>
 </carousel>
  -->
-      
