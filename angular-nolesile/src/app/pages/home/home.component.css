@@ -16,8 +16,14 @@ body {
 
 .card{
   margin: 10px;
-  border-radius: 20px;
+  border-radius: 10px;
   background: #ffffff;
   box-shadow:  10px 10px 20px #cccccc, 
               -10px -10px 20px #ffffff;
+}
+
+#cardModal{
+  margin: 10px;
+  border-radius: 20px;
+  background: #ffffff;
 }

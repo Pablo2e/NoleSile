@@ -120,13 +120,14 @@
           class="card border-0 mt-2" 
           style="width: 18rem; height: 450px" 
           *ngFor="let producto of productService.products"
-        >
+          >
 
           <img 
             class="card-img-top m-auto" 
             src="{{producto.product_image}}" 
             alt="Card image cap"
             style="max-width: 200px; max-height: 200px"
+            (click)="staticModal.show()"
           >
 
           <div class="card-block ml-2 mr-2 text-center">
@@ -134,6 +135,74 @@
             <h4 class="card-title">Producto: {{producto.nombre}}</h4>
             <h6 class="card-text">Descripción:</h6>
             <p class="card-text">{{producto.descripcion}}</p>
+
+          </div>
+          <!-- MODAL PRODUCTO -->
+          <div 
+            class="modal fade" 
+            bsModal 
+            #staticModal="bs-modal" 
+            [config]="{backdrop: 'static'}"
+            tabindex="-1" 
+            role="dialog" 
+            aria-labelledby="dialog-static-name"
+            >
+            
+            <div class="modal-dialog modal-md">
+
+              <div class="modal-content" id='cardModal'>
+
+                <div class="modal-header d-flex justify-content-center text-success mt-3" style= 'border: none'>
+                  <h4 id="dialog-static-name" class="modal-title pull-left">{{producto.descripcion}}</h4>
+                </div>
+
+                <div class="modal-body">
+
+                  <div class="container-fluid mb-5 ">
+
+                    <div class="row d-flex justify-content-center">
+
+                      <div class="col-10">
+
+                        <div class="row align-items-end d-flex justify-content-center">
+                          <!-- TARJETA -->
+                          <div>
+
+                            <img 
+                              class="card-img-top m-auto" 
+                              src="{{producto.product_image}}" 
+                              alt="Card image cap"
+                              style="max-width: 600px; max-height: 600px"
+                            >
+
+                            <div class="row align-items-end d-flex justify-content-center">
+
+                              <button 
+                                  type="button" 
+                                  class="btn btn-outline-success btn-sm mt-5"
+                                  (click)="staticModal.hide()"
+                              >
+                                <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+                                  Cerrar
+                              </button>
+
+                            </div>
+
+                          </div>
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
 
           </div>
 
@@ -159,7 +228,7 @@
               <i class="fa fa-envelope-open" aria-hidden="true"></i>
                 Enviar mensaje
             </button>
-
+            
           </div>
 
         </div>
