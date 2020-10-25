@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 // MODELOS
 import { Product } from '../models/product';
-import { Usuario } from '../models/usuario';
 // SERVICIOS IMPORTADOS
 import { LoginService } from './login.service';
 import { GlobalsService } from './globals.service';
@@ -18,7 +17,6 @@ export class ProductService {
 
   public product: any
   public products: any;
-  //public usuarioActual: Usuario;
   public ownerActual: number
   public categoriaSeleccionada: any; 
   public idProductoSeleccionado: number;

@@ -1,5 +1,6 @@
 // COMPONENTE
 import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Ng2ImgMaxService } from 'ng2-img-max';
 import { Router } from "@angular/router";
 // MODAL
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
@@ -28,7 +29,6 @@ export class MyProductsComponent implements OnInit {
   public idUsuario: number;
   public modalRef:BsModalRef; //MODAL NGX
   public selectedFile: File; //para cargar la foto
-  private photoSize=2000000
   public unicornio: string = this.globalsService.unicornio
 
   constructor(
@@ -36,7 +36,8 @@ export class MyProductsComponent implements OnInit {
     public loginService:LoginService, 
     private modalServices: BsModalService,
     public globalsService: GlobalsService, 
-    private toastr: ToastrService) { 
+    private toastr: ToastrService,
+    private ng2ImgMax: Ng2ImgMaxService) { 
     this.products = [];
     this.selectedFile = null;
     this.idUsuario = this.loginService.getUserId()
@@ -81,24 +82,30 @@ export class MyProductsComponent implements OnInit {
   //para cargar la foto
   public onFileSelected(event){
     this.selectedFile = <File>event.target.files[0]	
-	  let fileName = this.selectedFile.name; 
-	  let fileSize = this.selectedFile.size; //recupera el tamaño del archivo
-	if(fileSize > this.photoSize){
-    this.toastr.error("El archivo no debe superar los 2MB", "Algo fue mal")
-		fileName = '';
-	}else{
-		// recuperamos la extensión del archivo
-		let ext = fileName.split('.').pop();
+    this.ng2ImgMax.compressImage(this.selectedFile, 1.95).subscribe(
+      result => {
+        this.selectedFile = new File([result], result.name);
+        if(this.globalsService.DEBUG){
+          console.log(this.selectedFile.size)
+        }
+      }, (error) => {
+        if(this.globalsService.DEBUG){
+          console.log('😢 Oh no!', error);
+        }
+      }
+    );
+    // recuperamos la extensión del archivo
+    let fileName = this.selectedFile.name;
+    let ext = fileName.split('.').pop();
 		// Convertimos en minúscula porque la extensión del archivo puede estar en mayúscula
-		ext = ext.toLowerCase();
-		switch (ext) {
-			case 'jpg':
-			case 'jpeg':
-			case 'png': break;
-			default:
-				this.toastr.error('El archivo no tiene la extensión adecuada', "Algo fue mal");
-				fileName = '';
-		  }
+    ext = ext.toLowerCase();
+    switch (ext) {
+      case 'jpg':
+      case 'jpeg':
+      case 'png': break;
+      default:
+      this.toastr.error('El archivo no tiene la extensión adecuada', "Algo fue mal");
+      fileName = '';
     }
   }
 

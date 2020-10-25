@@ -7,15 +7,17 @@ providedIn: 'root'
 
 export class GlobalsService {  
 
+    //Estas 2 para el localhost
     public apiServerUrl = "http://localhost:3000";
     public imageServerUrl = "http://localhost:3100/"; 
-    /* public apiServerUrl = "http://nolesile.com:3000";
-    public imageServerUrl = "http://nolesile.com:3100/";*/
+    //Estas 2 para el build
+     /*public apiServerUrl = "https://nolesile.com:3003";
+    public imageServerUrl = "https://nolesile.com:3103/";*/
     public fotoUsuarioPorDefecto = "assets/img/perfil.jpg";
     public unicornio = "assets/img/unicornio.png"; 
-    public DEBUG= true
-    public INFO= true
-    public ERROR= true
+    public DEBUG= false
+    public INFO= false
+    public ERROR= false
 
     constructor() 
         {
