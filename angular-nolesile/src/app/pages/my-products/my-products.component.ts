@@ -1,7 +1,6 @@
 // COMPONENTE
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Ng2ImgMaxService } from 'ng2-img-max';
-import { Router } from "@angular/router";
 // MODAL
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 // MODELO
