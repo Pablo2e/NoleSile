@@ -28,6 +28,7 @@ export class UploadComponent implements OnInit {
   public idProducto: number
   public modalRef: BsModalRef;
   public selectedFile: File; //para cargar la foto
+  public productImageUrl: string;
 
   constructor(
     public productService:ProductService, 
@@ -46,6 +47,18 @@ export class UploadComponent implements OnInit {
       console.log(this.idProducto)
     }
   }
+
+  public cargarFoto(){
+    this.productImageUrl = this.productService.urlImg + this.token() + "-" + this.usuarioActual.user_id + ".jpg";
+      const nombreFotoProducto = this.productImageUrl
+      const fd = new FormData()
+      fd.append('product_image',this.selectedFile, nombreFotoProducto);
+      this.productService.uploadImageProduct(fd).subscribe((data)=>{
+        if(this.globalsService.DEBUG){
+          console.log(data);
+        }
+      })
+  }
   
   public anyadirSile(nombre: string, descripcion: string, categoria: string, user_id: number, product_image: string, template: TemplateRef < any > ){
     if(this.globalsService.DEBUG){
@@ -55,7 +68,8 @@ export class UploadComponent implements OnInit {
       nombre === "" || descripcion === "" || categoria === "" || product_image === "") {
       this.toastr.error("Por favor, completa todos los campos", "Algo fue mal")
     } else {
-      let productImageUrl;
+      let date = new Date();
+      /* let productImageUrl;
       let date = new Date();
       productImageUrl = this.productService.urlImg + this.token() + "-" + user_id + ".jpg";
       const nombreFotoProducto = productImageUrl
@@ -65,8 +79,8 @@ export class UploadComponent implements OnInit {
         if(this.globalsService.DEBUG){
           console.log(data);
         }
-      })
-      this.productService.postProduct(new Product(null, nombre, descripcion, categoria, user_id, productImageUrl, date)).subscribe((data)=>{
+      }) */
+      this.productService.postProduct(new Product(null, nombre, descripcion, categoria, user_id, this.productImageUrl, date)).subscribe((data)=>{
         if(this.globalsService.DEBUG){
           console.log(data);
         }
@@ -166,6 +180,7 @@ export class UploadComponent implements OnInit {
       this.toastr.error('El archivo no tiene la extensión adecuada', "Algo fue mal");
       fileName = '';
     }
+    this.cargarFoto()
   }
 
   // FORMULARIO

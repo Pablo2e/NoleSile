@@ -29,6 +29,7 @@ export class MyProductsComponent implements OnInit {
   public modalRef:BsModalRef; //MODAL NGX
   public selectedFile: File; //para cargar la foto
   public unicornio: string = this.globalsService.unicornio
+  public productImageUrl: string;
 
   constructor(
     public productService:ProductService, 
@@ -77,6 +78,7 @@ export class MyProductsComponent implements OnInit {
       console.log(this.productoActual)
     }
   }
+
   public getOrientation(file, callback) {
     var reader = new FileReader();
     reader.onload = function(e) {
@@ -124,6 +126,18 @@ export class MyProductsComponent implements OnInit {
     };
     reader.readAsArrayBuffer(file);
   }
+
+  /* public cargarFoto(){
+    this.productImageUrl = this.productService.urlImg + this.token() + "-" + this.loginService.usuarioActual + ".jpg";
+      const nombreFotoProducto = this.productoActual.product_image;
+      const fd = new FormData()
+      fd.append('product_image',this.selectedFile, nombreFotoProducto);
+      this.productService.uploadImageProduct(fd).subscribe((data)=>{
+        if(this.globalsService.DEBUG){
+          console.log(data);
+        }
+      })
+    } */
   
   //para cargar la foto
   public onFileSelected(event){
@@ -156,6 +170,7 @@ export class MyProductsComponent implements OnInit {
       this.toastr.error('El archivo no tiene la extensión adecuada', "Algo fue mal");
       fileName = '';
     }
+    /* this.cargarFoto() */
   }
 
   /* PARA MODIFICAR PRODUCTOS */
