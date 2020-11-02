@@ -130,11 +130,15 @@ export class SearchComponent implements OnInit {
       console.log("Buscar usuario ", nombreUsuario)
     }
     this.productService.getOwnerByName(nombreUsuario).subscribe((data) => {
-      this.productService.ownerActual = data[0].user_id;
-      if(this.globalsService.DEBUG){
-        console.log(this.productService.ownerActual);
+      if(data[0]===undefined || data[0]===null){
+        this.toastr.error("EL usuario no existe", "Algo fue mal");
+      } else {
+        this.productService.ownerActual = data[0].user_id;
+          if(this.globalsService.DEBUG){
+            console.log(this.productService.ownerActual);
+          }
+        this.router.navigate(["/propietario"])
       }
-      this.router.navigate(["/propietario"])
     }, (error) => {
       if(this.globalsService.ERROR){
         console.log(error);

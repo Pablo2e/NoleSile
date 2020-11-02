@@ -16,8 +16,8 @@ export class GlobalsService {
     public fotoUsuarioPorDefecto = "assets/img/perfil.jpg";
     public unicornio = "assets/img/unicornio.png"; 
     public DEBUG= false
-    public INFO= false
-    public ERROR= false
+    public INFO= true
+    public ERROR= true
 
     constructor() 
         {

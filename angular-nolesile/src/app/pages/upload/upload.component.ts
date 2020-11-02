@@ -83,10 +83,64 @@ export class UploadComponent implements OnInit {
       })
     }
   }
+
+  public getOrientation(file, callback) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+
+        var view = new DataView(<ArrayBufferLike>e.target.result);
+        if (view.getUint16(0, false) != 0xFFD8)
+        {
+            return callback(-2);
+        }
+        var length = view.byteLength, offset = 2;
+        while (offset < length) 
+        {
+            if (view.getUint16(offset+2, false) <= 8) return callback(-1);
+            var marker = view.getUint16(offset, false);
+            offset += 2;
+            if (marker == 0xFFE1) 
+            {
+                if (view.getUint32(offset += 2, false) != 0x45786966) 
+                {
+                    return callback(-1);
+                }
+
+                var little = view.getUint16(offset += 6, false) == 0x4949;
+                offset += view.getUint32(offset + 4, little);
+                var tags = view.getUint16(offset, little);
+                offset += 2;
+                for (var i = 0; i < tags; i++)
+                {
+                    if (view.getUint16(offset + (i * 12), little) == 0x0112)
+                    {
+                        return callback(view.getUint16(offset + (i * 12) + 8, little));
+                    }
+                }
+            }
+            else if ((marker & 0xFF00) != 0xFF00)
+            {
+                break;
+            }
+            else
+            { 
+                offset += view.getUint16(offset, false);
+            }
+        }
+        return callback(-1);
+    };
+    reader.readAsArrayBuffer(file);
+  }
   
   //para cargar la foto
   public onFileSelected(event){
-    this.selectedFile = <File>event.target.files[0]	
+    this.selectedFile = <File>event.target.files[0]
+    this.getOrientation(this.selectedFile, function(orientation) {
+      alert('orientation: ' + orientation);
+     /*  posicionFoto = orientation */
+      this.toastr.success('orientation: ' + orientation);
+    });
+    console.log(this.selectedFile)
     this.ng2ImgMax.compressImage(this.selectedFile, 1.95).subscribe(
       result => {
         this.selectedFile = new File([result], result.name);

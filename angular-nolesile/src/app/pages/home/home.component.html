@@ -36,7 +36,7 @@
             class="card-img-top m-auto" 
             src="{{producto.product_image}}" 
             alt="producto"
-            style="max-width: 200px; max-height: 200px"
+            style="display: block; max-width: 200px; max-height: 200px; width: auto; height: auto;"
             (click)="staticModal.show()"
           >
 
@@ -146,7 +146,7 @@
         <ng-template #noHay  > 
 
           <img 
-            class="mt-3 mb-2" 
+            class="col-10 mt-3 mb-2" 
             src={{unicornio}}  
             alt="Unicornio"
           >
@@ -197,7 +197,7 @@
             class="card-img-top m-auto" 
             src="{{producto.product_image}}" 
             alt="Card image cap"
-            style="max-width: 200px; max-height: 200px"
+            style="display: block; max-width: 200px; max-height: 200px; width: auto; height: auto;"
             (click)="staticModal.show()"
           >
 
@@ -228,7 +228,7 @@
               <i class="fa fa-envelope-open" aria-hidden="true"></i>
                 Enviar mensaje
             </button>
-            <!-- MODAL PRODUCTO -->
+<!-- MODAL PRODUCTO -->
             <div 
               class="modal fade" 
               bsModal 
@@ -239,7 +239,7 @@
               aria-labelledby="dialog-static-name"
               >
               
-              <div class="modal-dialog modal-md">
+              <div class="modal-dialog modal-sm">
 
                 <div class="modal-content" id='cardModal'>
 
@@ -302,10 +302,11 @@
         </div>
 
         <div *ngIf="productsCercanos.length!=0; else noHay2"></div>
+        
         <ng-template #noHay2  > 
 
           <img 
-            class="mt-3 mb-2" 
+            class="col-10 mt-3 mb-2" 
             src={{unicornio}} 
             alt="Unicornio"
           >
