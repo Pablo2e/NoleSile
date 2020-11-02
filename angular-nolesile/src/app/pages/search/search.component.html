@@ -126,7 +126,7 @@
             class="card-img-top m-auto" 
             src="{{producto.product_image}}" 
             alt="Card image cap"
-            style="max-width: 200px; max-height: 200px"
+            style="display: block; max-width: 200px; max-height: 200px; width: auto; height: auto;"
             (click)="staticModal.show()"
           >
 
@@ -213,10 +213,11 @@
               class="btn btn-outline-success btn-sm mr-1"
               (click)="pasarIdOwner(producto.user_id)"
               [routerLink]="['/propietario']" 
-            >
+              >
 
               <i class="fa fa-user-circle-o" aria-hidden="true"></i>
                 Ver Usuario
+                
             </button>
 
             <button 

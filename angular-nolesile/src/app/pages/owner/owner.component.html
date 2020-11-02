@@ -53,13 +53,13 @@
           class="card border-0 mt-2 tarjeta" 
           style="width: 18rem; height: 450px" 
           *ngFor="let producto of products"
-        >
+          >
 
           <img 
             class="card-img-top m-auto" 
             src="{{producto.product_image}}" 
             alt="Producto"
-            style="max-width: 200px; max-height: 200px"
+            style="display: block; max-width: 200px; max-height: 200px; width: auto; height: auto;"
             (click)="staticModal.show()"
           >
 
@@ -83,53 +83,55 @@
                 Enviar Mensaje
             </button>
           <!-- MODAL PRODUCTO -->
-          <div 
-            class="modal fade" 
-            bsModal 
-            #staticModal="bs-modal" 
-            [config]="{backdrop: 'static'}"
-            tabindex="-1" 
-            role="dialog" 
-            aria-labelledby="dialog-static-name"
-            >
-            
-            <div class="modal-dialog modal-md">
+            <div 
+              class="modal fade" 
+              bsModal 
+              #staticModal="bs-modal" 
+              [config]="{backdrop: 'static'}"
+              tabindex="-1" 
+              role="dialog" 
+              aria-labelledby="dialog-static-name"
+              >
+              
+              <div class="modal-dialog modal-md">
 
-              <div class="modal-content" id='cardModal'>
+                <div class="modal-content" id='cardModal'>
 
-                <div class="modal-header d-flex justify-content-center text-success mt-3" style= 'border: none'>
-                  <h4 id="dialog-static-name" class="modal-title pull-left">{{producto.descripcion}}</h4>
-                </div>
+                  <div class="modal-header d-flex justify-content-center text-success mt-3" style= 'border: none'>
+                    <h4 id="dialog-static-name" class="modal-title pull-left">{{producto.descripcion}}</h4>
+                  </div>
 
-                <div class="modal-body">
+                  <div class="modal-body">
 
-                  <div class="container-fluid mb-5 ">
+                    <div class="container-fluid mb-5 ">
 
-                    <div class="row d-flex justify-content-center">
+                      <div class="row d-flex justify-content-center">
 
-                      <div class="col-10">
+                        <div class="col-10">
 
-                        <div class="row align-items-end d-flex justify-content-center">
-                          <!-- TARJETA -->
-                          <div>
+                          <div class="row align-items-end d-flex justify-content-center">
+                            <!-- TARJETA -->
+                            <div>
 
-                            <img 
-                              class="card-img-top m-auto" 
-                              src="{{producto.product_image}}" 
-                              alt="Card image cap"
-                              style="max-width: 600px; max-height: 600px"
-                            >
-
-                            <div class="row align-items-end d-flex justify-content-center">
-
-                              <button 
-                                  type="button" 
-                                  class="btn btn-outline-success btn-sm mt-5"
-                                  (click)="staticModal.hide()"
+                              <img 
+                                class="card-img-top m-auto" 
+                                src="{{producto.product_image}}" 
+                                alt="Card image cap"
+                                style="max-width: 600px; max-height: 600px"
                               >
-                                <i class="fa fa-times-circle-o" aria-hidden="true"></i>
-                                  Cerrar
-                              </button>
+
+                              <div class="row align-items-end d-flex justify-content-center">
+
+                                <button 
+                                    type="button" 
+                                    class="btn btn-outline-success btn-sm mt-5"
+                                    (click)="staticModal.hide()"
+                                >
+                                  <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+                                    Cerrar
+                                </button>
+
+                              </div>
 
                             </div>
 
@@ -149,7 +151,6 @@
 
             </div>
 
-          </div>
           </div>
 
         </div>
