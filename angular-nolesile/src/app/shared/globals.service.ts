@@ -15,7 +15,7 @@ export class GlobalsService {
     public imageServerUrl = "https://nolesile.com:3103/";
     public fotoUsuarioPorDefecto = "assets/img/perfil.jpg";
     public unicornio = "assets/img/unicornio.png"; 
-    public DEBUG= false
+    public DEBUG= true
     public INFO= true
     public ERROR= true
 

@@ -28,6 +28,7 @@ export class UploadComponent implements OnInit {
   public idProducto: number
   public modalRef: BsModalRef;
   public selectedFile: File; //para cargar la foto
+  public productImageUrl: string;
 
   constructor(
     public productService:ProductService, 
@@ -55,7 +56,8 @@ export class UploadComponent implements OnInit {
       nombre === "" || descripcion === "" || categoria === "" || product_image === "") {
       this.toastr.error("Por favor, completa todos los campos", "Algo fue mal")
     } else {
-      let productImageUrl;
+      let date = new Date();
+      /* let productImageUrl;
       let date = new Date();
       productImageUrl = this.productService.urlImg + this.token() + "-" + user_id + ".jpg";
       const nombreFotoProducto = productImageUrl
@@ -65,8 +67,8 @@ export class UploadComponent implements OnInit {
         if(this.globalsService.DEBUG){
           console.log(data);
         }
-      })
-      this.productService.postProduct(new Product(null, nombre, descripcion, categoria, user_id, productImageUrl, date)).subscribe((data)=>{
+      }) */
+      this.productService.postProduct(new Product(null, nombre, descripcion, categoria, user_id, this.productImageUrl, date)).subscribe((data)=>{
         if(this.globalsService.DEBUG){
           console.log(data);
         }
@@ -136,9 +138,9 @@ export class UploadComponent implements OnInit {
   public onFileSelected(event){
     this.selectedFile = <File>event.target.files[0]
     this.getOrientation(this.selectedFile, function(orientation) {
-      alert('orientation: ' + orientation);
-     /*  posicionFoto = orientation */
-      this.toastr.success('orientation: ' + orientation);
+     /*   alert('orientation: ' + orientation);
+     posicionFoto = orientation */
+      /* this.toastr.success('orientation: ' + orientation); */
     });
     console.log(this.selectedFile)
     this.ng2ImgMax.compressImage(this.selectedFile, 1.95).subscribe(
@@ -166,6 +168,19 @@ export class UploadComponent implements OnInit {
       this.toastr.error('El archivo no tiene la extensión adecuada', "Algo fue mal");
       fileName = '';
     }
+    this.cargarFoto()
+  }
+  
+  public cargarFoto(){
+    this.productImageUrl = this.productService.urlImg + this.token() + "-" + this.usuarioActual.user_id + ".jpg";
+    const nombreFotoProducto = this.productImageUrl
+    const fd = new FormData()
+    fd.append('product_image',this.selectedFile, nombreFotoProducto);
+    this.productService.uploadImageProduct(fd).subscribe((data)=>{
+      if(this.globalsService.DEBUG){
+        console.log(data);
+      }
+    })
   }
 
   // FORMULARIO
