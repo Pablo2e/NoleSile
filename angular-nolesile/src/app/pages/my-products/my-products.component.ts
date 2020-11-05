@@ -30,6 +30,7 @@ export class MyProductsComponent implements OnInit {
   public selectedFile: File; //para cargar la foto
   public unicornio: string = this.globalsService.unicornio
   public productImageUrl: string;
+/*   public fotoProductoAntigua: string; */
 
   constructor(
     public productService:ProductService, 
@@ -126,24 +127,12 @@ export class MyProductsComponent implements OnInit {
     };
     reader.readAsArrayBuffer(file);
   }
-
-  /* public cargarFoto(){
-    this.productImageUrl = this.productService.urlImg + this.token() + "-" + this.loginService.usuarioActual + ".jpg";
-      const nombreFotoProducto = this.productoActual.product_image;
-      const fd = new FormData()
-      fd.append('product_image',this.selectedFile, nombreFotoProducto);
-      this.productService.uploadImageProduct(fd).subscribe((data)=>{
-        if(this.globalsService.DEBUG){
-          console.log(data);
-        }
-      })
-    } */
   
   //para cargar la foto
   public onFileSelected(event){
     this.selectedFile = <File>event.target.files[0]
     this.getOrientation(this.selectedFile, function(orientation) {
-      alert('orientation: ' + orientation);
+      /* alert('orientation: ' + orientation); */
     });
     this.ng2ImgMax.compressImage(this.selectedFile, 1.95).subscribe(
       result => {
@@ -170,8 +159,30 @@ export class MyProductsComponent implements OnInit {
       this.toastr.error('El archivo no tiene la extensión adecuada', "Algo fue mal");
       fileName = '';
     }
-    /* this.cargarFoto() */
+    this.cargarFoto();
   }
+  
+  public cargarFoto() {
+    /* this.fotoProductoAntigua = this.productoActual.product_image;
+    this.fotoProductoAntigua = this.fotoProductoAntigua.replace(this.productService.urlImg, ""); */
+
+    /* this.productService.deleteImage(oldImage).subscribe((data)=>{
+      if(this.globalsService.DEBUG){
+        console.log(data);
+      }
+    }) */
+
+    this.productImageUrl = this.productService.urlImg + this.token() + "-" + this.loginService.usuarioActual + ".jpg";
+    const nombreFotoProducto = this.productImageUrl ;
+    const fd = new FormData(); 
+    fd.append('product_image',this.selectedFile, nombreFotoProducto); 
+    this.productService.uploadImageProduct(fd).subscribe((data)=>{
+      if(this.globalsService.DEBUG){
+        console.log(data);
+      }
+    })
+    }
+  
 
   /* PARA MODIFICAR PRODUCTOS */
   public modificarSile(product_id: number, nombre: string, descripcion: string, categoria: string, user_id: number, template: TemplateRef < any >){
@@ -184,13 +195,13 @@ export class MyProductsComponent implements OnInit {
       console.log('Hola desde modificarSile')
     }
     let date = new Date();
-    let productImageUrl;
+  /*   let productImageUrl; */
     let oldImage = this.productoActual.product_image;
     if(this.globalsService.DEBUG){
       console.log(oldImage);
     }
     if(this.selectedFile === null) {
-      productImageUrl = this.productoActual.product_image;
+      this.productImageUrl = this.productoActual.product_image;
     } else {
       if(this.globalsService.DEBUG){
         console.log(oldImage);
@@ -199,10 +210,10 @@ export class MyProductsComponent implements OnInit {
       if(this.globalsService.DEBUG){
         console.log(oldImage);
       }
-      productImageUrl = this.productService.urlImg + this.token() + "-" + this.idUsuario + ".jpg";
+      /* productImageUrl = this.productService.urlImg + this.token() + "-" + this.idUsuario + ".jpg"; */
     }
     if(this.selectedFile === null) {
-      this.productService.putProduct(new Product(product_id, nombre, descripcion, categoria, user_id, productImageUrl, date)).subscribe((data)=>{
+      this.productService.putProduct(new Product(product_id, nombre, descripcion, categoria, user_id, this.productImageUrl, date)).subscribe((data)=>{
         if(this.globalsService.DEBUG){
           console.log(data);
         }
@@ -217,19 +228,19 @@ export class MyProductsComponent implements OnInit {
         }
       })
     } else {
-      const nombreFotoProducto = productImageUrl
+      /* const nombreFotoProducto = productImageUrl
       const fd = new FormData()
-      fd.append('product_image',this.selectedFile, nombreFotoProducto);
+      fd.append('product_image',this.selectedFile, nombreFotoProducto); */
       this.productService.deleteImage(oldImage).subscribe((data)=>{
         if(this.globalsService.DEBUG){
           console.log(data);
         }
       })
-      this.productService.uploadImageProduct(fd).subscribe((data)=>{
+/*       this.productService.uploadImageProduct(fd).subscribe((data)=>{
         if(this.globalsService.DEBUG){
           console.log(data);
-        }
-        this.productService.putProduct(new Product(product_id, nombre, descripcion, categoria, user_id, productImageUrl, date)).subscribe((data)=>{
+        } */
+        this.productService.putProduct(new Product(product_id, nombre, descripcion, categoria, user_id, this.productImageUrl, date)).subscribe((data)=>{
           if(this.globalsService.DEBUG){
             console.log(data);
           }
@@ -244,7 +255,7 @@ export class MyProductsComponent implements OnInit {
             this.loginService.forcedLogout();
           }
         })
-      })
+/*       }) */
     }
   }
 

@@ -47,18 +47,6 @@ export class UploadComponent implements OnInit {
       console.log(this.idProducto)
     }
   }
-
-  public cargarFoto(){
-    this.productImageUrl = this.productService.urlImg + this.token() + "-" + this.usuarioActual.user_id + ".jpg";
-      const nombreFotoProducto = this.productImageUrl
-      const fd = new FormData()
-      fd.append('product_image',this.selectedFile, nombreFotoProducto);
-      this.productService.uploadImageProduct(fd).subscribe((data)=>{
-        if(this.globalsService.DEBUG){
-          console.log(data);
-        }
-      })
-  }
   
   public anyadirSile(nombre: string, descripcion: string, categoria: string, user_id: number, product_image: string, template: TemplateRef < any > ){
     if(this.globalsService.DEBUG){
@@ -150,9 +138,9 @@ export class UploadComponent implements OnInit {
   public onFileSelected(event){
     this.selectedFile = <File>event.target.files[0]
     this.getOrientation(this.selectedFile, function(orientation) {
-      alert('orientation: ' + orientation);
-     /*  posicionFoto = orientation */
-      this.toastr.success('orientation: ' + orientation);
+     /*   alert('orientation: ' + orientation);
+     posicionFoto = orientation */
+      /* this.toastr.success('orientation: ' + orientation); */
     });
     console.log(this.selectedFile)
     this.ng2ImgMax.compressImage(this.selectedFile, 1.95).subscribe(
@@ -181,6 +169,18 @@ export class UploadComponent implements OnInit {
       fileName = '';
     }
     this.cargarFoto()
+  }
+  
+  public cargarFoto(){
+    this.productImageUrl = this.productService.urlImg + this.token() + "-" + this.usuarioActual.user_id + ".jpg";
+    const nombreFotoProducto = this.productImageUrl
+    const fd = new FormData()
+    fd.append('product_image',this.selectedFile, nombreFotoProducto);
+    this.productService.uploadImageProduct(fd).subscribe((data)=>{
+      if(this.globalsService.DEBUG){
+        console.log(data);
+      }
+    })
   }
 
   // FORMULARIO
