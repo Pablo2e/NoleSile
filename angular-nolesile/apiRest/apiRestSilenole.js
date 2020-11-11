@@ -23,7 +23,10 @@ const options = {
     /* key: fs.readFileSync("/etc/ssl/private/_.nolesile.com_private_key.key"),
     cert: fs.readFileSync("/etc/ssl/certs/nolesile.com_ssl_certificate.cer") */
 };
-  
+
+//Para el reseteo de la contraseña
+const nodemailer = require('nodemailer');
+const crypto = require('crypto');
 
 //Conexión a la base de datos
 const connection = mysql.createConnection({
@@ -741,6 +744,80 @@ app.delete("/user", async function (request, response) {
         default:
     }
 });
+
+//GET /RESET-PASSWORD = para recuperar la contraseña
+app.get("/reset-password", async function (request, response){
+    let email = request.headers.email;
+    if(INFO){
+        console.log('Existe el correo')
+    }
+    let params = [email]
+    let sql = "SELECT COUNT(email) AS emailCount FROM user WHERE email = ?";
+    connection.query(sql, params, function(err, result){
+        if (err){
+            if(DEBUG){
+                console.log(err);
+            }
+        } else {
+            console.log(params,result[0].emailCount);
+            if(result[0].emailCount===1){
+                if(INFO){
+                    console.log('Existe el correo')
+                }
+
+                let password = Math.random().toString(36).substr(2);
+                let nuevoPassword = bcrypt.hashSync(password);
+                params = [nuevoPassword, email]
+                let sql2 = "UPDATE user SET password = ? WHERE email = ?";
+                connection.query(sql2, params, function(err, result){
+                    if (err){
+                        if(DEBUG){
+                            console.log(err);
+                        }
+                    } else {
+                        if(INFO){
+                            console.log('Usuario Modificado')
+                        }
+                        if(DEBUG){
+                            console.log(result);
+                        }
+                    } 
+                })
+                const transport = nodemailer.createTransport({
+                    host:'',
+                    port: 0,
+                    secure:false,
+                    auth: {
+                        user: '',
+                        pass: ''
+                    }
+                });
+                var mailOptions = {
+                    from: '"NoleSile" <>',
+                    to: email,
+                    subject: 'Link para cambiar tu contraseña',
+                    text: 'Introduce este link en el campo contraseña al ingresar ('+ password +'), ve a tu perfil y vuelve a usarlo como contraseña actual, escribe tu nueva contraseña, confirmala y listo, ya puedes volver a entrar.', 
+                    /* html: '<b>Hola bonito ✔</b>' */
+                };
+                transport.sendMail(mailOptions, (error, info) => {
+                    console.log(transport.options.host);
+                    if (error) {
+                        return console.log(error);
+                    }
+                    console.log('Correo enviado.', info.messageId);
+                });
+            } else {
+                if(INFO){
+                    console.log('El correo no existe')
+                } 
+            }
+            if(DEBUG){
+                console.log(result);
+            }
+        } 
+    response.send(result);
+    })
+})
 
 /* ---------------------------------FIN USUARIOS----------------------------------- */
 

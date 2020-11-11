@@ -194,6 +194,20 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  public resetPassword(email){
+    console.log(email)
+    if (email === null || email === "") {
+      this.toastr.error("Por favor, revisa todos los campos", "Algo fue mal");
+    }
+    this.loginService.resetPassword(email).subscribe(data => {
+      if(data===null){
+        this.toastr.error("No existe este email", "Algo fue mal");
+      } else {
+        this.toastr.success("Correo enviado con éxito")
+      }
+    })
+  }
+
   //FORMULARIOS
   onSubmit(form) {
     if(this.globalsService.DEBUG){

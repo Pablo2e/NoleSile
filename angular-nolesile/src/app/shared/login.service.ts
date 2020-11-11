@@ -143,5 +143,15 @@ export class LoginService {
     this.usuarioActual = null;
     this.router.navigate(["/"]);
   }
+
+  public resetPassword(email){
+    const options = {
+      headers: new HttpHeaders({
+        /* 'Authorization': accessToken,  */ 
+        'email': email, 
+      })
+    };
+    return this.http.get(this.backUrl + "/reset-password", options)
+  }
   
 }
