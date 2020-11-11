@@ -417,6 +417,93 @@
 
 </div>
 
+<!--MODAL RESET CONTRASEÑA-->
+<div 
+  class="modal fade" 
+  bsModal 
+  #staticModalReset="bs-modal" 
+  [config]="{backdrop: 'static'}"
+  tabindex="-1" 
+  role="dialog" 
+  aria-labelledby="dialog-static-name"
+>
+  <div class="modal-dialog modal-md">
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+
+        <h4 id="dialog-static-name" class="modal-title text-success pull-left">
+          Restablecer contraseña
+        </h4>
+
+        <button 
+          type="button" 
+          class="close pull-right" 
+          aria-label="Close" 
+          (click)="staticModalReset.hide()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+      </div>
+
+      <div class="modal-body">
+        <!-- FORMULARIO -->
+        <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)">
+          
+          <div class="form-group">
+
+            <label for="recipient-name" class="col-form-label" >
+              Email:
+            </label>
+
+            <input 
+              type="email" 
+              class="form-control border-success" 
+              name="email" 
+              [(ngModel)]="usuario.email" 
+              #email="ngModel" 
+              [ngClass]="{'is-invalid': userForm.submitted && email.invalid}" 
+              email 
+              required
+            >
+            <div *ngIf="userForm.submitted && email.invalid" class="invalid-feedback">
+              <p *ngIf="email.errors.required">El email es obligatorio</p>
+              <p *ngIf="email.errors.email">El formato de email es incorrecto</p>
+            </div>
+
+          </div>
+
+          <!-- TEXTO Y BOTON ENVIAR -->
+          <div class="modal-footer row justify-content-between">
+
+            <small class="form-text text-success">
+              Te enviaremos un Email con los pasos a seguir.
+            </small>
+
+            <button 
+              type="submit" 
+              class="btn btn-success" 
+              (click)="resetPassword(email.value)" 
+              (keyup.enter)="resetPassword(email.value)"
+              (click)="staticModalReset.hide()"
+            >
+              Enviar
+            </button>
+
+          </div>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
 <!--MODAL COOKIES-->
 <div 
   *ngIf="isModalShown" 
