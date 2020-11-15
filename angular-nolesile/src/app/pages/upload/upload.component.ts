@@ -2,6 +2,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Ng2ImgMaxService } from 'ng2-img-max';
+import { environment } from '../../../environments/environment';
 // MODAL
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 // MODELO
@@ -43,13 +44,13 @@ export class UploadComponent implements OnInit {
   // METODOS
   public pasarIdProducto(numero){
     this.idProducto=numero
-    if(this.globalsService.DEBUG){
+    if(environment.log.DEBUG){
       console.log(this.idProducto)
     }
   }
   
   public anyadirSile(nombre: string, descripcion: string, categoria: string, user_id: number, product_image: string, template: TemplateRef < any > ){
-    if(this.globalsService.DEBUG){
+    if(environment.log.DEBUG){
       console.log(this.productService.product)
     }
     if (nombre === null || descripcion === null || categoria === null || product_image === null ||
@@ -69,12 +70,12 @@ export class UploadComponent implements OnInit {
         }
       }) */
       this.productService.postProduct(new Product(null, nombre, descripcion, categoria, user_id, this.productImageUrl, date)).subscribe((data)=>{
-        if(this.globalsService.DEBUG){
+        if(environment.log.DEBUG){
           console.log(data);
         }
         this.openModal(template);
       }, (error) => {
-        if(this.globalsService.ERROR){
+        if(environment.log.ERROR){
           console.log(error);
         }
         if (error.status === 401) {
@@ -142,15 +143,16 @@ export class UploadComponent implements OnInit {
      posicionFoto = orientation */
       /* this.toastr.success('orientation: ' + orientation); */
     });
-    console.log(this.selectedFile)
-    this.ng2ImgMax.compressImage(this.selectedFile, 1.95).subscribe(
+    console.log(this.selectedFile, 'desde cargar')
+    this.ng2ImgMax.compressImage(this.selectedFile, 0.95).subscribe(
       result => {
         this.selectedFile = new File([result], result.name);
-        if(this.globalsService.DEBUG){
+        if(environment.log.DEBUG){
           console.log(this.selectedFile.size)
         }
+        this.cargarFoto()
       }, (error) => {
-        if(this.globalsService.DEBUG){
+        if(environment.log.DEBUG){
           console.log('😢 Oh no!', error);
         }
       }
@@ -168,16 +170,16 @@ export class UploadComponent implements OnInit {
       this.toastr.error('El archivo no tiene la extensión adecuada', "Algo fue mal");
       fileName = '';
     }
-    this.cargarFoto()
   }
   
   public cargarFoto(){
+    console.log(this.selectedFile.size, 'desde cargarfoto')
     this.productImageUrl = this.productService.urlImg + this.token() + "-" + this.usuarioActual.user_id + ".jpg";
     const nombreFotoProducto = this.productImageUrl
     const fd = new FormData()
     fd.append('product_image',this.selectedFile, nombreFotoProducto);
     this.productService.uploadImageProduct(fd).subscribe((data)=>{
-      if(this.globalsService.DEBUG){
+      if(environment.log.DEBUG){
         console.log(data);
       }
     })
@@ -185,7 +187,7 @@ export class UploadComponent implements OnInit {
 
   // FORMULARIO
   public onSubmit(form){
-    if(this.globalsService.DEBUG){
+    if(environment.log.DEBUG){
       console.log(form.value)
     }
   }

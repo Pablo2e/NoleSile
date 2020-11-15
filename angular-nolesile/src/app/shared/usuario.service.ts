@@ -2,6 +2,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 // MODELOS
 import { Usuario } from './../models/usuario';
 // SERVICIOS IMPORTADOS
@@ -19,8 +20,8 @@ export class UsuarioService {
   public usuario: Usuario;
   public idUsuario: number;
   
-  private url = this.globalsService.apiServerUrl;
-  public urlImg = this.globalsService.imageServerUrl
+  private url: string = environment.apiServerUrl; 
+  public urlImg: string = environment.imageServerUrl; 
 
   
   constructor(
@@ -29,7 +30,7 @@ export class UsuarioService {
     private router: Router, 
     public loginService:LoginService) 
     {
-      if(this.globalsService.INFO){
+      if(environment.log.INFO){
         console.log("Funcionando servicio usuario")
       }
     }

@@ -1,1 +1,6 @@
 angular-nolesile/apiRest/uploads
+.env
+.env.prod
+angular-nolesile/src/environments/environment.prod.ts
+angular-nolesile/src/environments/environment.dev.ts
+angular-nolesile/src/environments/environment.pre.ts

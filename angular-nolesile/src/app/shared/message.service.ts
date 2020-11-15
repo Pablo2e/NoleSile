@@ -1,6 +1,7 @@
 // SERVICIO
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { environment } from '../../environments/environment';
 // MODELOS
 import { Message } from '../models/message';
 import { Nole } from '../models/nole';
@@ -16,7 +17,7 @@ import { GlobalsService } from './globals.service';
 
 export class MessageService {
 
-  private url: string = this.globalsService.apiServerUrl
+  private url: string = environment.apiServerUrl
   public message:Message
   public noleSeleccionado = new Nole(0, 0);
   public sileSeleccionado = new Nole(0, 0);
@@ -28,7 +29,7 @@ export class MessageService {
     public globalsService:GlobalsService,
     private http:HttpClient) 
     {
-      if(this.globalsService.INFO){
+      if(environment.log.INFO){
         console.log("Funcionando servicio message")
       }
     }
@@ -54,7 +55,7 @@ export class MessageService {
         'Authorization': accessToken, 
       })
     };
-    if(this.globalsService.DEBUG){
+    if(environment.log.DEBUG){
       console.log(nuevoMensaje);
     }
     return this.http.post(this.url + "/messages/", nuevoMensaje, options)
@@ -73,7 +74,7 @@ export class MessageService {
   }
 
   public createUserNotification(nuevaNotificacion: Notificacion) {
-    if(this.globalsService.DEBUG){
+    if(environment.log.DEBUG){
       console.log(nuevaNotificacion);
     }
     return this.http.post(this.url + "/notifications/", nuevaNotificacion)
@@ -82,7 +83,7 @@ export class MessageService {
   public modifyNotificationsByUser(nuevaNotificacion: Notificacion) {
     const accessToken = this.loginService.getToken();
     let user_id = this.loginService.getUserId();
-    if(this.globalsService.DEBUG){
+    if(environment.log.DEBUG){
       console.log(accessToken,nuevaNotificacion.user_id)
     }
     const options = {
@@ -91,7 +92,7 @@ export class MessageService {
         'User': user_id
       })
     };
-    if(this.globalsService.DEBUG){
+    if(environment.log.DEBUG){
       console.log(nuevaNotificacion);
     }
     return this.http.put(this.url + "/notifications/", nuevaNotificacion, options)
@@ -99,7 +100,7 @@ export class MessageService {
  
   public getNotificationsByUser(id: number) {
     const accessToken = this.loginService.getToken();
-    if(this.globalsService.DEBUG){
+    if(environment.log.DEBUG){
       console.log(id, accessToken)
     }
       const options = {

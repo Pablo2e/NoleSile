@@ -1,6 +1,7 @@
 // SERVICIO
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 // MODELOS
 import { Product } from '../models/product';
 // SERVICIOS IMPORTADOS
@@ -21,8 +22,8 @@ export class ProductService {
   public categoriaSeleccionada: any; 
   public idProductoSeleccionado: number;
   
-  private url: string = this.globalsService.apiServerUrl; 
-  public urlImg: string = this.globalsService.imageServerUrl; 
+  private url: string = environment.apiServerUrl; 
+  public urlImg: string = environment.imageServerUrl; 
 
 
   constructor(
@@ -31,7 +32,7 @@ export class ProductService {
     private http: HttpClient) 
     {
       this.products = [];
-      if(this.globalsService.INFO){
+      if(environment.log.INFO){
         console.log("Funcionando servicio product");
       }
       // check for existing session
@@ -40,7 +41,7 @@ export class ProductService {
         // cargar datos session usuario
         const user_id = this.loginService.getUserId();
         this.loginService.getUsuario(user_id).subscribe(data => {
-          if(this.globalsService.DEBUG){
+          if(environment.log.DEBUG){
             console.log(data);
           }
         this.loginService.usuarioActual = data[0];
@@ -61,11 +62,11 @@ export class ProductService {
   public mostrarProductosPorCategoria(){
     this.getProductsBySelectedCategory().subscribe((data)=>{
       this.products = data
-      if(this.globalsService.DEBUG){
+      if(environment.log.DEBUG){
         console.log()
       };
     }, (error) => {
-      if(this.globalsService.ERROR){
+      if(environment.log.ERROR){
         console.log(error);
       }
       if (error.status === 401) {
@@ -76,7 +77,7 @@ export class ProductService {
 
   public actualizarCategoriaSeleccionada(newCat: any){
     this.categoriaSeleccionada = newCat;
-    if(this.globalsService.DEBUG){
+    if(environment.log.DEBUG){
       console.log(this.categoriaSeleccionada)
     }
     this.getProductsBySelectedCategory();
@@ -125,7 +126,7 @@ export class ProductService {
         'Authorization': accessToken,
       })
     };
-    if(this.globalsService.DEBUG){
+    if(environment.log.DEBUG){
       console.log(newProduct);
     }
     return this.http.put(this.url+ "/products/", newProduct, options)
@@ -140,7 +141,7 @@ export class ProductService {
         'User': user_id,
       })
     };
-    if(this.globalsService.DEBUG){
+    if(environment.log.DEBUG){
       console.log("getProductsByName " + clave)
     }
     return this.http.get(this.url + "/buscar/?filterProductName=" + clave + "&filterUser=" + user_id, options);
@@ -203,7 +204,7 @@ export class ProductService {
         'User': user_id,
       })
     };
-    if(this.globalsService.DEBUG){
+    if(environment.log.DEBUG){
       console.log(localStorage.getItem("USER_ID"))
       console.log("obteniendo últimos productos")
     }
@@ -219,7 +220,7 @@ export class ProductService {
         'User': user_id,
       })
     };
-    if(this.globalsService.DEBUG){
+    if(environment.log.DEBUG){
       console.log("obteniendo productos cercanos")
       console.log(user_id)
     }
@@ -229,7 +230,7 @@ export class ProductService {
   public getOwnerByName(nombreUsuario: string) {
     const accessToken = this.loginService.getToken();
     let user_id = this.loginService.getUserId();
-    if(this.globalsService.DEBUG){
+    if(environment.log.DEBUG){
       console.log(user_id)
     }
     const options = {

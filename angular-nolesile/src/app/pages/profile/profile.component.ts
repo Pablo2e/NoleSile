@@ -3,6 +3,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import * as bcrypt from 'bcryptjs';
 import { Ng2ImgMaxService } from 'ng2-img-max';
+import { environment } from '../../../environments/environment';
 // MODAL
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 // MODELO
@@ -47,14 +48,14 @@ export class ProfileComponent implements OnInit {
   //para cargar la foto
   public onFileSelected(event){
     this.selectedFile = <File>event.target.files[0]	
-    this.ng2ImgMax.compressImage(this.selectedFile, 1.95).subscribe(
+    this.ng2ImgMax.compressImage(this.selectedFile, environment.maxFileSize).subscribe(
       result => {
         this.selectedFile = new File([result], result.name);
-        if(this.globalsService.DEBUG){
+        if(environment.log.DEBUG){
           console.log(this.selectedFile.size)
         }
       }, (error) => {
-        if(this.globalsService.DEBUG){
+        if(environment.log.DEBUG){
           console.log('😢 Oh no!', error);
         }
       }
@@ -93,7 +94,7 @@ export class ProfileComponent implements OnInit {
       this.toastr.error("Por favor, completa todos los campos", "Algo fue mal")
       return
     }
-    if(this.globalsService.INFO){
+    if(environment.log.INFO){
       console.log('Usuario Modificado')
     }
     let userImageUrl;
@@ -103,7 +104,7 @@ export class ProfileComponent implements OnInit {
     } else {
       oldImage = this.usuarioActual.user_image;
       oldImage = oldImage.replace(this.usuarioService.urlImg, "");
-      if(this.globalsService.DEBUG){
+      if(environment.log.DEBUG){
         console.log(oldImage);
       }
       userImageUrl = this.usuarioService.urlImg + this.token() + "-" + idUsuario + ".jpg";
@@ -111,23 +112,23 @@ export class ProfileComponent implements OnInit {
     let userUpdated = new Usuario(idUsuario, name, password, email, comunidad, provincia, localidad, cp, userImageUrl);  
     if(this.selectedFile === null) {
       this.usuarioService.putUsuario(userUpdated).subscribe((data)=>{
-        if(this.globalsService.DEBUG){
+        if(environment.log.DEBUG){
           console.log(data);
         }
         this.loginService.getUsuario(idUsuario).subscribe(data => {
-          if(this.globalsService.DEBUG){
+          if(environment.log.DEBUG){
             console.log(data);
           }
           this.loginService.usuarioActual = data[0];
           this.usuarioActual = data[0];
-          if(this.globalsService.DEBUG){
+          if(environment.log.DEBUG){
             console.log(this.usuarioActual);
           }
           this.toastr.success("Tus datos se han actualizado", "Usuario modificado con éxito")
           this.router.navigate(["/usuario"]);
         })
       }, (error) => {
-        if(this.globalsService.ERROR){
+        if(environment.log.ERROR){
           console.log(error);
         }
         if (error.status === 401) {
@@ -142,20 +143,20 @@ export class ProfileComponent implements OnInit {
         console.log(data)
       })
       this.usuarioService.uploadImage(fd).subscribe((data)=>{
-        if(this.globalsService.DEBUG){
+        if(environment.log.DEBUG){
           console.log(data);
         }
         this.usuarioService.putUsuario(userUpdated).subscribe((data)=>{
-          if(this.globalsService.DEBUG){
+          if(environment.log.DEBUG){
             console.log(data);
           }
           this.loginService.getUsuario(idUsuario).subscribe(data => {
-            if(this.globalsService.DEBUG){
+            if(environment.log.DEBUG){
               console.log(data);
             }
             this.loginService.usuarioActual = data[0];
             this.usuarioActual = data[0];
-            if(this.globalsService.DEBUG){
+            if(environment.log.DEBUG){
               console.log(this.usuarioActual);
             }
             this.toastr.success("Tus datos se han actualizado", "Usuario modificado con éxito")
@@ -163,7 +164,7 @@ export class ProfileComponent implements OnInit {
             this.selectedFile = null;
           })
         }, (error) => {
-          if(this.globalsService.ERROR){
+          if(environment.log.ERROR){
             console.log(error);
           }
           if (error.status === 401) {
@@ -176,14 +177,14 @@ export class ProfileComponent implements OnInit {
 
   public confirmarPassword(password:string){
     const resultPassword = bcrypt.compareSync(password, this.loginService.usuarioActual.password)
-    if(this.globalsService.DEBUG){
+    if(environment.log.DEBUG){
       console.log(resultPassword, password, this.loginService.usuarioActual.password )
     }
     return resultPassword;
   }
 
   public cambiarPassword(passwordActual:string, passwordNuevo: string, passwordNuevo2: string){
-    if(this.globalsService.DEBUG){
+    if(environment.log.DEBUG){
       console.log(passwordActual, passwordNuevo, passwordNuevo2)
     }
     const resultPassword = this.confirmarPassword(passwordActual);
@@ -218,17 +219,17 @@ export class ProfileComponent implements OnInit {
   }
 
   public borrarUsuario(id:number){
-    if(this.globalsService.INFO){
+    if(environment.log.INFO){
       console.log('Usuario Borrado')
     }
     let fotoUsuario = this.usuarioActual.user_image
     fotoUsuario = fotoUsuario.replace(this.usuarioService.urlImg, "");
     this.usuarioService.deleteImage(fotoUsuario).subscribe((data)=>{
-      if(this.globalsService.DEBUG){
+      if(environment.log.DEBUG){
         console.log(data);
       }
     }, (error) => {
-      if(this.globalsService.ERROR){
+      if(environment.log.ERROR){
         console.log(error);
       }
       if (error.status === 401) {
@@ -237,7 +238,7 @@ export class ProfileComponent implements OnInit {
       }
     })
     this.usuarioService.deleteUsuario(id).subscribe((data)=>{
-      if(this.globalsService.DEBUG){
+      if(environment.log.DEBUG){
         console.log(data);
       }
       this.loginService.logout();
@@ -261,7 +262,7 @@ export class ProfileComponent implements OnInit {
   
   // FORMULARIO
   onSubmit(form){
-    if(this.globalsService.DEBUG){
+    if(environment.log.DEBUG){
       console.log(form.value)
     }
   }
