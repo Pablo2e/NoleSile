@@ -3,17 +3,22 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const cors = require('cors')
+require('dotenv').config();
 
-const PORT = 3100;
-const SSL_PORT = 3103;
+const PORT = process.env.FILESERVER_PORT || 3100;
+const SSL_PORT = process.env.FILESERVER_SSL_PORT || 3103;
 
 //PARA LA CONEXION A HTTPS
 const https = require("https"),
 fs = require("fs");
-const options = {
-    /* key: fs.readFileSync("/etc/ssl/private/_.nolesile.com_private_key.key"),
-    cert: fs.readFileSync("/etc/ssl/certs/nolesile.com_ssl_certificate.cer") */
-};
+
+var options = {};
+if(process.env.NODE_ENV === 'production'){
+    options = {
+        key : process.env.SSL_KEY,
+        cert : process.env.SSL_CERT
+    };
+}
 
 //EXTRAS PARA LA CARGA DE FOTOS 
 const fileUpload = require('express-fileupload');
@@ -26,7 +31,7 @@ app.use(express.static('uploads'));
 app.use(fileUpload({
     createParentPath: true,
     limits: { 
-        fileSize: 2 * 1024 * 1024 * 1024 //2MB max file(s) size
+        fileSize: process.env.MAX_FILESIZE * 1024 * 1024 * 1024 //max file(s) size
     },
 }));
 
@@ -34,9 +39,8 @@ app.use(cors());
 app.use(bodyParser.json());
 
 //Puerto a usar 
-const port = process.env.PORT || PORT;
-app.listen(port, () => 
-  console.log(`App is listening on port ${port}.`)
+app.listen(PORT, () => 
+  console.log(`App is listening on port ${PORT}.`)
 );
 
 https.createServer(options, app).listen(SSL_PORT);

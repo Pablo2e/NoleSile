@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { environment } from '../environments/environment';
 
 
 @Component({
@@ -8,6 +9,9 @@ import { Component } from '@angular/core';
 })
 
 export class AppComponent {
+
+  apiServerUrl = environment.apiServerUrl;
+  imageServerUrl = environment.imageServerUrl
 
   constructor() { 
     

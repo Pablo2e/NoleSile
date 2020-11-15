@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs/internal/Observable";
 import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 // MODALES
 import { ToastrService } from 'ngx-toastr';
 // MODELOS
@@ -19,7 +20,7 @@ import { GlobalsService } from './globals.service';
 
 export class LoginService {
 
-  private backUrl: string = this.globalsService.apiServerUrl;
+  private backUrl: string = environment.apiServerUrl;
   public defaultUserPicture: string = this.globalsService.fotoUsuarioPorDefecto;
   private token: string;
   public usuarioActual = new Usuario(null, null, null, null, null, null, null, null, this.defaultUserPicture);
@@ -32,7 +33,7 @@ export class LoginService {
     private router: Router, 
     private toastr: ToastrService) 
     {
-      if(this.globalsService.INFO){
+      if(environment.log.INFO){
         console.log("Funcionando servicio login") 
       }
       if(!this.loadExistingSession()){
@@ -46,7 +47,7 @@ export class LoginService {
         // cargar datos session usuario
         const user_id = this.getUserId();
         this.getUsuario(user_id).subscribe(data => {
-          if(this.globalsService.DEBUG){
+          if(environment.log.DEBUG){
             console.log(data);
           }
           this.usuarioActual = data[0];
@@ -75,7 +76,7 @@ export class LoginService {
     }
 
   public register(nuevoUsuario: Usuario) {
-    if(this.globalsService.DEBUG){
+    if(environment.log.DEBUG){
       console.log(this.backUrl)
     }
     return this.http.post(this.backUrl + "/user/register", nuevoUsuario)

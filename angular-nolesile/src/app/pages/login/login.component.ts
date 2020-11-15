@@ -2,6 +2,7 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from "@angular/router";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { environment } from '../../../environments/environment';
 // MODAL
 import { BsModalRef, BsModalService, ModalDirective } from 'ngx-bootstrap/modal';
 // MODELOS
@@ -75,7 +76,7 @@ export class LoginComponent implements OnInit {
       // cargar datos session usuario
       const user_id = this.loginService.getUserId();
       this.loginService.getUsuario(user_id).subscribe(data => {
-        if(this.globalsService.DEBUG){
+        if(environment.log.DEBUG){
           console.log(data);
         }
         this.loginService.usuarioActual = data[0];
@@ -88,7 +89,7 @@ export class LoginComponent implements OnInit {
 
   public newUsuario(name: string, password: string, email: string, comunidad: string, provincia: string, localidad: string, cp: number) {
     const pass2 = ( < HTMLInputElement > document.getElementById("pass2")).value
-    if(this.globalsService.DEBUG){
+    if(environment.log.DEBUG){
       console.log(name, password, pass2, email, comunidad, provincia, localidad, cp)
     }
     if (name === null || password === null || email === null || comunidad === null ||
@@ -100,7 +101,7 @@ export class LoginComponent implements OnInit {
         this.toastr.error("Las contraseñas no coinciden", "Algo fue mal")
       } else {
         this.loginService.register(new Usuario(null, name, password, email, comunidad, provincia, localidad, cp, this.loginService.defaultUserPicture)).subscribe((data:any) => {
-          if(this.globalsService.DEBUG){
+          if(environment.log.DEBUG){
             console.log(data);
           }
           if (data === null) {
@@ -111,17 +112,17 @@ export class LoginComponent implements OnInit {
             this.toastr.success("Registrado con éxito", "Bienvenido a NoleSile")
             this.modalRef.hide();
             const newUserId = data.insertId;
-            if(this.globalsService.DEBUG){
+            if(environment.log.DEBUG){
               console.log(newUserId);
             }
             this.messageService.createUserNotification(new Notificacion(newUserId, false)).subscribe((data) => {
-              if(this.globalsService.DEBUG){
+              if(environment.log.DEBUG){
                 console.log(data);
               }
             })
           }
         }, (error) => {
-          if(this.globalsService.ERROR){
+          if(environment.log.ERROR){
             console.log(error);
           }
           if (error.status === 409) {
@@ -141,22 +142,22 @@ export class LoginComponent implements OnInit {
       email: email1,
       password: password1
     };
-    if(this.globalsService.DEBUG){
+    if(environment.log.DEBUG){
       console.log(user);
     }
     this.loginService.login(user).subscribe(data => {
-      if(this.globalsService.DEBUG){
+      if(environment.log.DEBUG){
         console.log(data);
       }
       if (data !== null) {
         this.loginService.usuarioActual = data[0];
-        if(this.globalsService.DEBUG){
+        if(environment.log.DEBUG){
           console.log(this.loginService.usuarioActual);
         }
         /* this.modalRef.hide(); */
         this.router.navigate(["/inicio"])
         this.messageService.getNotificationsByUser(this.loginService.usuarioActual.user_id).subscribe((data) => {
-          if(this.globalsService.DEBUG){
+          if(environment.log.DEBUG){
             console.log(data);
           }
           if (data !== null && data[0] !== undefined) {
@@ -164,7 +165,7 @@ export class LoginComponent implements OnInit {
             this.router.navigate(["/inicio"])
           }
         }, (error) => {
-          if(this.globalsService.ERROR){
+          if(environment.log.ERROR){
             console.log(error);
           }
           if (error.status === 401) {
@@ -172,20 +173,20 @@ export class LoginComponent implements OnInit {
           }
         })
       } else {
-        if(this.globalsService.INFO){
+        if(environment.log.INFO){
           console.log("Usuario Inexistente")
         }
         this.toastr.error("El ususario o la contraseña no son válidos", "Algo fue mal");
         this.router.navigate(["/"])
       }
     }, (error) => {
-      if(this.globalsService.ERROR){
+      if(environment.log.ERROR){
         console.log(error);
       }
       if (error.status === 401) {
         this.loginService.forcedLogout();
       } else if (error.status === 403){
-        if(this.globalsService.INFO){
+        if(environment.log.INFO){
           console.log("Usuario Inexistente")
         }
         this.toastr.error("El ususario o la contraseña no son válidos", "Algo fue mal");
@@ -210,7 +211,7 @@ export class LoginComponent implements OnInit {
 
   //FORMULARIOS
   onSubmit(form) {
-    if(this.globalsService.DEBUG){
+    if(environment.log.DEBUG){
       console.log(form.value);
     }
   }
@@ -243,13 +244,13 @@ export class LoginComponent implements OnInit {
     if(e.target.checked==true){
       this.chekboxTerminoActivo = true
       this.totalCheckboxMarcados ++
-      if(this.globalsService.DEBUG){
+      if(environment.log.DEBUG){
         console.log(this.chekboxTerminoActivo, this.totalCheckboxMarcados);
       }
     } else {
       this.chekboxTerminoActivo = false
       this.totalCheckboxMarcados --
-      if(this.globalsService.DEBUG){
+      if(environment.log.DEBUG){
         console.log(this.chekboxTerminoActivo, this.totalCheckboxMarcados);
       }
     }
@@ -259,13 +260,13 @@ export class LoginComponent implements OnInit {
     if(e.target.checked==true){
       this.chekboxPoliticaActivo = true
       this.totalCheckboxMarcados ++
-      if(this.globalsService.DEBUG){
+      if(environment.log.DEBUG){
         console.log(this.chekboxTerminoActivo, this.totalCheckboxMarcados);
       }
     } else {
       this.chekboxPoliticaActivo = false
       this.totalCheckboxMarcados --
-      if(this.globalsService.DEBUG){
+      if(environment.log.DEBUG){
         console.log(this.chekboxTerminoActivo, this.totalCheckboxMarcados);
       }
     }

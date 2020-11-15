@@ -3,7 +3,15 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  apiServerUrl: "http://localhost:3000",
+  imageServerUrl: "http://localhost:3100/",
+  maxFileSize: 0.95,
+  log: {
+      DEBUG: true,
+      INFO: true,
+      ERROR: true
+  }
 };
 
 /*

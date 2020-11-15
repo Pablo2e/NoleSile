@@ -1,6 +1,7 @@
 // COMPONENTE
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Ng2ImgMaxService } from 'ng2-img-max';
+import { environment } from '../../../environments/environment';
 // MODAL
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 // MODELO
@@ -49,11 +50,11 @@ export class MyProductsComponent implements OnInit {
   public mostrarProductos(uid){
     this.productService.getProductsByUser(uid).subscribe((data)=>{
       this.products = data
-      if(this.globalsService.DEBUG){
+      if(environment.log.DEBUG){
        console.log(data);
       }
     }, (error) => {
-      if(this.globalsService.ERROR){
+      if(environment.log.ERROR){
         console.log(error);
       }
       if (error.status === 401) {
@@ -65,17 +66,17 @@ export class MyProductsComponent implements OnInit {
   public pasarFotoYIdProducto(idProducto,fotoProducto){
     this.idProducto=idProducto
     this.fotoProducto=fotoProducto
-    if(this.globalsService.DEBUG){
+    if(environment.log.DEBUG){
       console.log(this.idProducto)
     }
-    if(this.globalsService.DEBUG){
+    if(environment.log.DEBUG){
       console.log(this.fotoProducto)
     }
   };
 
   public pasarProducto(producto){
     this.productoActual=producto
-    if(this.globalsService.DEBUG){
+    if(environment.log.DEBUG){
       console.log(this.productoActual)
     }
   }
@@ -134,14 +135,16 @@ export class MyProductsComponent implements OnInit {
     this.getOrientation(this.selectedFile, function(orientation) {
       /* alert('orientation: ' + orientation); */
     });
-    this.ng2ImgMax.compressImage(this.selectedFile, 1.95).subscribe(
+    console.log(environment.maxFileSize)
+    this.ng2ImgMax.compressImage(this.selectedFile, environment.maxFileSize).subscribe(
       result => {
         this.selectedFile = new File([result], result.name);
-        if(this.globalsService.DEBUG){
+        if(environment.log.DEBUG){
           console.log(this.selectedFile.size)
         }
+        this.cargarFoto();
       }, (error) => {
-        if(this.globalsService.DEBUG){
+        if(environment.log.DEBUG){
           console.log('😢 Oh no!', error);
         }
       }
@@ -159,7 +162,6 @@ export class MyProductsComponent implements OnInit {
       this.toastr.error('El archivo no tiene la extensión adecuada', "Algo fue mal");
       fileName = '';
     }
-    this.cargarFoto();
   }
   
   public cargarFoto() {
@@ -177,7 +179,7 @@ export class MyProductsComponent implements OnInit {
     const fd = new FormData(); 
     fd.append('product_image',this.selectedFile, nombreFotoProducto); 
     this.productService.uploadImageProduct(fd).subscribe((data)=>{
-      if(this.globalsService.DEBUG){
+      if(environment.log.DEBUG){
         console.log(data);
       }
     })
@@ -191,36 +193,36 @@ export class MyProductsComponent implements OnInit {
       this.mostrarProductos(this.idUsuario)
       return
     }
-    if(this.globalsService.INFO){
+    if(environment.log.INFO){
       console.log('Hola desde modificarSile')
     }
     let date = new Date();
   /*   let productImageUrl; */
     let oldImage = this.productoActual.product_image;
-    if(this.globalsService.DEBUG){
+    if(environment.log.DEBUG){
       console.log(oldImage);
     }
     if(this.selectedFile === null) {
       this.productImageUrl = this.productoActual.product_image;
     } else {
-      if(this.globalsService.DEBUG){
+      if(environment.log.DEBUG){
         console.log(oldImage);
       }
       oldImage = oldImage.replace(this.productService.urlImg, "");
-      if(this.globalsService.DEBUG){
+      if(environment.log.DEBUG){
         console.log(oldImage);
       }
       /* productImageUrl = this.productService.urlImg + this.token() + "-" + this.idUsuario + ".jpg"; */
     }
     if(this.selectedFile === null) {
       this.productService.putProduct(new Product(product_id, nombre, descripcion, categoria, user_id, this.productImageUrl, date)).subscribe((data)=>{
-        if(this.globalsService.DEBUG){
+        if(environment.log.DEBUG){
           console.log(data);
         }
         this.mostrarProductos(this.idUsuario)
         this.openModal(template);      
       }, (error) => {
-        if(this.globalsService.ERROR){
+        if(environment.log.ERROR){
           console.log(error);
         }
         if (error.status === 401) {
@@ -232,7 +234,7 @@ export class MyProductsComponent implements OnInit {
       const fd = new FormData()
       fd.append('product_image',this.selectedFile, nombreFotoProducto); */
       this.productService.deleteImage(oldImage).subscribe((data)=>{
-        if(this.globalsService.DEBUG){
+        if(environment.log.DEBUG){
           console.log(data);
         }
       })
@@ -241,14 +243,14 @@ export class MyProductsComponent implements OnInit {
           console.log(data);
         } */
         this.productService.putProduct(new Product(product_id, nombre, descripcion, categoria, user_id, this.productImageUrl, date)).subscribe((data)=>{
-          if(this.globalsService.DEBUG){
+          if(environment.log.DEBUG){
             console.log(data);
           }
           this.selectedFile = null;
           this.mostrarProductos(this.idUsuario)
           this.openModal(template);      
         }, (error) => {
-          if(this.globalsService.ERROR){
+          if(environment.log.ERROR){
             console.log(error);
           }
           if (error.status === 401) {
@@ -266,19 +268,19 @@ export class MyProductsComponent implements OnInit {
 
   /* PARA BORRAR PRODUCTOS */
   public borrarSile(idProducto: number,fotoProducto: string){
-    if(this.globalsService.INFO){
+    if(environment.log.INFO){
       console.log('Hola desde borrarSile')
     }
-    if(this.globalsService.DEBUG){
+    if(environment.log.DEBUG){
       console.log(fotoProducto)
     }
     fotoProducto = fotoProducto.replace(this.productService.urlImg, "");
     this.productService.deleteImage(fotoProducto).subscribe((data)=>{
-      if(this.globalsService.DEBUG){
+      if(environment.log.DEBUG){
         console.log(data);
       }
     }, (error) => {
-      if(this.globalsService.ERROR){
+      if(environment.log.ERROR){
         console.log(error);
       }
       if (error.status === 401) {
@@ -286,12 +288,12 @@ export class MyProductsComponent implements OnInit {
       }
     })
     this.productService.deleteProduct(idProducto).subscribe((data)=>{
-      if(this.globalsService.DEBUG){
+      if(environment.log.DEBUG){
         console.log(data);
       }
       this.mostrarProductos(this.idUsuario)
     }, (error) => {
-      if(this.globalsService.ERROR){
+      if(environment.log.ERROR){
         console.log(error);
       }
       if (error.status === 401) {
@@ -302,7 +304,7 @@ export class MyProductsComponent implements OnInit {
 
   //FORMULARIOS
   public onSubmit(form){
-    if(this.globalsService.DEBUG){
+    if(environment.log.DEBUG){
       console.log(form.value)
     }
   }

@@ -1,5 +1,6 @@
 // COMPONENTE
 import { Component, OnInit } from '@angular/core';
+import { environment } from '../../../environments/environment';
 // MODELOS
 import { Product } from 'src/app/models/product';
 import { Usuario } from './../../models/usuario';
@@ -45,11 +46,11 @@ export class HomeComponent implements OnInit {
   public mostrarUltimosProductos(){
     this.productService.getLatestProducts().subscribe((data) => {
       this.productsUltimos = data
-      if(this.globalsService.DEBUG){
+      if(environment.log.DEBUG){
         console.log(data);
       }
     }, (error) => {
-      if(this.globalsService.ERROR){
+      if(environment.log.ERROR){
         console.log(error);
       }
       if (error.status === 401) {
@@ -61,11 +62,11 @@ export class HomeComponent implements OnInit {
   public mostraProductosCercanos() {
     this.productService.getClosestProducts().subscribe((data) => {
       this.productsCercanos = data
-      if(this.globalsService.DEBUG){
+      if(environment.log.DEBUG){
         console.log(data);
       }
     }, (error) => {
-      if(this.globalsService.ERROR){
+      if(environment.log.ERROR){
         console.log(error);
       }
       if (error.status === 401) {
@@ -76,7 +77,7 @@ export class HomeComponent implements OnInit {
   
   public pasarIdOwner(oid) {
     this.productService.ownerActual = oid
-    if(this.globalsService.DEBUG){
+    if(environment.log.DEBUG){
       console.log(this.productService.ownerActual)
     }
   }
@@ -86,11 +87,11 @@ export class HomeComponent implements OnInit {
     this.productService.idProductoSeleccionado=pid;
     let newNole = new Nole(uid, pid);
     this.messageService.postNole(newNole).subscribe((data) => {
-      if(this.globalsService.DEBUG){
+      if(environment.log.DEBUG){
         console.log(data)
       }
     }, (error) => {
-      if(this.globalsService.ERROR){
+      if(environment.log.ERROR){
         console.log(error);
       }
       if (error.status === 401) {

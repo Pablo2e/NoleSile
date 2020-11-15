@@ -1,5 +1,6 @@
 // COMPONENTE
 import { Component, OnInit } from '@angular/core';
+import { environment } from '../../../environments/environment';
 // SERVICIOS
 import { ProductService } from 'src/app/shared/product.service';
 import { LoginService } from 'src/app/shared/login.service';
@@ -27,24 +28,8 @@ export class CategoriesComponent implements OnInit {
     this.productService.mostrarProductosPorCategoria()
   }
 
-  /* public mostrarProductosPorCategoria(){
-    this.productService.getProductsBySelectedCategory().subscribe((data)=>{
-      this.productService.products = data
-      if(this.globalsService.DEBUG){
-        console.log()
-      };
-    }, (error) => {
-      if(this.globalsService.ERROR){
-        console.log(error);
-      }
-      if (error.status === 401) {
-        this.loginService.forcedLogout();
-      }
-    })
-  } */
-
   ngOnInit(): void {
-    if(this.globalsService.INFO){
+    if(environment.log.INFO){
       console.log('ngOnInit.categories.ts');
     }
   }

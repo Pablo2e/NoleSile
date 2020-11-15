@@ -3,42 +3,47 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const cors = require('cors')
+require('dotenv').config();
 
 //PARA EL AUTENTICACIÓN REGISTER/LOGIN
 const bodyParserJSON = bodyParser.json();
 const bodyParserURLEncoded = bodyParser.urlencoded({ extended: true });
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const SECRET_KEY = 'secretkey123456';
-
-const mysql = require('mysql');
-const util = require( 'util' );
-const PORT = 3000;
-const SSL_PORT = 3003;
+const SECRET_KEY = process.env.SECRET_KEY;
 
 //PARA LA CONEXION A HTTPS
 const https = require("https"),
 fs = require("fs");
-const options = {
-    /* key: fs.readFileSync("/etc/ssl/private/_.nolesile.com_private_key.key"),
-    cert: fs.readFileSync("/etc/ssl/certs/nolesile.com_ssl_certificate.cer") */
-};
+
+var options = {};
+if(process.env.NODE_ENV === 'production'){
+    options = {
+        key : process.env.SSL_KEY,
+        cert : process.env.SSL_CERT
+    };
+}
 
 //Para el reseteo de la contraseña
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 
 //Conexión a la base de datos
+const mysql = require('mysql');
+const util = require( 'util' );
+const PORT = process.env.BACKEND_PORT || 3000;
+const SSL_PORT = process.env.BACKEND_SSL_PORT || 3003;
+
+const db_host = process.env.DB_HOST;
+const db_user = process.env.DB_USER;
+const db_password = process.env.DB_PASSWORD;
+const db_database = process.env.DB_NAME;
+
 const connection = mysql.createConnection({
-    host: 'localhost',
-    user: "root",
-    password: null,
-    database: 'silenole'
-    // Estos son del servidor
-    // user: "nolesile",
-    // password: "Nolesile+7571",
-    // database: 'nolesile' 
-    
+    host: db_host,
+    user: db_user,
+    password: db_password,
+    database: db_database
 });
 connection.connect(function(error){
     if(error)
@@ -61,44 +66,41 @@ function makeDb(config) {
     };
 }
 const db = makeDb( {
-    host: 'localhost',
-    user: "root",
-    password: null,
-    database: 'silenole'
-    // Estos son del servidor
-    // user: "nolesile",
-    // password: "Nolesile+7571",
-    // database: 'nolesile'
-} );
+    host: db_host,
+    user: db_user,
+    password: db_password,
+    database: db_database
+});
 
 //EXTRAS PARA LA CARGA DE FOTOS 
-const fileUpload = require('express-fileupload');
+/* const fileUpload = require('express-fileupload');
 const morgan = require('morgan');
 const _ = require('lodash'); 
-app.use(morgan('dev'));
+app.use(morgan('dev')); */
 //Limitamos el tamaño maximo de las fotos
-app.use(fileUpload({
+/* app.use(fileUpload({
     createParentPath: true,
     limits: { 
-        fileSize: 2 * 1024 * 1024 * 1024 //2MB max file(s) size
+        fileSize: process.env.MAX_FILESIZE * 1024 * 1024 * 1024 //max file(s) size
     },
-}));
+})); */
 
 app.use(cors());
 app.use(bodyParserJSON);
 app.use(bodyParserURLEncoded);
 
 //Constantes para limitar cantidad de productos y mensajes
-const limiteProductos = 50
-const limiteMensages = 200
+const limiteProductos = process.env.LIMITE_PRODUCTOS
+const limiteMensages = process.env.LIMITE_MENSAJES
 
 //Constantes para limitar los console.log
-const DEBUG = true
-const INFO = true
-const ERROR = true
+const DEBUG = process.env.DEBUG
+const INFO = process.env.INFO
+const ERROR = process.env.ERROR
 
 app.listen(PORT);
 https.createServer(options, app).listen(SSL_PORT);
+console.log(PORT,SSL_PORT)
 
 // Función de verificación de tokens
 const verifyToken = async (accessToken, user_id) => {
@@ -745,6 +747,12 @@ app.delete("/user", async function (request, response) {
     }
 });
 
+const NODEMAILER_HOST = process.env.NODEMAILER_HOST
+const NODEMAILER_PORT = process.env.NODEMAILER_PORT
+const NODEMAILER_USER = process.env.NODEMAILER_USER
+const NODEMAILER_PASS = process.env.NODEMAILER_PASS
+const MAIL_OPTIONS_FROM = process.env.MAIL_OPTIONS_FROM
+
 //GET /RESET-PASSWORD = para recuperar la contraseña
 app.get("/reset-password", async function (request, response){
     let email = request.headers.email;
@@ -784,21 +792,22 @@ app.get("/reset-password", async function (request, response){
                     } 
                 })
                 const transport = nodemailer.createTransport({
-                    host:'',
-                    port: 0,
-                    secure:false,
+                    host: NODEMAILER_HOST,
+                    port: NODEMAILER_PORT,
+                    secure: false,
                     auth: {
-                        user: '',
-                        pass: ''
+                        user: NODEMAILER_USER,
+                        pass: NODEMAILER_PASS
                     }
                 });
                 var mailOptions = {
-                    from: '"NoleSile" <>',
+                    from: MAIL_OPTIONS_FROM,
                     to: email,
                     subject: 'Link para cambiar tu contraseña',
                     text: 'Introduce este link en el campo contraseña al ingresar ('+ password +'), ve a tu perfil y vuelve a usarlo como contraseña actual, escribe tu nueva contraseña, confirmala y listo, ya puedes volver a entrar.', 
-                    /* html: '<b>Hola bonito ✔</b>' */
+                    /* html: '<b>Hola ✔</b>' */
                 };
+                console.log(mailOptions)
                 transport.sendMail(mailOptions, (error, info) => {
                     console.log(transport.options.host);
                     if (error) {

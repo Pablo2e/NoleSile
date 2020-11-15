@@ -1,6 +1,7 @@
 // COMPONENTE
 import { Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 // MODELO
 import { Product } from 'src/app/models/product';
 import { Usuario } from './../../models/usuario';
@@ -51,11 +52,11 @@ export class SearchComponent implements OnInit {
   public mostrarProductos() {
     this.productService.getAllProducts().subscribe((data) => {
       this.products = data
-      if(this.globalsService.DEBUG){
+      if(environment.log.DEBUG){
         console.log(data);
       }
     }, (error) => {
-      if(this.globalsService.ERROR){
+      if(environment.log.ERROR){
         console.log(error);
       }
       if (error.status === 401) {
@@ -67,11 +68,11 @@ export class SearchComponent implements OnInit {
   public mostrarProductosPorUsuario(uid) {
     this.productService.getProductsByUser(uid).subscribe((data) => {
       this.products = data
-      if(this.globalsService.DEBUG){
+      if(environment.log.DEBUG){
         console.log(data);
       }
     }, (error) => {
-      if(this.globalsService.ERROR){
+      if(environment.log.ERROR){
         console.log(error);
       }
       if (error.status === 401) {
@@ -82,22 +83,22 @@ export class SearchComponent implements OnInit {
 
   public pasarIdOwner(oid) {
     this.productService.ownerActual = oid
-    if(this.globalsService.DEBUG){
+    if(environment.log.DEBUG){
       console.log(this.productService.ownerActual)
     }
   }
   
   public buscarPorUbicacion(tipo: string, valor: any) {
-    if(this.globalsService.INFO){
+    if(environment.log.INFO){
       console.log("Buscar en ubicacion")
     }
     this.productService.getProductsBySelectedCategoryAndLocation(tipo, valor).subscribe((data) => {
       this.productService.products = data
-      if(this.globalsService.DEBUG){
+      if(environment.log.DEBUG){
         console.log(data);
       }
     }, (error) => {
-      if(this.globalsService.ERROR){
+      if(environment.log.ERROR){
         console.log(error);
       }
       if (error.status === 401) {
@@ -107,16 +108,16 @@ export class SearchComponent implements OnInit {
   }
   
   public buscarPorDias(dias: number) {
-    if(this.globalsService.INFO){
+    if(environment.log.INFO){
       console.log("Buscar por dias")
     }
     this.productService.getProductsBySelectedCategoryAndDays(dias).subscribe((data) => {
       this.productService.products = data
-      if(this.globalsService.DEBUG){
+      if(environment.log.DEBUG){
         console.log(data);
       }
     }, (error) => {
-      if(this.globalsService.ERROR){
+      if(environment.log.ERROR){
         console.log(error);
       }
       if (error.status === 401) {
@@ -126,7 +127,7 @@ export class SearchComponent implements OnInit {
   }
   
   buscarUsuario(nombreUsuario){
-    if(this.globalsService.DEBUG){
+    if(environment.log.DEBUG){
       console.log("Buscar usuario ", nombreUsuario)
     }
     this.productService.getOwnerByName(nombreUsuario).subscribe((data) => {
@@ -134,13 +135,13 @@ export class SearchComponent implements OnInit {
         this.toastr.error("EL usuario no existe", "Algo fue mal");
       } else {
         this.productService.ownerActual = data[0].user_id;
-          if(this.globalsService.DEBUG){
+          if(environment.log.DEBUG){
             console.log(this.productService.ownerActual);
           }
         this.router.navigate(["/propietario"])
       }
     }, (error) => {
-      if(this.globalsService.ERROR){
+      if(environment.log.ERROR){
         console.log(error);
       }
       if (error.status === 401) {
@@ -151,7 +152,7 @@ export class SearchComponent implements OnInit {
   
   public pasarIdProducto(pid) {
     this.idProducto = pid
-    if(this.globalsService.DEBUG){
+    if(environment.log.DEBUG){
       console.log(this.idProducto)
     }
   }
@@ -161,11 +162,11 @@ export class SearchComponent implements OnInit {
     this.productService.idProductoSeleccionado=pid;
     let newNole = new Nole(uid, pid);
     this.messageService.postNole(newNole).subscribe((data) => {
-      if(this.globalsService.DEBUG){
+      if(environment.log.DEBUG){
         console.log(data);
       }
     }, (error) => {
-      if(this.globalsService.ERROR){
+      if(environment.log.ERROR){
         console.log(error);
       }
       if (error.status === 401) {
@@ -176,7 +177,7 @@ export class SearchComponent implements OnInit {
   }
   
   ngOnInit(): void {
-    if(this.globalsService.INFO){
+    if(environment.log.INFO){
       console.log('ngOnInit.search.ts');
     }
   }
