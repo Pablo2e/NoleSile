@@ -19,8 +19,8 @@ fs = require("fs");
 var options = {};
 if(process.env.NODE_ENV === 'production'){
     options = {
-        key : process.env.SSL_KEY,
-        cert : process.env.SSL_CERT
+        key : fs.readFileSync(process.env.SSL_KEY),
+        cert : fs.readFileSync(process.env.SSL_CERT)
     };
 }
 
