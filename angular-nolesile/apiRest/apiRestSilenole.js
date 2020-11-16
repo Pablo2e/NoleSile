@@ -39,22 +39,22 @@ const db_user = process.env.DB_USER;
 const db_password = process.env.DB_PASSWORD;
 const db_database = process.env.DB_NAME;
 
-const connection = mysql.createConnection({
+const connection = mysql.createPool({
     host: db_host,
     user: db_user,
     password: db_password,
     database: db_database
 });
-connection.connect(function(error){
+/* connection.connect(function(error){
     if(error)
     console.log(error)
     else
     console.log('Conexión correcta')
 });
-
+ */
 // conexión a la base de datos para async/await en verificar accessToken
 function makeDb(config) {
-    const connection = mysql.createConnection(config);  
+    const connection = mysql.createPool(config);  
     return {
         query( sql, args ) {
             return util.promisify( connection.query )
