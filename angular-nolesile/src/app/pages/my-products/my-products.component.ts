@@ -2,6 +2,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Ng2ImgMaxService } from 'ng2-img-max';
 import { environment } from '../../../environments/environment';
+import imageCompression from 'browser-image-compression';
 // MODAL
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 // MODELO
@@ -81,74 +82,61 @@ export class MyProductsComponent implements OnInit {
     }
   }
 
-  public getOrientation(file, callback) {
+  public getOrientation = async (file: File, callback: Function) => {
     var reader = new FileReader();
-    reader.onload = function(e) {
-
-        var view = new DataView(<ArrayBufferLike>e.target.result);
-        if (view.getUint16(0, false) != 0xFFD8)
-        {
-            return callback(-2);
-        }
-        var length = view.byteLength, offset = 2;
-        while (offset < length) 
-        {
-            if (view.getUint16(offset+2, false) <= 8) return callback(-1);
-            var marker = view.getUint16(offset, false);
+  
+    reader.onload = (event: ProgressEvent) => {
+  
+      if (! event.target) {
+        return;
+      }
+  
+      const file = event.target as FileReader;
+      const view = new DataView(file.result as ArrayBuffer);
+  
+      if (view.getUint16(0, false) != 0xFFD8) {
+          return callback(-2);
+      }
+  
+      const length = view.byteLength
+      let offset = 2;
+  
+      while (offset < length)
+      {
+          if (view.getUint16(offset+2, false) <= 8) return callback(-1);
+          let marker = view.getUint16(offset, false);
+          offset += 2;
+  
+          if (marker == 0xFFE1) {
+            if (view.getUint32(offset += 2, false) != 0x45786966) {
+              return callback(-1);
+            }
+  
+            let little = view.getUint16(offset += 6, false) == 0x4949;
+            offset += view.getUint32(offset + 4, little);
+            let tags = view.getUint16(offset, little);
             offset += 2;
-            if (marker == 0xFFE1) 
-            {
-                if (view.getUint32(offset += 2, false) != 0x45786966) 
-                {
-                    return callback(-1);
-                }
-
-                var little = view.getUint16(offset += 6, false) == 0x4949;
-                offset += view.getUint32(offset + 4, little);
-                var tags = view.getUint16(offset, little);
-                offset += 2;
-                for (var i = 0; i < tags; i++)
-                {
-                    if (view.getUint16(offset + (i * 12), little) == 0x0112)
-                    {
-                        return callback(view.getUint16(offset + (i * 12) + 8, little));
-                    }
-                }
+            for (let i = 0; i < tags; i++) {
+              if (view.getUint16(offset + (i * 12), little) == 0x0112) {
+                return callback(view.getUint16(offset + (i * 12) + 8, little));
+              }
             }
-            else if ((marker & 0xFF00) != 0xFF00)
-            {
-                break;
-            }
-            else
-            { 
-                offset += view.getUint16(offset, false);
-            }
-        }
-        return callback(-1);
+          } else if ((marker & 0xFF00) != 0xFF00) {
+              break;
+          }
+          else {
+              offset += view.getUint16(offset, false);
+          }
+      }
+      return callback(-1);
     };
+  
     reader.readAsArrayBuffer(file);
   }
-  
+
   //para cargar la foto
-  public onFileSelected(event){
-    this.selectedFile = <File>event.target.files[0]
-    this.getOrientation(this.selectedFile, function(orientation) {
-      /* alert('orientation: ' + orientation); */
-    });
-    console.log(environment.maxFileSize)
-    this.ng2ImgMax.compressImage(this.selectedFile, environment.maxFileSize).subscribe(
-      result => {
-        this.selectedFile = new File([result], result.name);
-        if(environment.log.DEBUG){
-          console.log(this.selectedFile.size)
-        }
-        this.cargarFoto();
-      }, (error) => {
-        if(environment.log.DEBUG){
-          console.log('😢 Oh no!', error);
-        }
-      }
-    );
+  async onFileSelected(event) {
+    this.selectedFile = <File>event.target.files[0];
     // recuperamos la extensión del archivo
     let fileName = this.selectedFile.name;
     let ext = fileName.split('.').pop();
@@ -161,30 +149,45 @@ export class MyProductsComponent implements OnInit {
       default:
       this.toastr.error('El archivo no tiene la extensión adecuada', "Algo fue mal");
       fileName = '';
+      return;
+    }
+    if(environment.log.DEBUG){
+      console.log('originalFile instanceof File', this.selectedFile instanceof File);
+      console.log(`originalFile size ${this.selectedFile.size / 1024 / 1024} MB`);
+      console.log('el tamaño maximo definido es ' + environment.maxFileSize);
+    }
+    let orientacionFoto;
+    try {
+      orientacionFoto = await imageCompression.getExifOrientation(this.selectedFile);
+      if(environment.log.DEBUG){
+        console.log('orientacion foto es: ', orientacionFoto);
+      }
+      const options = {
+        maxSizeMB: environment.maxFileSize,
+        maxWidthOrHeight: 1920,
+        useWebWorker: true,
+        exifOrientation: orientacionFoto
+      }
+      const compressedFile = await imageCompression(this.selectedFile, options);
+      let orientacionFotoComprimida = await imageCompression.getExifOrientation(compressedFile);
+      if(environment.log.DEBUG){
+        console.log('compressedFile instanceof Blob', compressedFile instanceof Blob); // true
+        console.log(`compressedFile size ${compressedFile.size / 1024 / 1024} MB`); // smaller than maxSizeMB
+        console.log('orientacion foto es: ', orientacionFotoComprimida);
+      }
+      this.productImageUrl = this.productService.urlImg + this.token() + "-" + this.loginService.usuarioActual.user_id + ".jpg";
+      const nombreFotoProducto = this.productImageUrl ;
+      const fd = new FormData(); 
+      fd.append('product_image',compressedFile, nombreFotoProducto); 
+      this.productService.uploadImageProduct(fd).subscribe((data)=>{
+        if(environment.log.DEBUG){
+          console.log(data);
+        }
+      })
+    } catch (error) {
+      console.log(error);
     }
   }
-  
-  public cargarFoto() {
-    /* this.fotoProductoAntigua = this.productoActual.product_image;
-    this.fotoProductoAntigua = this.fotoProductoAntigua.replace(this.productService.urlImg, ""); */
-
-    /* this.productService.deleteImage(oldImage).subscribe((data)=>{
-      if(this.globalsService.DEBUG){
-        console.log(data);
-      }
-    }) */
-
-    this.productImageUrl = this.productService.urlImg + this.token() + "-" + this.loginService.usuarioActual + ".jpg";
-    const nombreFotoProducto = this.productImageUrl ;
-    const fd = new FormData(); 
-    fd.append('product_image',this.selectedFile, nombreFotoProducto); 
-    this.productService.uploadImageProduct(fd).subscribe((data)=>{
-      if(environment.log.DEBUG){
-        console.log(data);
-      }
-    })
-    }
-  
 
   /* PARA MODIFICAR PRODUCTOS */
   public modificarSile(product_id: number, nombre: string, descripcion: string, categoria: string, user_id: number, template: TemplateRef < any >){

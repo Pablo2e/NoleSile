@@ -23,7 +23,7 @@ import { Router } from '@angular/router';
 })
 
 export class ProfileComponent implements OnInit {
-  
+    
   public closeResult = '';
   public modalRef: BsModalRef;
   public usuarioActual= new Usuario(null,null,null,null,null,null,null,null,null)
@@ -275,4 +275,10 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  
 }
+
+/* export const sum = (a: number, b: number)=>{
+    return a+b
+  }
+ */

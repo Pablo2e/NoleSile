@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Ng2ImgMaxModule } from 'ng2-img-max';
+
 //Componentes
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -70,7 +71,7 @@ import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
       level: NgxLoggerLevel.DEBUG, 
       serverLogLevel: NgxLoggerLevel.ERROR
     }),
-    Ng2ImgMaxModule
+    Ng2ImgMaxModule,
     /* LoggerModule.forRoot({
       serverLoggingUrl: '/api/logs',
       level: NgxLoggerLevel.TRACE,
@@ -78,7 +79,7 @@ import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
       disableConsoleLogging: false
     }) */
   ],
-  providers: [ ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
