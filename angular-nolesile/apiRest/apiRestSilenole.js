@@ -1673,11 +1673,11 @@ app.get("/buscar-cercanos/categoria/:categoria/:tipo_loc/:valor_loc", async func
                 console.log('Los token coinciden. Usuario autorizado');
             }
             if(categoria === "Todo"){
-                params = [filtrar_user_id, valor_loc];
-                sql = "SELECT products.nombre, products.descripcion, products.product_image, products.user_id FROM products INNER JOIN user ON (user.user_id = products.user_id) WHERE user.user_id != ? AND " + tipo_loc + " = ? ORDER BY products.product_id DESC";
+                params = [valor_loc];
+                sql = "SELECT products.nombre, products.descripcion, products.product_image, products.user_id FROM products INNER JOIN user ON (user.user_id = products.user_id) WHERE " + tipo_loc + " = ? ORDER BY products.product_id DESC";
             }else{
-                params = [categoria, filtrar_user_id, valor_loc];
-                sql = "SELECT products.nombre, products.descripcion, products.product_image, products.user_id FROM products INNER JOIN user ON (user.user_id = products.user_id) WHERE categoria = ? AND user.user_id != ? AND " + tipo_loc + " = ? ORDER BY products.product_id DESC"; 
+                params = [categoria, valor_loc];
+                sql = "SELECT products.nombre, products.descripcion, products.product_image, products.user_id FROM products INNER JOIN user ON (user.user_id = products.user_id) WHERE categoria = ? AND " + tipo_loc + " = ? ORDER BY products.product_id DESC"; 
             }
             connection.query(sql, params, function(err, result){
                 if (err){

@@ -40,7 +40,8 @@ export class SearchComponent implements OnInit {
       if(!this.loginService.loadExistingSession()){
         this.router.navigate(["/"])
       } else {
-        this.usuarioActual = this.loginService.getUserId();
+        this.usuarioActual = this.loginService.usuarioActual;
+        console.log(this.usuarioActual)
         if(this.productService.categoriaSeleccionada === null || this.productService.categoriaSeleccionada === undefined){
           this.productService.actualizarCategoriaSeleccionada('Todo')
           this.router.navigate(["/inicio"])
@@ -90,7 +91,7 @@ export class SearchComponent implements OnInit {
   
   public buscarPorUbicacion(tipo: string, valor: any) {
     if(environment.log.INFO){
-      console.log("Buscar en ubicacion")
+      console.log("Buscar en ubicacion", tipo , valor)
     }
     this.productService.getProductsBySelectedCategoryAndLocation(tipo, valor).subscribe((data) => {
       this.productService.products = data
