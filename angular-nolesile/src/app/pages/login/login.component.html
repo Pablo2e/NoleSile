@@ -107,7 +107,8 @@
               name="name" 
               [(ngModel)]="usuario.name" 
               #name="ngModel" 
-              [ngClass]="{'is-invalid': userForm.submitted && name.invalid}" 
+              [ngClass]="{'is-invalid': userForm.submitted && name.invalid}"
+              maxlength="15" 
               required
             >
 

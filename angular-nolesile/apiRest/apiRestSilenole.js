@@ -1418,7 +1418,7 @@ app.get("/buscar/:categoria", async function (request, response) {
     }
     let user_id = request.headers.user;
     var categoria = request.params.categoria;
-    var filtrar_user_id = request.query.filterUser;
+    //var filtrar_user_id = request.query.filterUser;
     let sql;
     let params;
     const tokenResult = await verifyToken(accessTokenLocal, user_id)
@@ -1440,11 +1440,14 @@ app.get("/buscar/:categoria", async function (request, response) {
                 console.log('Los token coinciden. Usuario autorizado');
             }
             if(categoria === "Todo"){
-                params = [filtrar_user_id];
-                sql = "SELECT * FROM products WHERE user_id != ?";
+                /* params = [filtrar_user_id];
+                sql = "SELECT * FROM products WHERE user_id != ?"; */
+                sql = "SELECT * FROM products";
             }else{
-                params = [categoria, filtrar_user_id]
-                sql = "SELECT * FROM products WHERE categoria = ? AND user_id != ?"; 
+                /* params = [categoria, filtrar_user_id]
+                sql = "SELECT * FROM products WHERE categoria = ? AND user_id != ?"; */
+                params = [categoria]
+                sql = "SELECT * FROM products WHERE categoria = ?"; 
             }
             connection.query(sql, params, function(err, result){
                 if (err){
@@ -1498,8 +1501,10 @@ app.get("/buscar/", async function (request, response) {
             if(INFO){
                 console.log('Los token coinciden. Usuario autorizado');
             }
-            params = [filtrar_user_id, filtrar_name, filtrar_name];
-            sql = "SELECT products.nombre, products.descripcion, products.product_image, products.user_id FROM products INNER JOIN user ON (user.user_id = products.user_id) WHERE user.user_id != ? AND (products.nombre LIKE ? OR products.descripcion LIKE ?) ORDER BY product_id DESC";
+            /* params = [filtrar_user_id, filtrar_name, filtrar_name];
+            sql = "SELECT products.nombre, products.descripcion, products.product_image, products.user_id FROM products INNER JOIN user ON (user.user_id = products.user_id) WHERE user.user_id != ? AND (products.nombre LIKE ? OR products.descripcion LIKE ?) ORDER BY product_id DESC"; */
+            params = [filtrar_name, filtrar_name];
+            sql = "SELECT products.nombre, products.descripcion, products.product_image, products.user_id FROM products INNER JOIN user ON (user.user_id = products.user_id) WHERE (products.nombre LIKE ? OR products.descripcion LIKE ?) ORDER BY product_id DESC";
             console.log(sql);
             connection.query(sql, params, function(err, result){
                 if (err){
@@ -1528,7 +1533,7 @@ app.get("/buscar-ultimos/", async function (request, response) {
         console.log('Token local ', accessTokenLocal);
     }
     let user_id = request.headers.user;
-    let filtrar_user_id = request.query.filterUser;
+    //let filtrar_user_id = request.query.filterUser;
     let filtrar_fecha = request.query.days;
     let sql;
     let params;
@@ -1554,11 +1559,14 @@ app.get("/buscar-ultimos/", async function (request, response) {
                 date = new Date();
                 date.setDate(date.getDate() - filtrar_fecha)
                 console.log("fitrando dias", filtrar_fecha, date);
-                params = [filtrar_user_id, date];
-                sql = "SELECT * FROM products WHERE user_id != ? AND date > ? ORDER BY product_id DESC";
+                /* params = [filtrar_user_id, date];
+                sql = "SELECT * FROM products WHERE user_id != ? AND date > ? ORDER BY product_id DESC"; */
+                params = [date];
+                sql = "SELECT * FROM products WHERE date > ? ORDER BY product_id DESC";
             } else {
-                params = [filtrar_user_id];
-                sql = "SELECT * FROM products WHERE user_id != ? ORDER BY product_id DESC LIMIT 4";
+                /* params = [filtrar_user_id];
+                sql = "SELECT * FROM products WHERE user_id != ? ORDER BY product_id DESC LIMIT 4"; */
+                sql = "SELECT * FROM products ORDER BY product_id DESC LIMIT 4";
             }
             connection.query(sql, params, function(err, result){
                 if (err){

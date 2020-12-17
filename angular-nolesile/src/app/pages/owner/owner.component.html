@@ -70,8 +70,8 @@
             <p class="card-text">{{producto.descripcion}}</p>
 
           </div>
-
-          <div class="mt-3 mb-3 d-flex justify-content-center">
+          
+          <div class="mt-3 mb-3 d-flex justify-content-center" *ngIf="producto.user_id != this.usuarioActual">
 
             <button 
               type="button" 
@@ -82,56 +82,72 @@
               <i class="fa fa-envelope-open" aria-hidden="true"></i>
                 Llevar a mensajes
             </button>
-          <!-- MODAL PRODUCTO -->
-            <div 
-              class="modal fade" 
-              bsModal 
-              #staticModal="bs-modal" 
-              [config]="{backdrop: 'static'}"
-              tabindex="-1" 
-              role="dialog" 
-              aria-labelledby="dialog-static-name"
+    
+          </div>
+    
+          <div class="mt-3 mb-3 d-flex justify-content-center" *ngIf="producto.user_id == this.usuarioActual">
+    
+            <button 
+              type="button" 
+              class="btn btn-outline-success btn-sm mr-1"
+              (click)="relacionarProductoMensaje(producto.product_id)"
+              [routerLink]="['/siles']"
               >
-              
-              <div class="modal-dialog modal-md">
+    
+              <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                Ir a mis siles
+                
+            </button>
+            
+          </div>             
+          <!-- MODAL PRODUCTO -->
+          <div 
+            class="modal fade" 
+            bsModal 
+            #staticModal="bs-modal" 
+            [config]="{backdrop: 'static'}"
+            tabindex="-1" 
+            role="dialog" 
+            aria-labelledby="dialog-static-name"
+            >
+            
+            <div class="modal-dialog modal-md">
 
-                <div class="modal-content" id='cardModal'>
+              <div class="modal-content" id='cardModal'>
 
-                  <div class="modal-header d-flex justify-content-center text-success mt-3" style= 'border: none'>
-                    <h4 id="dialog-static-name" class="modal-title pull-left">{{producto.descripcion}}</h4>
-                  </div>
+                <div class="modal-header d-flex justify-content-center text-success mt-3" style= 'border: none'>
+                  <h4 id="dialog-static-name" class="modal-title pull-left">{{producto.descripcion}}</h4>
+                </div>
 
-                  <div class="modal-body">
+                <div class="modal-body">
 
-                    <div class="container-fluid mb-5 ">
+                  <div class="container-fluid mb-5 ">
 
-                      <div class="row d-flex justify-content-center">
+                    <div class="row d-flex justify-content-center">
 
-                        <div class="col-10">
+                      <div class="col-10">
 
-                          <div class="row align-items-end d-flex justify-content-center">
-                            <!-- TARJETA -->
-                            <div>
+                        <div class="row align-items-end d-flex justify-content-center">
+                          <!-- TARJETA -->
+                          <div>
 
-                              <img 
-                                class="card-img-top m-auto" 
-                                src="{{producto.product_image}}" 
-                                alt="Card image cap"
-                                style="max-width: 600px; max-height: 600px"
+                            <img 
+                              class="card-img-top m-auto" 
+                              src="{{producto.product_image}}" 
+                              alt="Card image cap"
+                              style="max-width: 600px; max-height: 600px"
+                            >
+
+                            <div class="row align-items-end d-flex justify-content-center">
+
+                              <button 
+                                  type="button" 
+                                  class="btn btn-outline-success btn-sm mt-5"
+                                  (click)="staticModal.hide()"
                               >
-
-                              <div class="row align-items-end d-flex justify-content-center">
-
-                                <button 
-                                    type="button" 
-                                    class="btn btn-outline-success btn-sm mt-5"
-                                    (click)="staticModal.hide()"
-                                >
-                                  <i class="fa fa-times-circle-o" aria-hidden="true"></i>
-                                    Cerrar
-                                </button>
-
-                              </div>
+                                <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+                                  Cerrar
+                              </button>
 
                             </div>
 

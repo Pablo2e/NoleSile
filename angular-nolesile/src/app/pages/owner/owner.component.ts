@@ -28,6 +28,7 @@ export class OwnerComponent implements OnInit {
   public idUsuario: number;
   public nombreOwner: string;
   public imagenOwner: string;
+  public usuarioActual
 
   constructor(
     public productService:ProductService, 
@@ -37,6 +38,7 @@ export class OwnerComponent implements OnInit {
     public globalsService: GlobalsService,
     private router: Router,
     private location: Location) {
+      this.usuarioActual=this.loginService.getUserId();
       if(this.productService.ownerActual !== null && this.productService.ownerActual !== undefined){
         this.obtenerOwnerInfo(this.productService.ownerActual)
         this.mostrarProductos(this.productService.ownerActual)

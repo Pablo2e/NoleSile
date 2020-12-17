@@ -37,9 +37,10 @@ export class HomeComponent implements OnInit {
       this.loginService.loadExistingSession()
       this.productsCercanos = [];
       this.productsUltimos = [];
-      //this.usuarioActual=this.loginService.usuarioActual
+      this.usuarioActual=this.loginService.getUserId();
       this.mostrarUltimosProductos();
       this.mostraProductosCercanos();
+      console.log(this.usuarioActual)
     }
 
   //METODOS
