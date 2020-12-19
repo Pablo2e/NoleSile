@@ -1258,6 +1258,7 @@ app.delete("/noles/:chat_id", async function (request, response) {
     let chat_id = request.params.chat_id
     let params;
     let sql;
+    let sql2;
     const tokenResult = await verifyToken(accessTokenLocal, user_id)
     if(INFO){
         console.log ("verifyToken result: " , tokenResult);
@@ -1290,6 +1291,21 @@ app.delete("/noles/:chat_id", async function (request, response) {
                     if(DEBUG){
                         console.log(result);
                     }
+                    sql2 = "DELETE FROM messages WHERE chat_id = ?";
+                    connection.query(sql2, params, function(err, result){
+                        if (err){
+                            if(DEBUG){
+                                console.log(err);
+                            }
+                        } else {
+                            if(INFO){
+                                console.log('Mensajes del chat eliminado')
+                            }
+                            if(DEBUG){
+                                console.log(result);
+                            }
+                        } 
+                    })
                 } 
             response.send(result);
             })

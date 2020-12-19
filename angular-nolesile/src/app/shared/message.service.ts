@@ -33,8 +33,6 @@ export class MessageService {
         console.log("Funcionando servicio message")
       }
     }
-    
-
 
   public getMessages(chat_id: string) {
     const accessToken = this.loginService.getToken();

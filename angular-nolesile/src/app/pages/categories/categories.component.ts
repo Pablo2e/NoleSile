@@ -1,6 +1,7 @@
 // COMPONENTE
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../../environments/environment';
+
 // SERVICIOS
 import { ProductService } from 'src/app/shared/product.service';
 import { LoginService } from 'src/app/shared/login.service';
@@ -17,6 +18,7 @@ import { GlobalsService } from 'src/app/shared/globals.service';
 export class CategoriesComponent implements OnInit {
 
   public categoria: any;
+  public isMenuCollapsed = true;
 
   constructor(
     public productService:ProductService, 
