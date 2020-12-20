@@ -1,19 +1,19 @@
 // COMPONENTE
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { environment } from '../../../environments/environment';
+import { ToastrService } from 'ngx-toastr';
 // MODAL
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 // MODELOS
 import { Product } from 'src/app/models/product';
 import { Nole } from 'src/app/models/nole';
+import { Message } from 'src/app/models/message';
+import { Notificacion } from 'src/app/models/notificaciones';
 // SERVICIOS
 import { ProductService } from 'src/app/shared/product.service';
 import { LoginService } from 'src/app/shared/login.service';
 import { MessageService } from 'src/app/shared/message.service';
 import { GlobalsService } from 'src/app/shared/globals.service';
-import { Message } from 'src/app/models/message';
-import { Notificacion } from 'src/app/models/notificaciones';
-import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
