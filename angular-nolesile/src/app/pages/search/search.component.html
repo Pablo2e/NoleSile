@@ -84,6 +84,7 @@
           name="name" 
           [(ngModel)]="usuario.name"
           #name="ngModel" 
+          (keyup.enter)="buscarUsuario(name.value)" 
           required
         >
 
@@ -155,11 +156,13 @@
             <button 
               type="button" 
               class="btn btn-outline-success btn-sm ml-1"
+              (click)="pasarIdOwner(producto.user_id)"
               (click)="relacionarProductoMensaje(producto.product_id)"
-              [routerLink]="['/mensajes']" 
+              (click)="cargarMensajesNoles()"  
+              (click)="openModal(modalMensajeNoles)"
             >
               <i class="fa fa-envelope-open" aria-hidden="true"></i>
-                Llevar a mensajes
+                Enviar mensaje
             </button>
             
           </div>
@@ -179,7 +182,86 @@
             </button>
             
           </div>
+          
+          <!-- MODAL MENSAJE NOLES -->
+          <ng-template #modalMensajeNoles>
 
+            <div class="modal-body text-dark">
+
+              <div class="col-12 align-self-end mt-5 mb-5 ">
+
+                <div class="media media-chat ml-4 mr-3" *ngFor="let messageN of messagesNoles">
+
+                  <div class="media-body">
+
+                    <div class="media-body letraColor"><b>{{messageN.name}}:</b> {{messageN.text}} <br>
+                      <p class="text-right letraChica">{{messageN.date}}</p>
+                      <hr>
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="container">
+
+                <form #uploadForm="ngForm" (ngSubmit)="onSubmit(uploadForm);">
+
+                  <div class="input-group input-group-sm mt-2 mb-3" >
+
+                    <input 
+                      type="text" 
+                      class="form-control border border-success" 
+                      id="mensaje" 
+                      placeholder="Mensaje"
+                      name="mensaje" 
+                      aria-label="Recipient's username" 
+                      aria-describedby="button-addon2" 
+                      name="text"
+                      [(ngModel)]="message.text" 
+                      #text="ngModel" 
+                      required 
+                      (keyup.enter)="enviarMsgNoleSeleccionado(text.value)"
+                      (keyup.enter)="this.text.reset()"
+                    >
+                    <div class="input-group-append">
+                      <button 
+                        class="btn btn-success" 
+                        type="button" 
+                        id="button-addon2"
+                        (click)="enviarMsgNoleSeleccionado(text.value)" 
+                        (click)="this.text.reset()"
+                      >
+                        <i class="fa fa-comments" aria-hidden="true"></i>
+                          Enviar Mensaje
+                      </button>
+
+                    </div>
+
+                  </div>
+
+                </form>
+
+              </div>
+
+            </div>  
+
+            <div class="d-flex justify-content-center mb-3">
+
+              <button 
+                type="button" 
+                class="btn btn-outline-success" 
+                (click)="modalRef.hide()"
+              >
+                Cerrar
+              </button>
+
+            </div>
+
+          </ng-template>  
+          
           <!-- MODAL PRODUCTO -->
           <div 
             class="modal fade" 

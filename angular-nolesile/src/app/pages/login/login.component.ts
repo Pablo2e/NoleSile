@@ -110,7 +110,6 @@ export class LoginComponent implements OnInit {
             this.usuario.password = ""
             this.usuario.email = ""
             this.toastr.success("Registrado con éxito", "Bienvenido a NoleSile")
-            this.modalRef.hide();
             const newUserId = data.insertId;
             if(environment.log.DEBUG){
               console.log(newUserId);
